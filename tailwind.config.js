@@ -14,5 +14,16 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: [{
+      night: {
+        ...require("daisyui/src/theming/themes")["night"],
+        primary: "rgb(79 70 229)"
+      }
+    }],
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('daisyui'),
+  ],
 };
