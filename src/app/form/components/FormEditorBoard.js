@@ -59,7 +59,6 @@ export default function FormEditorBoard() {
             cols={{ lg: 24, md: 24, sm: 12, xs: 12, xxs: 12}}
             rowHeight={30} 
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-            compactType="vertical"
             margin={[0,0]}
             layouts={layoutItems}
             onLayoutChange={onLayoutChange}

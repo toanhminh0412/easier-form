@@ -12,7 +12,7 @@ export default function Radio({ item }) {
             </label>
             <div className="flex flex-col gap-2">
                 {options.map(option => 
-                <div className="flex flex-row gap-1">
+                <div key={option.value} className="flex flex-row gap-1">
                     <input
                         id={option.value}
                         name={item.i}
