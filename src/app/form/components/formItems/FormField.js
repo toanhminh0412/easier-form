@@ -2,6 +2,10 @@ import TextInput from "./TextInput";
 import Textarea from "./Textarea";
 import Number from "./Number";
 import Password from "./Password";
+import Heading from "./Heading";
+import Paragraph from "./Paragraph";
+import Image from "./Image";
+import Separator from "./Separator";
 import Checkbox from "./Checkbox";
 import Radio from "./Radio";
 import Dropdown from "./Dropdown";
@@ -17,6 +21,14 @@ export default function FormField({ item }) {
             return <Number item={item}/>
         case "password":
             return <Password item={item}/>
+        case "heading":
+            return <Heading item={item}/>
+        case "paragraph":
+            return <Paragraph item={item}/>
+        case "image":
+            return <Image item={item}/>
+        case "separator":
+            return <Separator item={item}/>
         case "checkbox":
             return <Checkbox item={item}/>
         case "radio":

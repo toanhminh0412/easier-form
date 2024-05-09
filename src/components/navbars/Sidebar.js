@@ -1,12 +1,16 @@
 import Link from "next/link"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark, faPencil, faAlignLeft, faHashtag, faLock, faCheck, faDotCircle, faList, faToggleOn } from "@fortawesome/free-solid-svg-icons"
+import { faXmark, faPencil, faAlignLeft, 
+    faHashtag, faLock, faCheck, faDotCircle,
+    faList, faToggleOn, faHeading, faParagraph,
+    faImage, faMinus
+} from "@fortawesome/free-solid-svg-icons"
 
 export default function Sidebar() {
     return (
         <div className="drawer-side">
-            <div className="py-3 px-6 bg-base-300 flex flex-row justify-between">
+            <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
                 <h1 className="text-xl font-semibold w-fit text-white">Add elements</h1>
                 <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white"></FontAwesomeIcon>
             </div>
@@ -18,6 +22,14 @@ export default function Sidebar() {
                 <DraggableItem type="long-text"><FontAwesomeIcon icon={faAlignLeft}/> Long text</DraggableItem>
                 <DraggableItem type="number"><FontAwesomeIcon icon={faHashtag}/> Number</DraggableItem>
                 <DraggableItem type="password"><FontAwesomeIcon icon={faLock}/> Password</DraggableItem>
+
+                {/* Decorative fields */}
+                <li className="menu-title text-gray-300">Decorative fields</li>
+                {/* Includes Heading, paragraph, image, separator. Provide a FontAwesomeIcon for each */}
+                <DraggableItem type="heading"><FontAwesomeIcon icon={faHeading}/> Heading</DraggableItem>
+                <DraggableItem type="paragraph"><FontAwesomeIcon icon={faParagraph}/> Paragraph</DraggableItem>
+                <DraggableItem type="image"><FontAwesomeIcon icon={faImage}/> Image</DraggableItem>
+                <DraggableItem type="separator"><FontAwesomeIcon icon={faMinus}/> Separator</DraggableItem>
 
                 {/* Choice fields */}
                 <li className="menu-title text-gray-300">Choice fields</li>

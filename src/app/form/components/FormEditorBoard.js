@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { Responsive, WidthProvider } from "react-grid-layout";
 
+import { rowHeight } from "@/data/gridLayout";
 import gridItemData from "@/data/gridItemData";
 import LayoutItemsContext from "@/contexts/LayoutItemsContext";
 import FormField from "./formItems/FormField";
@@ -56,8 +57,8 @@ export default function FormEditorBoard() {
     return (
         <ResponsiveGridLayout 
             className="layout bg-white min-h-screen" 
-            cols={{ lg: 24, md: 24, sm: 12, xs: 12, xxs: 12}}
-            rowHeight={30} 
+            cols={{ lg: 48, md: 48, sm: 24, xs: 24, xxs: 24}}
+            rowHeight={rowHeight} 
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
             margin={[0,0]}
             layouts={layoutItems}
@@ -67,7 +68,7 @@ export default function FormEditorBoard() {
             compactType={null}
             allowOverlap={true}>
             {layoutItems.lg.map(item => (
-                <div key={item.i} className="bg-white p-3 border-2 border-white hover:border-blue-400" data-grid={item}>
+                <div key={item.i} className="bg-white border-2 border-white hover:border-blue-400 hover:z-50" data-grid={item}>
                     <FormField item={item} />
                 </div>
             ))}
