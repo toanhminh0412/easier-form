@@ -22,9 +22,9 @@ export default function Sidebar() {
                 {/* Choice fields */}
                 <li className="menu-title text-gray-300">Choice fields</li>
                 <DraggableItem type="checkbox"><FontAwesomeIcon icon={faCheck}/> Checkbox</DraggableItem>
-                <DraggableItem type="radio"><FontAwesomeIcon icon={faDotCircle}/> Radio</DraggableItem>
-                <DraggableItem type="dropdown"><FontAwesomeIcon icon={faList}/> Dropdown</DraggableItem>
                 <DraggableItem type="toggle"><FontAwesomeIcon icon={faToggleOn}/> Toggle</DraggableItem>
+                <DraggableItem type="dropdown"><FontAwesomeIcon icon={faList}/> Dropdown</DraggableItem>
+                <DraggableItem type="radio"><FontAwesomeIcon icon={faDotCircle}/> Single Choice</DraggableItem>
                 {/* <li><Link href="#"><FontAwesomeIcon icon={faToggleOn}/> Toggle</Link></li> */}
 
                 {/* File fields */}
