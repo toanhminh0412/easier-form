@@ -8,7 +8,9 @@ const gridItemTypes = {
     "image": "Image",
     "separator": "Separator",
     "checkbox": "Checkbox",
-    "radio": "Radio",
-    "dropdown": "Dropdown",
     "toggle": "Toggle",
+    "dropdown": "Dropdown",
+    "radio": "Single choice",
+    "multiple-choices": "Multiple choices",
+    "single-choice-grid": "Single choice grid",
 }

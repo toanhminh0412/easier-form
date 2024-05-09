@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark, faPencil, faAlignLeft, 
     faHashtag, faLock, faCheck, faDotCircle,
     faList, faToggleOn, faHeading, faParagraph,
-    faImage, faMinus
+    faImage, faMinus, faTasks, faThList
 } from "@fortawesome/free-solid-svg-icons"
 
 export default function Sidebar() {
@@ -37,7 +37,8 @@ export default function Sidebar() {
                 <DraggableItem type="toggle"><FontAwesomeIcon icon={faToggleOn}/> Toggle</DraggableItem>
                 <DraggableItem type="dropdown"><FontAwesomeIcon icon={faList}/> Dropdown</DraggableItem>
                 <DraggableItem type="radio"><FontAwesomeIcon icon={faDotCircle}/> Single Choice</DraggableItem>
-                {/* <li><Link href="#"><FontAwesomeIcon icon={faToggleOn}/> Toggle</Link></li> */}
+                <DraggableItem type="multiple-choices"><FontAwesomeIcon icon={faTasks}/> Multiple Choices</DraggableItem>
+                <DraggableItem type="single-choice-grid"><FontAwesomeIcon icon={faThList}/> Single Choice Grid</DraggableItem>
 
                 {/* File fields */}
             </ul>
