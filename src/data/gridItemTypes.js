@@ -19,4 +19,7 @@ const gridItemTypes = {
     "address": "Address",
     "zip-code": "Zip code",
     "website": "Website",
+    "date": "Date",
+    "time": "Time",
+    "date-time": "Date & Time",
 }

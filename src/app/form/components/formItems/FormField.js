@@ -18,6 +18,9 @@ import Phone from "./Phone";
 import Address from "./Address";
 import Zipcode from "./Zipcode";
 import Website from "./Website";
+import Date from "./Date";
+import Time from "./Time";
+import DateTime from "./DateTime";
 
 export default function FormField({ item }) {
     switch (item.type) {
@@ -61,6 +64,12 @@ export default function FormField({ item }) {
             return <Zipcode item={item}/>
         case "website":
             return <Website item={item}/>
+        case "date":
+            return <Date item={item}/>
+        case "time":
+            return <Time item={item}/>
+        case "date-time":
+            return <DateTime item={item}/>
 
         default:
             return <div>Unknown item type</div>;

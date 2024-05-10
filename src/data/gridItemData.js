@@ -205,6 +205,33 @@ const gridItemData = {
         minW: 6,
         minH: 4,
     },
+    "date": {
+        type: "date",
+        label: "Date",
+        description: "Please select a date",
+        w: 12,
+        h: 8,
+        minW: 6,
+        minH: 4,
+    },
+    "time": {
+        type: "time",
+        label: "Time",
+        description: "Please select a time",
+        w: 12,
+        h: 8,
+        minW: 6,
+        minH: 4,
+    },
+    "date-time": {
+        type: "date-time",
+        label: "Date & Time",
+        description: "Please select a date and time",
+        w: 12,
+        h: 8,
+        minW: 6,
+        minH: 4,
+    },
 }
 
 export default gridItemData;
