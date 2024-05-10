@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark, faPencil, faAlignLeft, 
     faHashtag, faLock, faCheck, faDotCircle,
     faList, faToggleOn, faHeading, faParagraph,
-    faImage, faMinus, faTasks, faThList
+    faImage, faMinus, faTasks, faThList, faThLarge,
+    faEnvelope, faPhone, faHome, faMapPin, faGlobe
 } from "@fortawesome/free-solid-svg-icons"
 
 export default function Sidebar() {
@@ -24,23 +25,29 @@ export default function Sidebar() {
                 <DraggableItem type="password"><FontAwesomeIcon icon={faLock}/> Password</DraggableItem>
 
                 {/* Decorative fields */}
-                <li className="menu-title text-gray-300">Decorative fields</li>
-                {/* Includes Heading, paragraph, image, separator. Provide a FontAwesomeIcon for each */}
+                <li className="menu-title text-gray-300 mt-3">Decorative fields</li>
                 <DraggableItem type="heading"><FontAwesomeIcon icon={faHeading}/> Heading</DraggableItem>
                 <DraggableItem type="paragraph"><FontAwesomeIcon icon={faParagraph}/> Paragraph</DraggableItem>
                 <DraggableItem type="image"><FontAwesomeIcon icon={faImage}/> Image</DraggableItem>
                 <DraggableItem type="separator"><FontAwesomeIcon icon={faMinus}/> Separator</DraggableItem>
 
                 {/* Choice fields */}
-                <li className="menu-title text-gray-300">Choice fields</li>
+                <li className="menu-title text-gray-300 mt-3">Choice fields</li>
                 <DraggableItem type="checkbox"><FontAwesomeIcon icon={faCheck}/> Checkbox</DraggableItem>
                 <DraggableItem type="toggle"><FontAwesomeIcon icon={faToggleOn}/> Toggle</DraggableItem>
                 <DraggableItem type="dropdown"><FontAwesomeIcon icon={faList}/> Dropdown</DraggableItem>
                 <DraggableItem type="radio"><FontAwesomeIcon icon={faDotCircle}/> Single Choice</DraggableItem>
                 <DraggableItem type="multiple-choices"><FontAwesomeIcon icon={faTasks}/> Multiple Choices</DraggableItem>
                 <DraggableItem type="single-choice-grid"><FontAwesomeIcon icon={faThList}/> Single Choice Grid</DraggableItem>
+                <DraggableItem type="multiple-choices-grid"><FontAwesomeIcon icon={faThLarge}/> Multiple Choices Grid</DraggableItem>
 
-                {/* File fields */}
+                {/* Contact info fields */}
+                <li className="menu-title text-gray-300 mt-3">Contact info fields</li>
+                <DraggableItem type="email"><FontAwesomeIcon icon={faEnvelope}/> Email</DraggableItem>
+                <DraggableItem type="phone"><FontAwesomeIcon icon={faPhone}/> Phone</DraggableItem>
+                <DraggableItem type="address"><FontAwesomeIcon icon={faHome}/> Address</DraggableItem>
+                <DraggableItem type="zip-code"><FontAwesomeIcon icon={faMapPin}/> Zip Code</DraggableItem>
+                <DraggableItem type="website"><FontAwesomeIcon icon={faGlobe}/> Website</DraggableItem>
             </ul>
         </div>
     )
@@ -48,7 +55,7 @@ export default function Sidebar() {
 
 const DraggableItem = ({ children, type }) => {
     return (
-        <li>
+        <li className="pl-4">
             <Link 
                 href="#"
                 className="draggable-element"

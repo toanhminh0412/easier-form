@@ -12,6 +12,12 @@ import Dropdown from "./Dropdown";
 import Radio from "./Radio";
 import MultipleChoices from "./MultipleChoices";
 import SingleChoiceGrid from "./SingleChoideGrid";
+import MultipleChoicesGrid from "./MultipleChoidesGrid";
+import Email from "./Email";
+import Phone from "./Phone";
+import Address from "./Address";
+import Zipcode from "./Zipcode";
+import Website from "./Website";
 
 export default function FormField({ item }) {
     switch (item.type) {
@@ -43,6 +49,18 @@ export default function FormField({ item }) {
             return <MultipleChoices item={item}/>
         case "single-choice-grid":
             return <SingleChoiceGrid item={item}/>
+        case "multiple-choices-grid":
+            return <MultipleChoicesGrid item={item}/>
+        case "email":
+            return <Email item={item}/>
+        case "phone":
+            return <Phone item={item}/>
+        case "address":
+            return <Address item={item}/>
+        case "zip-code":
+            return <Zipcode item={item}/>
+        case "website":
+            return <Website item={item}/>
 
         default:
             return <div>Unknown item type</div>;

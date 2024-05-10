@@ -13,4 +13,10 @@ const gridItemTypes = {
     "radio": "Single choice",
     "multiple-choices": "Multiple choices",
     "single-choice-grid": "Single choice grid",
+    "multiple-choices-grid": "Multiple choices grid",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "zip-code": "Zip code",
+    "website": "Website",
 }
