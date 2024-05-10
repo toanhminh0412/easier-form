@@ -6,7 +6,7 @@ import { faXmark, faPencil, faAlignLeft,
     faList, faToggleOn, faHeading, faParagraph,
     faImage, faMinus, faTasks, faThList, faThLarge,
     faEnvelope, faPhone, faHome, faMapPin, faGlobe,
-    faCalendar, faClock, faCalendarAlt
+    faCalendar, faClock, faCalendarAlt, faFileUpload
 } from "@fortawesome/free-solid-svg-icons"
 
 export default function Sidebar() {
@@ -55,6 +55,11 @@ export default function Sidebar() {
                 <DraggableItem type="date"><FontAwesomeIcon icon={faCalendar}/> Date</DraggableItem>
                 <DraggableItem type="time"><FontAwesomeIcon icon={faClock}/> Time</DraggableItem>
                 <DraggableItem type="date-time"><FontAwesomeIcon icon={faCalendarAlt}/> Date & Time</DraggableItem>
+            
+                {/* File field */}
+                <li className="menu-title text-gray-300 mt-3">File field</li>
+                <DraggableItem type="pdf-file-upload"><FontAwesomeIcon icon={faFileUpload}/> PDF File upload</DraggableItem>
+                <DraggableItem type="image-upload"><FontAwesomeIcon icon={faImage}/> Image upload</DraggableItem>
             </ul>
         </div>
     )

@@ -232,6 +232,24 @@ const gridItemData = {
         minW: 6,
         minH: 4,
     },
+    "pdf-file-upload": {
+        type: "pdf-file-upload",
+        label: "Upload PDF file",
+        description: "Please upload a PDF file",
+        w: 12,
+        h: 8,
+        minW: 6,
+        minH: 4,
+    },
+    "image-upload": {
+        type: "image-upload",
+        label: "Upload Image",
+        description: "Please upload an image",
+        w: 12,
+        h: 8,
+        minW: 6,
+        minH: 4,
+    },
 }
 
 export default gridItemData;

@@ -21,6 +21,8 @@ import Website from "./Website";
 import Date from "./Date";
 import Time from "./Time";
 import DateTime from "./DateTime";
+import PDFFileUpload from "./PDFFileUpload";
+import ImageUpload from "./ImageUpload";
 
 export default function FormField({ item }) {
     switch (item.type) {
@@ -70,6 +72,10 @@ export default function FormField({ item }) {
             return <Time item={item}/>
         case "date-time":
             return <DateTime item={item}/>
+        case "pdf-file-upload":
+            return <PDFFileUpload item={item}/>
+        case "image-upload":
+            return <ImageUpload item={item}/>
 
         default:
             return <div>Unknown item type</div>;

@@ -22,4 +22,6 @@ const gridItemTypes = {
     "date": "Date",
     "time": "Time",
     "date-time": "Date & Time",
+    "pdf-file-upload": "PDF File upload",
+    "image-upload": "Image upload",
 }
