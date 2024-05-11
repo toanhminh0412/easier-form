@@ -67,7 +67,7 @@ export default function Sidebar() {
 
 const DraggableItem = ({ children, type }) => {
     return (
-        <li className="pl-4">
+        <li className="pl-4 cursor-move-all">
             <Link 
                 href="#"
                 className="draggable-element"
