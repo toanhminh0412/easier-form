@@ -13,7 +13,7 @@ export default function Sidebar() {
     return (
         <div className="drawer-side z-30">
             <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
-                <h1 className="text-xl font-semibold w-fit text-white">Add elements</h1>
+                <h1 className="text-md font-semibold w-fit text-white">Add elements</h1>
                 <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white"></FontAwesomeIcon>
             </div>
             <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 

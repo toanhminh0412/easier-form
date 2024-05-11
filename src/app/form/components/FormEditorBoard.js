@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -50,7 +50,8 @@ export default function FormEditorBoard() {
     const onDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
         // If the item is dropped in the same position (meaning it's a click, not a drag), open the edit bar
         if (oldItem.x === newItem.x && oldItem.y === newItem.y) {
-            setFormActiveItem(newItem);
+            const item = layoutItems.lg.find(item => item.i === oldItem.i);
+            setFormActiveItem(item);
             return;
         }
 

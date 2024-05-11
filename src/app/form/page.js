@@ -1,18 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import LayoutItemsContext from "@/contexts/LayoutItemsContext";
 import FormActiveItemContext from "@/contexts/FormActiveItem";
 import Navbar from "@/components/navbars/Navbar";
-import Sidebar from "@/components/navbars/Sidebar";
+import Sidebar from "@/app/form/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
+import EditBar from "./components/sidebars/Editbar";
 
 export default function Page() {
     const [layoutItems, setLayoutItems] = useState({
         lg: []
     });
     const [formActiveItem, setFormActiveItem] = useState(null);
+
+    useEffect(() => {
+        if (formActiveItem) {
+            setLayoutItems(oldLayoutItems => {
+                return {
+                    lg: oldLayoutItems.lg.map(item => {
+                        if (item.i === formActiveItem.i) {
+                            return formActiveItem;
+                        }
+                        return item;
+                    })
+                }
+            });
+        }
+    }, [formActiveItem]);
 
     return (
         <>
@@ -32,13 +48,7 @@ export default function Page() {
                                     <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label>
                                     <FormEditorBoard/>
                                 </div> 
-                                <div className="drawer-side absolute top-0 right-0 z-40">
-                                    <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                                        {/* Sidebar content here */}
-                                        <li><a>Sidebar Item 1</a></li>
-                                        <li><a>Sidebar Item 2</a></li>
-                                    </ul>
-                                </div>
+                                <EditBar/>
                             </div>
                         </div>
                         <Sidebar/>

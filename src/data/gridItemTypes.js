@@ -25,3 +25,5 @@ const gridItemTypes = {
     "pdf-file-upload": "PDF File upload",
     "image-upload": "Image upload",
 }
+
+export default gridItemTypes;
