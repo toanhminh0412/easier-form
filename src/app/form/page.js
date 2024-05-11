@@ -25,14 +25,14 @@ export default function Page() {
                             {/* Page content here */}
                             
 
-                            <div className={`drawer drawer-end relative ${ formActiveItem ? "drawer-open" : "" }`}>
+                            <div className={`drawer drawer-end ${ formActiveItem ? "drawer-open" : "" } relative w-full`}>
                                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                                <div className="drawer-content">
+                                <div className="drawer-content absolute w-full z-0">
                                     {/* Page content here */}
-                                    {/* <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button">Open drawer</label> */}
+                                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label>
                                     <FormEditorBoard/>
                                 </div> 
-                                <div className="drawer-side absolute top-0 right-0">
+                                <div className="drawer-side absolute top-0 right-0 z-40">
                                     <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                                         {/* Sidebar content here */}
                                         <li><a>Sidebar Item 1</a></li>
