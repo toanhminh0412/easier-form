@@ -94,9 +94,9 @@ const gridItemData = {
         label: "Country",
         description: "Please select your country",
         options: [
-            { label: "USA", value: "usa" },
-            { label: "Canada", value: "canada" },
-            { label: "Mexico", value: "mexico" },
+            { id: 1, label: "USA", value: "usa" },
+            { id: 2, label: "Canada", value: "canada" },
+            { id: 3, label: "Mexico", value: "mexico" },
         ],
         w: 12,
         h: 8,

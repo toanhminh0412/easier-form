@@ -4,6 +4,7 @@ import EditBarParagraph from "./EditBarParagraph"
 import EditBarImage from "./EditBarImage"
 import EditBarSeparator from "./EditBarSeparator"
 import EditBarLabelOnly from "./EditBarLabelOnly"
+import EditBarDropdown from "./EditBarDropdown"
 
 export default function EditBarItem({ item }) {
     switch (item.type) {
@@ -23,6 +24,8 @@ export default function EditBarItem({ item }) {
         case "checkbox":
         case "toggle":
             return <EditBarLabelOnly item={item}/>
+        case "dropdown":
+            return <EditBarDropdown item={item}/>
         default:
             return <p>Unknown item</p>
     }
