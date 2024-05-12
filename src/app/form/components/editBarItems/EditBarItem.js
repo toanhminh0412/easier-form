@@ -1,6 +1,9 @@
 import EditBarBasicTextInput from "./EditBarBasicTextInput"
 import EditBarBasicHeading from "./EditBarHeading"
 import EditBarParagraph from "./EditBarParagraph"
+import EditBarImage from "./EditBarImage"
+import EditBarSeparator from "./EditBarSeparator"
+import EditBarLabelOnly from "./EditBarLabelOnly"
 
 export default function EditBarItem({ item }) {
     switch (item.type) {
@@ -13,6 +16,13 @@ export default function EditBarItem({ item }) {
             return <EditBarBasicHeading item={item}/>
         case "paragraph":
             return <EditBarParagraph item={item}/>
+        case "image":
+            return <EditBarImage item={item}/>
+        case "separator":
+            return <EditBarSeparator item={item}/>
+        case "checkbox":
+        case "toggle":
+            return <EditBarLabelOnly item={item}/>
         default:
             return <p>Unknown item</p>
     }

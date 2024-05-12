@@ -19,13 +19,12 @@ export default function FormEditorBoard() {
 
     // Add new item to layout when dragging an item from sidebar
     const onDrop = (_layout, layoutItem, event) => {
-        console.log("Call on drop")
         const type = event.dataTransfer.getData("type");
         const newItem = {
             ...layoutItem,
             i: uuidv4(),
             ...gridItemData[type],
-            resizeHandles: ['sw', 'nw', 'se', 'ne']
+            resizeHandles: type !== "separator" ? ['sw', 'nw', 'se', 'ne'] : ['e', 'w'],
         };
         setLayoutItems({lg: [...layoutItems.lg, newItem] });
     }
