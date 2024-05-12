@@ -1,11 +1,9 @@
-import { useState } from "react";
+import SafeHtml from "@/components/SafeHtml"
 
 export default function Paragraph({ item }) {
-    const [text, setText] = useState(item.text);
-
     return (
-        <div className="prose">
-            <p className="text-gray-900">{text}</p>
+        <div>
+            <SafeHtml className="text-gray-900" htmlContent={item.text}></SafeHtml>
         </div>
     )
 }

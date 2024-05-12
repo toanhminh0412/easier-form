@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function Heading({ item }) {
-    const [text, setText] = useState(item.text);
-    const [tag, setTag] = useState(item.tag);
-
     return (
         <div className="prose">
-            <DynamicHeading tag={tag}>{text}</DynamicHeading>
+            <DynamicHeading tag={item.tag}>{item.text}</DynamicHeading>
         </div>
     )
 }

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import FormActiveItemContext from "@/contexts/FormActiveItem";
 
-export default function EditBarTextarea({ item }) {
+export default function EditBarBasicTextInput({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);
 
     // Change the item's label, placeholder, and description on type
@@ -29,7 +29,7 @@ export default function EditBarTextarea({ item }) {
                     name="label"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="e.g. First Name"
-                    defaultValue={item.label}
+                    value={item.label}
                     onChange={updateItem}
                     />
                 </div>
@@ -46,7 +46,7 @@ export default function EditBarTextarea({ item }) {
                     name="placeholder"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="e.g. John Doe"
-                    defaultValue={item.placeholder}
+                    value={item.placeholder}
                     onChange={updateItem}
                     />
                 </div>
@@ -58,16 +58,15 @@ export default function EditBarTextarea({ item }) {
                     Description
                 </label>
                 <div className="mt-2">
-                    <input
-                    type="text"
+                    <textarea
+                    rows={4}
                     name="description"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={item.description}
+                    value={item.description}
                     onChange={updateItem}
-                />
+                    />
                 </div>
             </div>
-
         </div>
     );
 }

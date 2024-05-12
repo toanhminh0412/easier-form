@@ -44,6 +44,19 @@ export default function FormEditorBoard() {
             return item;
         })
         setLayoutItems(newLayoutItems);
+
+        // If the resized item is the active item, update the active item
+        if (formActiveItem && formActiveItem.i === oldItem.i) {
+            setFormActiveItem(oldFormActiveItem => {
+                return {
+                    ...oldFormActiveItem,
+                    x: newItem.x,
+                    y: newItem.y,
+                    w: newItem.w,
+                    h: newItem.h
+                }
+            });
+        }
     }
 
     // Save layout changes for dragging an item
@@ -68,7 +81,18 @@ export default function FormEditorBoard() {
             return item;
         })
         console.log(newLayoutItems)
-        setLayoutItems(newLayoutItems); 
+        setLayoutItems(newLayoutItems);
+
+        // If the dragged item is the active item, update the active item
+        if (formActiveItem && formActiveItem.i === oldItem.i) {
+            setFormActiveItem(oldFormActiveItem => {
+                return {
+                    ...oldFormActiveItem,
+                    x: newItem.x,
+                    y: newItem.y
+                }
+            });
+        }
     }
 
     // If click in the board but not in any item, close the edit bar
