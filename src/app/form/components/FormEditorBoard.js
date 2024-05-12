@@ -120,7 +120,7 @@ export default function FormEditorBoard() {
                 {layoutItems.lg.map(item => (
                     <div 
                         key={item.i} 
-                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  hover:border-blue-400 hover:z-50 cursor-move-all`}
+                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  hover:border-blue-400 hover:z-50 cursor-move cursor-move-all`}
                         >
                         <FormField item={item} />
                     </div>
