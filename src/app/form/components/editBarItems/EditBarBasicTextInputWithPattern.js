@@ -52,7 +52,7 @@ export default function EditBarBasicTextInputWithPattern({ item }) {
                     />
                 </div>
                 <div className="mt-1 text-xs">
-                    Regular expression pattern that the input's value must match.
+                    Regular expression pattern that the input&apos;s value must match.
                 </div>
             </div>
 
