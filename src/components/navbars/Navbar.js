@@ -20,7 +20,7 @@ export default function Navbar() {
                         <li><Link href="#">Item 3</Link></li>
                     </ul>
                 </div>
-                <Link href="/" className="btn btn-ghost text-2xl text-indigo-400 font-semibold">EasierForm</Link>
+                <Link href="/" className="btn btn-ghost text-2xl text-indigo-300 font-semibold">EasierForm</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 gap-x-4">

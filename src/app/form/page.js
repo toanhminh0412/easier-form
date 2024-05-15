@@ -9,6 +9,7 @@ import Sidebar from "@/app/form/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
 import EditBar from "./components/sidebars/Editbar";
 import EditorNavbar from "./components/EditorNavBar";
+import FormJSONModal from "./components/modals/FormJSONModal";
 
 export default function Page() {
     const [layoutItems, setLayoutItems] = useState({
@@ -49,6 +50,7 @@ export default function Page() {
                                     <EditorNavbar/>
                                     <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label>
                                     <FormEditorBoard/>
+                                    <FormJSONModal json={layoutItems}/>
                                 </div> 
                                 <EditBar/>
                             </div>
