@@ -16,7 +16,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     const { formActiveItem, setFormActiveItem } = useContext(FormActiveItemContext);
-    const [layoutWidth, setLayoutWidth] = useState(window.innerWidth);
+    const [layoutWidth, setLayoutWidth] = useState(800);
 
     useEffect(() => {
         // Calculate the layout width by subtracting the sidebar width from the window width
