@@ -1,4 +1,5 @@
 import EditBarBasicTextInput from "./EditBarBasicTextInput"
+import EditBarBasicTextInputWithPattern from "./EditBarBasicTextInputWithPattern"
 import EditBarBasicHeading from "./EditBarHeading"
 import EditBarParagraph from "./EditBarParagraph"
 import EditBarImage from "./EditBarImage"
@@ -6,6 +7,7 @@ import EditBarSeparator from "./EditBarSeparator"
 import EditBarLabelOnly from "./EditBarLabelOnly"
 import EditBarDropdown from "./EditBarDropdown"
 import EditBarGrid from "./EditBarGrid"
+import EditBarLabelDescription from "./EditBarBasicTextInputLabelDescription"
 
 export default function EditBarItem({ item }) {
     switch (item.type) {
@@ -13,7 +15,13 @@ export default function EditBarItem({ item }) {
         case "long-text":
         case "number":
         case "password":
+        case "email":
+        case "address":
+        case "website":
             return <EditBarBasicTextInput item={item}/>
+        case "phone":
+        case "zip-code":
+            return <EditBarBasicTextInputWithPattern item={item}/>
         case "heading":
             return <EditBarBasicHeading item={item}/>
         case "paragraph":
@@ -32,6 +40,12 @@ export default function EditBarItem({ item }) {
         case "single-choice-grid":
         case "multiple-choices-grid":
             return <EditBarGrid item={item}/>
+        case "date":
+        case "time":
+        case "date-time":
+        case "pdf-file-upload":
+        case "image-upload":
+            return <EditBarLabelDescription item={item}/>
         default:
             return <p>Unknown item</p>
     }

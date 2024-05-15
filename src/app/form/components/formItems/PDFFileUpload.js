@@ -1,16 +1,11 @@
-import { useState } from "react";
-
 export default function PDFFileUpload({ item }) {
-    const [label, setLabel] = useState(item.label);
-    const [description, setDescription] = useState(item.description);
-
     return (
         <div>
             <label
                 htmlFor={item.i}
                 className="block text-sm font-medium leading-6 text-gray-900"
             >
-                {label}
+                {item.label}
             </label>
             <div className="mt-2">
                 <input
@@ -23,7 +18,7 @@ export default function PDFFileUpload({ item }) {
                 />
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
-                {description}
+                {item.description}
             </p>
         </div>
     );
