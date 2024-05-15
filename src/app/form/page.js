@@ -8,6 +8,7 @@ import Navbar from "@/components/navbars/Navbar";
 import Sidebar from "@/app/form/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
 import EditBar from "./components/sidebars/Editbar";
+import EditorNavbar from "./components/EditorNavBar";
 
 export default function Page() {
     const [layoutItems, setLayoutItems] = useState({
@@ -45,6 +46,7 @@ export default function Page() {
                                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                                 <div className="drawer-content relative z-0 overflow-scroll">
                                     {/* Page content here */}
+                                    <EditorNavbar/>
                                     <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label>
                                     <FormEditorBoard/>
                                 </div> 
