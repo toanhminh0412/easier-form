@@ -25,6 +25,8 @@ export default function EditBarItem({ item }) {
         case "toggle":
             return <EditBarLabelOnly item={item}/>
         case "dropdown":
+        case "radio":
+        case "multiple-choices":
             return <EditBarDropdown item={item}/>
         default:
             return <p>Unknown item</p>

@@ -1,20 +1,14 @@
-import { useState } from "react"
-
 export default function Radio({ item }) {
-    const [label, setLabel] = useState(item.label);
-    const [description, setDescription] = useState(item.description);
-    const [options, setOptions] = useState(item.options);
-
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900 mb-3">
-                {label}
+                {item.label}
             </label>
             <div className="flex flex-col gap-2">
-                {options.map(option => 
-                <div key={option.value} className="flex flex-row gap-1">
+                {item.options.map(option => 
+                <div key={option.id} className="flex flex-row gap-1">
                     <input
-                        id={option.value}
+                        id={option.id}
                         name={item.i}
                         type="radio"
                         value={option.value}
@@ -26,7 +20,7 @@ export default function Radio({ item }) {
                 </div>)}
             </div>
             <p className="mt-3 text-sm text-gray-500" id={`${item.i}-description`}>
-                {description}
+                {item.description}
             </p>
         </div>
     )

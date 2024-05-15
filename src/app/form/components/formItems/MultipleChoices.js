@@ -1,19 +1,13 @@
-import { useState } from "react";
-
 export default function MultipleChoices({ item }) {
-    const [label, setLabel] = useState(item.label);
-    const [description, setDescription] = useState(item.description);
-    const [options, setOptions] = useState(item.options);
-
     // Users can select multiple options
     return (
         <div>
-            <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
-                {label}
+            <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900 mb-3">
+                {item.label}
             </label>
-            <div className="mt-2">
-                {options.map((option, index) => (
-                    <div key={index} className="flex items-center">
+            <div className="flex flex-col gap-2">
+                {item.options.map((option, index) => (
+                    <div key={option.id} className="flex flex-row gap-1">
                         <input
                             id={`${item.i}-${index}`}
                             name={item.i}
@@ -26,8 +20,8 @@ export default function MultipleChoices({ item }) {
                     </div>
                 ))}
             </div>
-            <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
-                {description}
+            <p className="mt-3 text-sm text-gray-500" id={`${item.i}-description`}>
+                {item.description}
             </p>
         </div>
     )

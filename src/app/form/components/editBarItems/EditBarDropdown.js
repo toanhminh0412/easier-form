@@ -164,7 +164,7 @@ export default function EditBarDropdown({ item }) {
                         </Droppable>
                     </DragDropContext>
                     {/* Add option button */}
-                    <div className="flex flex-row gap-2 cursor-pointer text-gray-400 hover:text-white w-fit" onClick={addOption}>
+                    <div className="flex flex-row gap-2 cursor-pointer text-gray-400 hover:text-white w-fit mt-4" onClick={addOption}>
                         <div><FontAwesomeIcon icon={faPlus} className="my-auto" /></div>
                         <div>Add option</div>
                     </div>
