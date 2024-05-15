@@ -5,6 +5,7 @@ import EditBarImage from "./EditBarImage"
 import EditBarSeparator from "./EditBarSeparator"
 import EditBarLabelOnly from "./EditBarLabelOnly"
 import EditBarDropdown from "./EditBarDropdown"
+import EditBarGrid from "./EditBarGrid"
 
 export default function EditBarItem({ item }) {
     switch (item.type) {
@@ -28,6 +29,9 @@ export default function EditBarItem({ item }) {
         case "radio":
         case "multiple-choices":
             return <EditBarDropdown item={item}/>
+        case "single-choice-grid":
+        case "multiple-choices-grid":
+            return <EditBarGrid item={item}/>
         default:
             return <p>Unknown item</p>
     }

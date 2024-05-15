@@ -135,8 +135,19 @@ const gridItemData = {
         type: "single-choice-grid",
         label: "How would you rate our service?",
         description: "Please rate our service",
-        cols: ["Very dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very satisfied"],
-        rows: ["Customer support", "Product quality", "Shipping speed", "Overall experience"],
+        cols: [
+            { id: 1, text: "Very dissatisfied" }, 
+            { id: 2, text: "Dissatisfied" },
+            { id: 3, text: "Neutral" },
+            { id: 4, text: "Satisfied"}, 
+            { id: 5, text: "Very satisfied"}
+        ],
+        rows: [
+            { id: 1, text: "Customer support" },
+            { id: 2, text: "Product quality" },
+            { id: 3, text: "Shipping speed" },
+            { id: 4, text: "Overall experience" }
+        ],
         w: 40,
         h: 20,
         minW: 12,
@@ -146,8 +157,18 @@ const gridItemData = {
         type: "multiple-choices-grid",
         label: "My schedule",
         description: "Please select your availability",
-        cols: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        rows: ["Morning", "Afternoon", "Evening"],
+        cols: [
+            { id: 1, text: "Monday" }, 
+            { id: 2, text: "Tuesday" },
+            { id: 3, text: "Wednesday" },
+            { id: 4, text: "Thursday"}, 
+            { id: 5, text: "Friday"}
+        ],
+        rows: [
+            { id: 1, text: "Morning" },
+            { id: 2, text: "Afternoon" },
+            { id: 3, text: "Evening" }
+        ],
         w: 40,
         h: 20,
         minW: 12,

@@ -43,7 +43,7 @@ export default function Page() {
 
                             <div className={`drawer drawer-end ${ formActiveItem ? "drawer-open" : "" } relative w-full`}>
                                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                                <div className="drawer-content absolute w-full z-0">
+                                <div className="drawer-content relative z-0 overflow-scroll">
                                     {/* Page content here */}
                                     <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label>
                                     <FormEditorBoard/>

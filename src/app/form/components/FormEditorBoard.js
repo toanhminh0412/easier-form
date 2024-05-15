@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -16,6 +16,14 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     const { formActiveItem, setFormActiveItem } = useContext(FormActiveItemContext);
+    const [layoutWidth, setLayoutWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        // Calculate the layout width by subtracting the sidebar width from the window width
+        const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
+        console.log(sidebarWidth)
+        setLayoutWidth(window.innerWidth - sidebarWidth);
+    }, []);
 
     // Add new item to layout when dragging an item from sidebar
     const onDrop = (_layout, layoutItem, event) => {
@@ -104,7 +112,8 @@ export default function FormEditorBoard() {
     return (
         <div onClick={closeEditBar}>
             <ResponsiveGridLayout 
-                className="layout bg-white min-h-screen" 
+                className="layout bg-white min-h-screen"
+                style={{ width: `${layoutWidth}px` }}
                 cols={{ lg: 48, md: 48, sm: 24, xs: 24, xxs: 24}}
                 rowHeight={rowHeight} 
                 breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
