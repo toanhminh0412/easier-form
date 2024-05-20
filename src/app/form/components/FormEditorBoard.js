@@ -7,23 +7,29 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 
 import { rowHeight } from "@/data/gridLayout";
 import gridItemData from "@/data/gridItemData";
-import LayoutItemsContext from "@/contexts/LayoutItemsContext";
-import FormActiveItemContext from "@/contexts/FormActiveItem";
+import LayoutItemsContext from "@/app/form/contexts/LayoutItemsContext";
+import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import ModeContext from "../contexts/ModeContext";
 import FormField from "./formItems/FormField";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
-    const { formActiveItem, setFormActiveItem } = useContext(FormActiveItemContext);
+    const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
+    const { mode } = useContext(ModeContext);
     const [layoutWidth, setLayoutWidth] = useState(800);
 
     useEffect(() => {
-        // Calculate the layout width by subtracting the sidebar width from the window width
-        const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
-        console.log(sidebarWidth)
-        setLayoutWidth(window.innerWidth - sidebarWidth);
-    }, []);
+        if (mode === "edit") {
+            // Calculate the layout width by subtracting the sidebar width from the window width
+            const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
+            setLayoutWidth(window.innerWidth - sidebarWidth);
+        } else {
+            // Set the layout width to the window width
+            setLayoutWidth(window.innerWidth);
+        }
+    }, [mode]);
 
     // Add new item to layout when dragging an item from sidebar
     const onDrop = (_layout, layoutItem, event) => {
@@ -32,7 +38,7 @@ export default function FormEditorBoard() {
             ...layoutItem,
             i: uuidv4(),
             ...gridItemData[type],
-            resizeHandles: type !== "separator" ? ['sw', 'nw', 'se', 'ne'] : ['e', 'w'],
+            resizeHandles: type !== "separator" ? ['sw', 'nw', 'se', 'ne'] : ['e', 'w']
         };
         setLayoutItems({lg: [...layoutItems.lg, newItem] });
     }
@@ -110,13 +116,18 @@ export default function FormEditorBoard() {
     }
 
     return (
-        <div onClick={closeEditBar}>
+        <div onClick={closeEditBar} tabIndex={0} onKeyDown={e => {
+            console.log(e.key)
+            if (e.key === "Backspace" && formActiveItem) {
+                deleteActiveItem();
+            }
+        }}>
             <ResponsiveGridLayout 
                 className="layout bg-white min-h-screen"
                 style={{ width: `${layoutWidth}px` }}
-                cols={{ lg: 48, md: 48, sm: 24, xs: 24, xxs: 24}}
+                cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
-                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                breakpoints={{ lg: 2000, md: 1300, sm: 900, xs: 500, xxs: 0 }}
                 margin={[0,0]}
                 layouts={layoutItems}
                 isDroppable={true}
@@ -125,11 +136,22 @@ export default function FormEditorBoard() {
                 onResizeStop={onResizeStop}
                 compactType={null}
                 allowOverlap={true}
+                autoSize={true}
                 >
                 {layoutItems.lg.map(item => (
                     <div 
                         key={item.i} 
-                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  hover:border-blue-400 hover:z-50 cursor-move cursor-move-all`}
+                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  ${mode === "edit" ? "hover:border-blue-400 cursor-move cursor-move-all hover:z-50 " : ""}`}
+                        data-grid={{
+                            x: item.x,
+                            y: item.y,
+                            w: item.w,
+                            h: item.h,
+                            minW: item.minW,
+                            minH: item.minH,
+                            static: item.static,
+                            resizeHandles: item.resizeHandles
+                        }}
                         >
                         <FormField item={item} />
                     </div>

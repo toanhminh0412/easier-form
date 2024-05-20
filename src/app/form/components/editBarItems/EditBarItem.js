@@ -1,3 +1,6 @@
+import { useContext } from "react"
+import FormActiveItemContext from "@/app/form/contexts/FormActiveItem"
+
 import EditBarBasicTextInput from "./EditBarBasicTextInput"
 import EditBarBasicTextInputWithPattern from "./EditBarBasicTextInputWithPattern"
 import EditBarBasicHeading from "./EditBarHeading"
@@ -10,6 +13,20 @@ import EditBarGrid from "./EditBarGrid"
 import EditBarLabelDescription from "./EditBarBasicTextInputLabelDescription"
 
 export default function EditBarItem({ item }) {
+    const { deleteActiveItem } = useContext(FormActiveItemContext);
+
+    return (
+        <div>
+            <EditBarEditSection item={item}/>
+            <button 
+                className="btn btn-sm btn-error mt-6"
+                onClick={deleteActiveItem}
+                >Delete field</button>
+        </div>
+    )
+}
+
+const EditBarEditSection = ({ item }) => {
     switch (item.type) {
         case "short-text":
         case "long-text":

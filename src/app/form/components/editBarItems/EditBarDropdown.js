@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import FormActiveItemContext from "@/contexts/FormActiveItem";
+import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
 
 export default function EditBarDropdown({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);

@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 
 import gridItemTypes from "@/data/gridItemTypes"
-import FormActiveItemContext from "@/contexts/FormActiveItem"
+
+import FormActiveItemContext from "@/app/form/contexts/FormActiveItem"
 import EditBarItem from "../editBarItems/EditBarItem"
 
 export default function EditBar() {

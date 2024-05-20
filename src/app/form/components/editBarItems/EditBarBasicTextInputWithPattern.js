@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 
-import FormActiveItemContext from "@/contexts/FormActiveItem";
+import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
 
 export default function EditBarBasicTextInputWithPattern({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);
