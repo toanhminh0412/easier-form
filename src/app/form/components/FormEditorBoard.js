@@ -20,16 +20,27 @@ export default function FormEditorBoard() {
     const { mode } = useContext(ModeContext);
     const [layoutWidth, setLayoutWidth] = useState(800);
 
-    useEffect(() => {
+    const resizeGridLayout = () => {
         if (mode === "edit") {
-            // Calculate the layout width by subtracting the sidebar width from the window width
             const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
             setLayoutWidth(window.innerWidth - sidebarWidth);
         } else {
-            // Set the layout width to the window width
             setLayoutWidth(window.innerWidth);
         }
+    }
+
+    useEffect(() => {
+        resizeGridLayout();
     }, [mode]);
+
+    useEffect(() => {
+        // Update layout width when window is resized
+        window.addEventListener("resize", resizeGridLayout);
+    
+        return () => {
+            window.removeEventListener("resize", resizeGridLayout);
+        }
+    }, []);
 
     // Add new item to layout when dragging an item from sidebar
     const onDrop = (_layout, layoutItem, event) => {
@@ -123,7 +134,7 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className="layout bg-white min-h-screen"
+                className="layout bg-white min-h-screen pb-40"
                 style={{ width: `${layoutWidth}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
