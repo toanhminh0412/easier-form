@@ -19,7 +19,9 @@ export default function FormEditorBoard() {
     const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
     const { mode } = useContext(ModeContext);
     const [layoutWidth, setLayoutWidth] = useState(800);
+    const [layoutHeight, setLayoutHeight] = useState(1200);
 
+    // Resize layout grid when window is resized
     const resizeGridLayout = () => {
         if (mode === "edit") {
             const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
@@ -31,6 +33,14 @@ export default function FormEditorBoard() {
 
     useEffect(() => {
         resizeGridLayout();
+
+        // Add no padding to layout if the mode is preview
+        // Otherwise, add 400px bottom padding
+        if (mode === "preview") {
+            updateLayoutHeight(layoutItems.lg, 0);
+        } else {
+            updateLayoutHeight(layoutItems.lg, 400);
+        } 
     }, [mode]);
 
     useEffect(() => {
@@ -41,6 +51,17 @@ export default function FormEditorBoard() {
             window.removeEventListener("resize", resizeGridLayout);
         }
     }, []);
+
+    useEffect(() => {
+        // Update layout height when layout items change
+        updateLayoutHeight(layoutItems.lg, 400);
+    }, [layoutItems]);
+
+    // Maintain a 400 px padding at the bottom of the layout 
+    const updateLayoutHeight = (layout, paddingBottom) => {
+        const maxY = Math.max(...layout.map(item => item.y + item.h));
+        setLayoutHeight(maxY * rowHeight + paddingBottom);
+    };
 
     // Add new item to layout when dragging an item from sidebar
     const onDrop = (_layout, layoutItem, event) => {
@@ -134,8 +155,8 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className="layout bg-white min-h-screen pb-40"
-                style={{ width: `${layoutWidth}px` }}
+                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20`}
+                style={{ width: `${layoutWidth}px`, height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
                 breakpoints={{ lg: 2000, md: 1300, sm: 900, xs: 500, xxs: 0 }}
@@ -145,6 +166,7 @@ export default function FormEditorBoard() {
                 onDrop={onDrop}
                 onDragStop={onDragStop}
                 onResizeStop={onResizeStop}
+                onLayoutChange={() => console.log("layout changed")}
                 compactType={null}
                 allowOverlap={true}
                 autoSize={true}
@@ -168,6 +190,9 @@ export default function FormEditorBoard() {
                     </div>
                 ))}
             </ResponsiveGridLayout>
+            {mode === "preview" ? <div className="text-center mb-40">
+                <button className="btn btn-primary">Submit</button>
+            </div> : null}
         </div>
     );
 }

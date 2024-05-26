@@ -24,14 +24,15 @@ export default function EditBarSeparator({ item }) {
                     <input
                         type="range"
                         name="lineWidth"
-                        min="1"
+                        min="0.25"
                         max="10"
-                        step="1"
+                        step="0.25"
                         value={item.lineWidth}
                         className="range-input range-input-primary w-full"
                         onChange={(e) => updateItem(e.target.value)}
                     />
                 </div>
+                <div>{item.lineWidth} px</div>
             </div>
         </div>
     )
