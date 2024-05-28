@@ -1,7 +1,53 @@
+"use client";
+
 import Link from "next/link"
 import Image from "next/image"
+import { useState } from "react"
+
+import Alert from "@/components/ui/Alert"
 
 export default function Page() {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const signUp = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const confirmPassword = e.target.confirmPassword.value;
+
+        // POST request to /api/credentials/signup
+        try {
+            const response  = await fetch('/api/auth/credentials/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password, confirmPassword }),
+            })
+            const data = await response.json();
+            if (!response.ok) {
+                setError({
+                    title: 'Login error',
+                    message: data.error,
+                });
+                setLoading(false);
+            } else {
+                // Redirect to /signin
+                window.location.href = '/signin';
+            }
+        } catch (error) {
+            setError({
+                title: 'An error occurred',
+                message: `Error received: ${ error }. Please try again later or contact us at easierform@gmail.com for support`,
+            });
+            setLoading(false);
+        }
+
+    }
+
     return (
         <div className="flex min-h-full flex-1">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -20,8 +66,10 @@ export default function Page() {
                     </div>
     
                     <div className="mt-10">
-                        <div>
-                            <form action="#" method="POST" className="space-y-6">
+                        {error ? <Alert type="danger" title={error.title} message={error.message} /> : null}
+
+                        <div className="mt-4">
+                            <form action="#" method="POST" className="space-y-6" onSubmit={signUp}>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                         Email address
@@ -94,8 +142,9 @@ export default function Page() {
                                     <button
                                         type="submit"
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        disabled={loading}
                                     >
-                                        Sign in
+                                        {loading ? "Signing up ..." : "Sign up"}
                                     </button>
                                 </div>
                             </form>
