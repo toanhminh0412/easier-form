@@ -1,4 +1,5 @@
 import { NextAuthOptions } from "next-auth";
+import { cookies } from "next/headers";
 import Credentials from "next-auth/providers/credentials"
 
 const authOptions: NextAuthOptions = {

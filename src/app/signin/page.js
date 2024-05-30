@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { signIn as NextAuthSignIn } from "next-auth/react";
 
+import { setCookie } from "@/serverActions/cookies";
 import Alert from "@/components/ui/Alert";
 
 export default function Page() {
@@ -22,6 +23,7 @@ export default function Page() {
         setLoading(false);
 
         if (result && result.ok) {
+            await setCookie("signedIn", "true");
             // Redirect to the home page
             window.location.href = result.url ? result.url : "/";
         } else {

@@ -4,6 +4,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 
+import { signIn as NextAuthSignIn } from "next-auth/react";
+
+import { setCookie } from "@/serverActions/cookies";
 import Alert from "@/components/ui/Alert"
 
 export default function Page() {
@@ -35,8 +38,17 @@ export default function Page() {
                 });
                 setLoading(false);
             } else {
-                // Redirect to /signin
-                window.location.href = '/signin';
+                // Sign in the user
+                const result = await NextAuthSignIn("credentials", { email, password, callbackUrl: "/", redirect: false});
+
+                if (result && result.ok) {
+                    await setCookie("signedIn", "true");
+                    // Redirect to the home page
+                    window.location.href = result.url ? result.url : "/";
+                } else {
+                    console.log(result);
+                    setError({ title: "Sign in error", message: result.error });
+                }
             }
         } catch (error) {
             setError({
