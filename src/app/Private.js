@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,45 +8,35 @@ import { faEllipsisVertical, faPlus, faPen, faTrashCan } from '@fortawesome/free
 
 import CreateFormModal from "@/app/components/modals/CreateFormModal";
 
-const forms = [
-    {
-        id: 1,
-        name: 'GraphQL API',
-        href: '#',
-        createdBy: 'Leslie Alexander',
-        lastUpdated: 'March 17, 2023 12:45 PM',
-    },
-    {
-        id: 2,
-        name: 'New benefits plan',
-        href: '#',
-        createdBy: 'Leslie Alexander',
-        lastUpdated: 'March 17, 2023 12:45 PM',
-    },
-    {
-        id: 3,
-        name: 'Onboarding emails',
-        href: '#',
-        createdBy: 'Courtney Henry',
-        lastUpdated: 'March 17, 2023 12:45 PM',
-    },
-    {
-        id: 4,
-        name: 'iOS app',
-        href: '#',
-        createdBy: 'Leonard Krasner',
-        lastUpdated: 'March 17, 2023 12:45 PM',
-    },
-    {
-        id: 5,
-        name: 'Marketing site redesign',
-        href: '#',
-        createdBy: 'Courtney Henry',
-        lastUpdated: 'March 17, 2023 12:45 PM',
-    },
-]
-
 export default function Private() {
+    const [forms, setForms] = useState([]);
+    const [error, setError] = useState(null);
+
+    // Get all forms that this user creates
+    useEffect(() => {
+        const getForms = async() => {
+            // Reset error
+            setError(null);
+            
+            // Fetch forms
+            const response = await fetch('/api/form/getEditables');
+            const data = await response.json();
+            console.log(data);
+
+            // Display forms if successful, otherwise display error
+            if (response.ok) {
+                setForms(data.forms);
+            } else {
+                setError({
+                    type: "get-forms",
+                    message: data.error
+                })
+            }
+        }
+
+        getForms();
+    }, []);
+
     return (
         <>
             <header className="bg-white shadow-sm border-b border-slate-200">
@@ -64,10 +55,10 @@ export default function Private() {
                     <div>
                         <ul role="list" className="divide-y divide-gray-100">
                             {forms.map((form) => (
-                                <li key={form.id} className="flex items-center justify-between gap-x-6 py-5">
+                                <li key={form._id} className="flex items-center justify-between gap-x-6 py-5">
                                     <div className="min-w-0">
                                         <div className="flex items-start gap-x-3">
-                                            <p className="text-sm font-semibold leading-6 text-gray-900">{form.name}</p>
+                                            <p className="text-sm font-semibold leading-6 text-gray-900">{form.title}</p>
                                         </div>
                                         <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                                             <p className="whitespace-nowrap">
@@ -80,7 +71,7 @@ export default function Private() {
                                         </div>
                                     </div>
                                     <div className="flex flex-none items-center gap-x-4">
-                                        <Link href="#"
+                                        <Link href={`/form/${form._id}/edit`}
                                         className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                                         >
                                         View form<span className="sr-only">, {form.name}</span>
