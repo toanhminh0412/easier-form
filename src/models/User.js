@@ -22,7 +22,11 @@ const userSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    image: {
+        type: String,
+        required: false,
+    },
 }, {
     methods: {
         repr() {

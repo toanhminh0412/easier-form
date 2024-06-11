@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import PrivatePage from "@/app/form/Private";
+import PrivatePage from "@/app/form/[formId]/edit/Private";
 
-export default function Page() {
+export default function Page({ params }) {
+    const formId = params.formId;
     // User must sign in to visit this page
     const signedInCookie = cookies().get("signedIn");
     const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
@@ -11,5 +12,5 @@ export default function Page() {
         redirect("/signin");
     }
 
-    return <PrivatePage />;
+    return <PrivatePage formId={formId} />;
 }

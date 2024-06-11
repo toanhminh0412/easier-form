@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import dbConnect from "@/lib/dbConnect";
 import { User } from "@/models/User";
 
-export async function POST(req: Request) {
+export async function POST(req) {
     const { email, password } = await req.json();
 
     await dbConnect();
@@ -20,8 +20,7 @@ export async function POST(req: Request) {
         return Response.json({ error: "Password is incorrect" }, { status: 400 });
     }
     
-    return Response.json({
-        'name': user.name,
-        'email': user.email
-    }, { status: 200 });
+    // Return all fields from user object except password
+    const { password: _, ...userWithoutPassword } = user.toObject();
+    return Response.json(userWithoutPassword, { status: 200 });
 }

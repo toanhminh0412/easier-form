@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem"
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem"
 
 import EditBarBasicTextInput from "./EditBarBasicTextInput"
 import EditBarBasicTextInputWithPattern from "./EditBarBasicTextInputWithPattern"

@@ -6,9 +6,9 @@ import { signOut as NextAuthSignOut } from "next-auth/react";
 import { deleteCookie } from "@/serverActions/cookies";
 
 export default function Navbar({ signedIn=false }) {
-    const signOut = () => {
+    const signOut = async () => {
         deleteCookie("signedIn");
-        NextAuthSignOut();
+        await NextAuthSignOut();
     }
 
     return (

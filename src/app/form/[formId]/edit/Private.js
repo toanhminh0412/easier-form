@@ -2,17 +2,20 @@
 
 import { useState, useEffect } from "react";
 
-import LayoutItemsContext from "@/app/form/contexts/LayoutItemsContext";
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 import ModeContext from "./contexts/ModeContext";
 import SidebarOpenContext from "./contexts/SidebarOpenContext";
-import Sidebar from "@/app/form/components/sidebars/Sidebar";
+import Sidebar from "@/app/form/[formId]/edit/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
 import EditBar from "./components/sidebars/Editbar";
 import EditorNavbar from "./components/EditorNavBar";
 import FormJSONModal from "./components/modals/FormJSONModal";
 
-export default function PrivatePage() {
+export default function PrivatePage({ formId }) {
+    const [form, setForm] = useState(null);
+    const [loadFormError, setLoadFormError] = useState("");
+
     const [layoutItems, setLayoutItems] = useState({
         lg: []
     });
@@ -20,6 +23,33 @@ export default function PrivatePage() {
     const [mode, setMode] = useState("edit");
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
+    // Fetch form data
+    useEffect(() => {
+        const fetchForm = async () => {
+            const response = await fetch(`/api/form/${formId}/get?privilege=edit`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setForm(data.form);
+                setLayoutItems(data.form.layout);
+            } else {
+                setLoadFormError(`${response.status} ${response.error ? response.error : response.statusText}`);
+            }
+        }
+        fetchForm();
+    }, []);
+
+    // Update form for saving when layout items change
+    useEffect(() => {
+        setForm(oldForm => {
+            return {
+                ...oldForm,
+                layout: layoutItems
+            }
+        });
+    }, [layoutItems]);
+
+    // Changes to the current active item result in changes to the layout items
     useEffect(() => {
         if (formActiveItem) {
             setLayoutItems(oldLayoutItems => {
@@ -45,6 +75,21 @@ export default function PrivatePage() {
         setFormActiveItem(null);
     }
 
+    if (!form) {
+        if (loadFormError) {
+            return (
+                <div className="flex justify-center items-center h-[90vh]">
+                    <h2 className="text-xl">Error loading form: {loadFormError}</h2>
+                </div>
+            );
+        }
+        return (
+            <div className="flex justify-center items-center h-[90vh]">
+                <h2 className="text-xl">Loading...</h2>
+            </div>
+        );
+    }
+
     return (
         <>
             <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
@@ -61,7 +106,7 @@ export default function PrivatePage() {
                                         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                                         <div className="drawer-content relative z-0 overflow-scroll">
                                             {/* Page content here */}
-                                            <EditorNavbar/>
+                                            <EditorNavbar form={form}/>
                                             {/* <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label> */}
                                             <FormEditorBoard/>
                                             <FormJSONModal json={layoutItems}/>

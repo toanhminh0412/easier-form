@@ -19,7 +19,8 @@ module.exports = {
       night: {
         ...require("daisyui/src/theming/themes")["night"],
         primary: "rgb(67 56 202)",
-        secondary: "rgb(67 56 202)"
+        secondary: "rgb(29 78 216)",
+        accent: "rgb(194 65 12)",
       }
     }],
   },

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 
-export default function EditBarLabelDescription({ item }) {
+export default function EditBarBasicTextInput({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);
 
-    // Change the item's label and description on type
+    // Change the item's label, placeholder, and description on type
     const updateItem = (e) => {
         const { name, value } = e.target;
         setFormActiveItem(oldItem => {
@@ -28,7 +28,25 @@ export default function EditBarLabelDescription({ item }) {
                     type="text"
                     name="label"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="e.g. First Name"
                     value={item.label}
+                    onChange={updateItem}
+                    />
+                </div>
+            </div>
+
+            {/* Placeholder */}
+            <div className="mt-3">
+                <label className="block text-sm font-medium leading-6">
+                    Placeholder
+                </label>
+                <div className="mt-2">
+                    <input
+                    type="text"
+                    name="placeholder"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="e.g. John Doe"
+                    value={item.placeholder}
                     onChange={updateItem}
                     />
                 </div>
@@ -40,8 +58,8 @@ export default function EditBarLabelDescription({ item }) {
                     Description
                 </label>
                 <div className="mt-2">
-                    <input
-                    type="text"
+                    <textarea
+                    rows={4}
                     name="description"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={item.description}

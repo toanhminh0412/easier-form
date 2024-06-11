@@ -7,8 +7,8 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 
 import { rowHeight } from "@/data/gridLayout";
 import gridItemData from "@/data/gridItemData";
-import LayoutItemsContext from "@/app/form/contexts/LayoutItemsContext";
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 import ModeContext from "../contexts/ModeContext";
 import FormField from "./formItems/FormField";
 

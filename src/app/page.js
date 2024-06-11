@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { cookies } from "next/headers";
+
+import Public from "./Public";
+import Private from "./Private";
 
 export default function Home() {
     const signedInCookie = cookies().get("signedIn");
@@ -7,15 +9,11 @@ export default function Home() {
 
     if (signedIn) {
         return (
-            <main>
-                <Link href="/form">Go to form</Link>
-            </main>
+            <Private />
         );
     }
 
     return (
-        <main>
-            <Link href="/signin">Sign in</Link>
-        </main>
+        <Public />
     )
 }

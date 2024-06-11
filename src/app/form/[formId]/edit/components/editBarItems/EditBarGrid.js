@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 
 export default function EditBarGrid({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);

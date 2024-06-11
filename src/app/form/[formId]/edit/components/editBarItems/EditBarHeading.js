@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import FormActiveItemContext from "@/app/form/contexts/FormActiveItem";
+import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 
 export default function EditBarBasicHeading({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);

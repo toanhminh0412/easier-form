@@ -1,8 +1,6 @@
-import { NextAuthOptions } from "next-auth";
-import { cookies } from "next/headers";
-import Credentials from "next-auth/providers/credentials"
+import Credentials from "next-auth/providers/credentials";
 
-const authOptions: NextAuthOptions = {
+const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         Credentials({
@@ -33,21 +31,35 @@ const authOptions: NextAuthOptions = {
             
                 // If no error and we have user data, return it
                 if (res.status === 200 && user) {
+                    console.log("From authorize function:");
+                    console.log(user);
                     return user
                 }
 
                 // Return null if user data could not be retrieved
                 throw new Error(user.error);
-            }
+            },
+            
         })
     ],
-    // pages: {
-    //     signIn: '/login',
-    //     // signOut: '/auth/signout',
-    //     // error: '/auth/error', // Error code passed in query string as ?error=
-    //     // verifyRequest: '/auth/verify-request', // (used for check email message)
-    //     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-    // }
+    session: {
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            // Add access_token to the token right after signin
+            if (user) {
+                return {...token, user};
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            // Add property to session, like an access_token from a provider.
+            session.user = token.user || session.user;
+            return session;
+        }
+    }
 }
 
 export default authOptions;
