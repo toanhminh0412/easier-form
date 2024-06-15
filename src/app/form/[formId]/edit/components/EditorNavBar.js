@@ -1,17 +1,18 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import useOutsideClick from "@/hooks/useOutsideClick";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext"
 import ModeContext from "../contexts/ModeContext";
 import SidebarOpenContext from "../contexts/SidebarOpenContext";
 import { faEye, faCode, faPen, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
 
-export default function EditorNavbar({ form, savingState }) {
-    const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
+export default function EditorNavbar({ form, setForm, savingState }) {
+    const { setLayoutItems } = useContext(LayoutItemsContext);
     const { mode, setMode } = useContext(ModeContext);
-    const { sidebarOpen, setSidebarOpen } = useContext(SidebarOpenContext);
+    const { setSidebarOpen } = useContext(SidebarOpenContext);
 
     // Preview form by making all layout items static 
     // and hide resize handles
@@ -54,9 +55,7 @@ export default function EditorNavbar({ form, savingState }) {
 
             <div className="flex flex-row gap-10">
                 {/* Form title */}
-                <div className="flex flex-col justify-center h-full">
-                    <h1 className="text-lg font-medium my-auto px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
-                </div>
+                <FormTitle form={form} setForm={setForm} />
 
                 {/* Display saving state */}
                 <div className="flex flex-col justify-center">
@@ -105,6 +104,52 @@ export default function EditorNavbar({ form, savingState }) {
                     View JSON
                 </button>
             </div>
+        </div>
+    )
+}
+
+const FormTitle = ({ form, setForm }) => {
+    const [mode, setMode] = useState("view");
+
+    const formTitleRef = useRef(null);
+
+    // Close form title input when clicking outside
+    useOutsideClick(formTitleRef, () => {
+        setMode("view");
+    });
+
+    // Save form title when submitting title form
+    const saveFormTitle = (e) => {
+        e.preventDefault();
+        setForm(oldForm => {
+            return {
+                ...oldForm,
+                title: e.target.title.value
+            }
+        });
+        setMode("view");
+    }
+
+
+    if (mode === "edit") {
+        return (
+            <form 
+                className="flex flex-col justify-center h-full"
+                ref={formTitleRef}
+                onSubmit={saveFormTitle}>
+                <input 
+                    type="text" 
+                    placeholder="Type here"
+                    name="title"
+                    className="input input-bordered w-full max-w-xs" 
+                    defaultValue={form.title}/>
+            </form>
+        )
+    }
+
+    return (
+        <div className="flex flex-col justify-center h-full" onClick={() => setMode("edit")}>
+            <h1 className="text-lg font-medium my-auto px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
         </div>
     )
 }

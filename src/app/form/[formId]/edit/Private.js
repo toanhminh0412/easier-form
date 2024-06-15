@@ -41,7 +41,7 @@ export default function PrivatePage({ formId }) {
         fetchForm();
     }, []);
 
-    // If there is a change in form, wait for 3 second
+    // If there is a change in form, wait for 1 second
     // If there is no new change, save the form
     useEffect(() => {
         if (form) {
@@ -65,7 +65,7 @@ export default function PrivatePage({ formId }) {
                 }
             }
                 
-            const timeout = setTimeout(saveForm, 3000);
+            const timeout = setTimeout(saveForm, 1000);
             return () => clearTimeout(timeout);
         }
     }, [form]);
@@ -137,7 +137,7 @@ export default function PrivatePage({ formId }) {
                                         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                                         <div className="drawer-content relative z-0 overflow-scroll">
                                             {/* Page content here */}
-                                            <EditorNavbar form={form} savingState={savingState}/>
+                                            <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
                                             {/* <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label> */}
                                             <FormEditorBoard/>
                                             <FormJSONModal json={layoutItems}/>
