@@ -39,6 +39,32 @@ export default function PrivatePage({ formId }) {
         fetchForm();
     }, []);
 
+    // If there is a change in form, wait for 3 second
+    // If there is no new change, save the form
+    useEffect(() => {
+        if (form) {
+            const saveForm = async () => {
+                console.log("Saving form...");
+                const response = await fetch(`/api/form/${formId}/save`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(form)
+                })
+
+                if (response.ok) {
+                    console.log("Form saved successfully");
+                } else {
+                    console.error("Error saving form");
+                }
+            }
+                
+            const timeout = setTimeout(saveForm, 3000);
+            return () => clearTimeout(timeout);
+        }
+    }, [form]);
+
     // Update form for saving when layout items change
     useEffect(() => {
         setForm(oldForm => {
