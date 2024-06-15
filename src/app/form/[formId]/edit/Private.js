@@ -44,7 +44,7 @@ export default function PrivatePage({ formId }) {
     // If there is a change in form, wait for 1 second
     // If there is no new change, save the form
     useEffect(() => {
-        if (form) {
+        if (form && mode === "edit") {
             setSavingState("saving");
             const saveForm = async () => {
                 console.log("Saving form...");
