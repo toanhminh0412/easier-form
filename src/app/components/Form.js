@@ -5,6 +5,8 @@ import FormToDeleteContext from "../contexts/FormToDeleteContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
+import { timeAgo } from "@/helpers/datetime";
+
 export default function Form({ form }) {
     const { setFormToDelete } = useContext(FormToDeleteContext);
 
@@ -16,7 +18,7 @@ export default function Form({ form }) {
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                     <p className="whitespace-nowrap">
-                        Last updated on <time dateTime={form.lastUpdated}>{form.lastUpdated}</time>
+                        Last updated: {timeAgo(form.lastUpdated)}
                     </p>
                     <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
                         <circle cx={1} cy={1} r={1} />
