@@ -23,6 +23,8 @@ export default function PrivatePage({ formId }) {
     const [mode, setMode] = useState("edit");
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
+    const [savingState, setSavingState] = useState("saved");
+
     // Fetch form data
     useEffect(() => {
         const fetchForm = async () => {
@@ -43,6 +45,7 @@ export default function PrivatePage({ formId }) {
     // If there is no new change, save the form
     useEffect(() => {
         if (form) {
+            setSavingState("saving");
             const saveForm = async () => {
                 console.log("Saving form...");
                 const response = await fetch(`/api/form/${formId}/save`, {
@@ -55,8 +58,10 @@ export default function PrivatePage({ formId }) {
 
                 if (response.ok) {
                     console.log("Form saved successfully");
+                    setSavingState("saved");
                 } else {
                     console.error("Error saving form");
+                    setSavingState("error");
                 }
             }
                 
@@ -132,7 +137,7 @@ export default function PrivatePage({ formId }) {
                                         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                                         <div className="drawer-content relative z-0 overflow-scroll">
                                             {/* Page content here */}
-                                            <EditorNavbar form={form}/>
+                                            <EditorNavbar form={form} savingState={savingState}/>
                                             {/* <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button fixed bottom-4 left-4 z-40">Open drawer</label> */}
                                             <FormEditorBoard/>
                                             <FormJSONModal json={layoutItems}/>

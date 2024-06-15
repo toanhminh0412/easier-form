@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext"
 import ModeContext from "../contexts/ModeContext";
 import SidebarOpenContext from "../contexts/SidebarOpenContext";
-import { faEye, faCode, faPen } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faCode, faPen, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
 
-export default function EditorNavbar({ form }) {
+export default function EditorNavbar({ form, savingState }) {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     const { mode, setMode } = useContext(ModeContext);
     const { sidebarOpen, setSidebarOpen } = useContext(SidebarOpenContext);
@@ -51,9 +51,32 @@ export default function EditorNavbar({ form }) {
 
     return (
         <div className="sticky top-0 left-0 w-full h-14 bg-neutral px-3 flex flex-row justify-between">
-            <div className="flex flex-col justify-center h-full">
-                <h1 className="text-lg font-medium my-auto px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
+
+            <div className="flex flex-row gap-10">
+                {/* Form title */}
+                <div className="flex flex-col justify-center h-full">
+                    <h1 className="text-lg font-medium my-auto px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
+                </div>
+
+                {/* Display saving state */}
+                <div className="flex flex-col justify-center">
+                    {savingState === "saving" ? 
+                    <div className="text-slate-400 text-sm flex flex-row">
+                        <span className="loading loading-spinner text-slate-400 loading-sm mr-2"></span>
+                        <span>Saving</span>
+                    </div> :
+                    savingState === "saved" ? <div className="text-green-600 text-sm">
+                        <FontAwesomeIcon icon={faCheck} className="mr-2"/>
+                        Saved
+                    </div> : 
+                    <div className="text-red-600 text-sm">
+                        <FontAwesomeIcon icon={faXmark} className="mr-2"/>
+                        Error saving form
+                    </div>}
+                </div>
             </div>
+            
+            
             <div className="flex flex-row gap-2 my-auto">
                 <button 
                     className="btn btn-sm btn-primary text-white"
