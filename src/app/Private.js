@@ -1,105 +1,121 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical, faPlus, faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import FormsContext from "./contexts/FormsContext";
+import FormToDeleteContext from "./contexts/FormToDeleteContext";
+import Form from "./components/Form";
 import CreateFormModal from "@/app/components/modals/CreateFormModal";
+import DeleteFormModal from "./components/modals/DeleteFormModal";
+import Alert from "@/components/ui/Alert";
 
 export default function Private() {
     const [forms, setForms] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Track the form that is being deleted
+    const [formToDelete, setFormToDelete] = useState(null);
 
     // Get all forms that this user creates
     useEffect(() => {
         const getForms = async() => {
             // Reset error
             setError(null);
+
+            // Render page loading state
+            setLoading(true);
             
             // Fetch forms
-            const response = await fetch('/api/form/getEditables');
-            const data = await response.json();
-            console.log(data);
+            try {
+                const response = await fetch('/api/form/getEditables');
+                const data = await response.json();
+                console.log(data);
 
-            // Display forms if successful, otherwise display error
-            if (response.ok) {
-                setForms(data.forms);
-            } else {
+                // Display forms if successful, otherwise display error
+                if (response.ok) {
+                    setForms(data.forms);
+                } else {
+                    setError({
+                        type: "get-forms",
+                        title: "Get forms error",
+                        message: data.error
+                    })
+                }
+            } catch (error) {
                 setError({
                     type: "get-forms",
-                    message: data.error
-                })
+                    title: "Get forms error",
+                    message: `Oops, something went wrong! Please try again or contact us for support at ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`
+                });
             }
+
+            setLoading(false);
         }
 
         getForms();
     }, []);
 
     return (
-        <>
-            <header className="bg-white shadow-sm border-b border-slate-200">
-                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 flex flex-row justify-between">
-                    <h1 className="text-lg font-semibold leading-6 text-gray-900">Dashboard</h1>
-                    <button
-                        className='btn btn-primary btn-sm ml-auto'
-                        onClick={() => document.getElementById('createFormModal').showModal()}>
-                        <FontAwesomeIcon icon={faPlus} />
-                        Create form
-                    </button>
-                </div>
-            </header>
-            <main>
+        <FormsContext.Provider value={{ forms, setForms }}>
+            <FormToDeleteContext.Provider value={{ formToDelete, setFormToDelete }}>
+                <header className="bg-white shadow-sm border-b border-slate-200">
+                    <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 flex flex-row justify-between">
+                        <h1 className="text-lg font-semibold leading-6 text-gray-900">Dashboard</h1>
+                        <button
+                            className='btn btn-primary btn-sm ml-auto'
+                            onClick={() => document.getElementById('createFormModal').showModal()}>
+                            <FontAwesomeIcon icon={faPlus} />
+                            Create form
+                        </button>
+                    </div>
+                </header>
+                <main>
+                    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                        <div>
+                            {/* {error && error.type === "get-forms" ? 
+                            <Alert type="danger" title={error.title} message={error.message} /> :
+                            <ul role="list" className="divide-y divide-gray-100">
+                                {forms.map((form) => <Form key={form._id} form={form} />)}
+                            </ul>} */}
+                            <DashboardBody forms={forms} error={error} loading={loading} />
+                        </div>
+                    </div>
+                </main>
+                {/* Form creation modal */}
+                <CreateFormModal />
+                {/* Form deletion modal */}
+                <DeleteFormModal/>
+            </FormToDeleteContext.Provider>
+        </FormsContext.Provider>
+    );
+}
+
+const DashboardBody = ({forms, error, loading}) => {
+    if (forms.length === 0) {
+        if (loading) {
+            return (
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                    <div>
-                        <ul role="list" className="divide-y divide-gray-100">
-                            {forms.map((form) => (
-                                <li key={form._id} className="flex items-center justify-between gap-x-6 py-5">
-                                    <div className="min-w-0">
-                                        <div className="flex items-start gap-x-3">
-                                            <p className="text-sm font-semibold leading-6 text-gray-900">{form.title}</p>
-                                        </div>
-                                        <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                                            <p className="whitespace-nowrap">
-                                                Last updated on <time dateTime={form.lastUpdated}>{form.lastUpdated}</time>
-                                            </p>
-                                            <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
-                                                <circle cx={1} cy={1} r={1} />
-                                            </svg>
-                                            <p className="truncate">Created by {form.createdBy}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-none items-center gap-x-4">
-                                        <Link href={`/form/${form._id}/edit`}
-                                        className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-                                        >
-                                        View form<span className="sr-only">, {form.name}</span>
-                                        </Link>
-                                        <div className="dropdown dropdown-end">
-                                            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-                                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                                            </div>
-                                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white text-black text-xs rounded-md border border-slate-100 w-52">
-                                                <li><Link href="#">
-                                                    <FontAwesomeIcon icon={faPen} />
-                                                    Edit form
-                                                </Link></li>
-                                                <li><Link href="#">
-                                                    <FontAwesomeIcon icon={faTrashCan} />
-                                                    Delete form
-                                                </Link></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="text-center">
+                        <p>Loading forms...</p>
                     </div>
                 </div>
-            </main>
-            {/* Form creation modal */}
-            <CreateFormModal />
-        </>
+            );
+        } else {
+            return <Alert type="warning" title="No forms found" message="You haven't created any forms yet. Click the button above to create a new form." />;
+        }
+    }
+
+    if (error && error.type === "get-forms") {
+        return <Alert type="danger" title={error.title} message={error.message} />;
+    }
+
+    return (
+        <ul role="list" className="divide-y divide-gray-100">
+            {forms.map((form) => <Form key={form._id} form={form} />)}
+        </ul>
     );
 }

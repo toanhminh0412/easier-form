@@ -19,7 +19,7 @@ export async function GET(req) {
     // Get all forms that this user can edit
     // NOTE: For now, users can only edit forms that they create
     try {
-        const forms = await Form.find({ createdBy: user._id }).exec();
+        const forms = await Form.find({ createdBy: user._id }).sort({ lastUpdated: -1 }).exec();
         
         // Replace createdBy field with user's email to display on the frontend
         for (let i = 0; i < forms.length; i++) {
