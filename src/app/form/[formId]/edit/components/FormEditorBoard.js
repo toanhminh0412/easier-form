@@ -21,11 +21,16 @@ export default function FormEditorBoard() {
     const [layoutHeight, setLayoutHeight] = useState(1200);
 
     useEffect(() => {
-        // Update layout height when layout items change
-        updateLayoutHeight(layoutItems.lg, 400);
+        // Add a 400px bottom padding to layout when in edit mode
+        // to make space for dragging and dropping items
+        if (mode === "edit") {
+            updateLayoutHeight(layoutItems.lg, 400);
+        } else {
+            updateLayoutHeight(layoutItems.lg, 50);
+        }
     }, [layoutItems]);
 
-    // Maintain a 400 px padding at the bottom of the layout 
+    // Maintain a padding at the bottom of the layout 
     const updateLayoutHeight = (layout, paddingBottom) => {
         const maxY = Math.max(...layout.map(item => item.y + item.h));
         setLayoutHeight(maxY * rowHeight + paddingBottom);
@@ -122,7 +127,7 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20 shadow-lg w-full`}
+                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-12 shadow-lg w-full`}
                 style={{ height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
