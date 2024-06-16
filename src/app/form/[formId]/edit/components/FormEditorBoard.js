@@ -149,7 +149,6 @@ export default function FormEditorBoard() {
 
     return (
         <div onClick={closeEditBar} tabIndex={0} onKeyDown={e => {
-            console.log(e.key)
             if (e.key === "Backspace" && formActiveItem) {
                 deleteActiveItem();
             }
@@ -166,7 +165,6 @@ export default function FormEditorBoard() {
                 onDrop={onDrop}
                 onDragStop={onDragStop}
                 onResizeStop={onResizeStop}
-                onLayoutChange={() => console.log("layout changed")}
                 compactType={null}
                 allowOverlap={true}
                 autoSize={true}
