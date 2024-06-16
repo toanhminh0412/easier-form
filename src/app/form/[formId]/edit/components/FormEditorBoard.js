@@ -127,7 +127,7 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-12 shadow-lg w-full`}
+                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} shadow-lg w-full`}
                 style={{ height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
@@ -161,7 +161,7 @@ export default function FormEditorBoard() {
                     </div>
                 ))}
             </ResponsiveGridLayout>
-            {mode === "preview" ? <div className="text-center mb-40">
+            {mode === "preview" ? <div className="text-center mb-40 mt-12">
                 <button className="btn btn-primary">Submit</button>
             </div> : null}
         </div>

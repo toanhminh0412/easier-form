@@ -13,12 +13,12 @@ export default function Sidebar({ open }) {
     if (!open) return null
 
     return (
-        <div id="sidebar" className="absolute top-0 left-0 z-30">
+        <div id="sidebar" className="absolute top-0 left-0 z-30 max-h-full overflow-scroll">
             <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
                 <h1 className="text-md font-semibold w-fit text-white">Add elements</h1>
                 <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white"></FontAwesomeIcon>
             </div>
-            <ul className="menu p-4 w-60 min-h-full bg-base-100 text-base-content">
+            <ul className="menu p-4 w-60 bg-base-100 text-base-content">
                 {/* Basic fields */}
                 <li className="menu-title text-gray-300">Basic fields</li>
                 <DraggableItem type="short-text"><FontAwesomeIcon icon={faPencil}/> Short text</DraggableItem>

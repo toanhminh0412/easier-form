@@ -12,6 +12,12 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      spacing: {
+        '30': '7.5rem',
+      },
+      inset: {
+        '30': '7.5rem',
+      },
     },
   },
   daisyui: {
@@ -21,7 +27,7 @@ module.exports = {
         primary: "rgb(67 56 202)",
         secondary: "rgb(29 78 216)",
         accent: "rgb(194 65 12)",
-      }
+      },
     }],
   },
   plugins: [
