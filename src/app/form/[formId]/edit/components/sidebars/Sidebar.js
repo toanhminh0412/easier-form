@@ -9,7 +9,14 @@ import { faXmark, faPencil, faAlignLeft,
     faCalendar, faClock, faCalendarAlt, faFileUpload
 } from "@fortawesome/free-solid-svg-icons"
 
-export default function Sidebar() {
+export default function Sidebar({ open=true }) {
+    console.log(open);
+    if (!open) return (
+        <div id="sidebar" className="drawer-side z-30">
+            <div className="w-60 h-full bg-slate-100"></div>
+        </div>
+    );
+
     return (
         <div id="sidebar" className="drawer-side z-30">
             <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
@@ -17,7 +24,7 @@ export default function Sidebar() {
                 <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white"></FontAwesomeIcon>
             </div>
             <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
-            <ul className="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
+            <ul className="menu p-4 w-60 min-h-full bg-base-100 text-base-content">
                 {/* Basic fields */}
                 <li className="menu-title text-gray-300">Basic fields</li>
                 <DraggableItem type="short-text"><FontAwesomeIcon icon={faPencil}/> Short text</DraggableItem>

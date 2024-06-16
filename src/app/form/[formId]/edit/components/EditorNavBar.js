@@ -51,8 +51,7 @@ export default function EditorNavbar({ form, setForm, savingState }) {
     }
 
     return (
-        <div className="sticky top-0 left-0 w-full h-14 bg-neutral px-3 flex flex-row justify-between">
-
+        <div className="absolute top-0 left-0 w-full h-14 bg-neutral px-3 flex flex-row justify-between">
             <div className="flex flex-row gap-10">
                 {/* Form title */}
                 <FormTitle form={form} setForm={setForm} />

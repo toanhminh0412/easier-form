@@ -23,12 +23,8 @@ export default function FormEditorBoard() {
 
     // Resize layout grid when window is resized
     const resizeGridLayout = () => {
-        if (mode === "edit") {
-            const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
-            setLayoutWidth(window.innerWidth - sidebarWidth);
-        } else {
-            setLayoutWidth(window.innerWidth);
-        }
+        const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
+        setLayoutWidth(window.innerWidth - sidebarWidth * 2);
     }
 
     useEffect(() => {
@@ -154,7 +150,7 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20`}
+                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20 shadow-lg`}
                 style={{ width: `${layoutWidth}px`, height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
