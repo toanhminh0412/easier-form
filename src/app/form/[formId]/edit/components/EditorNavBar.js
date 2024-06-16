@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useContext, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -7,7 +8,8 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext"
 import ModeContext from "../contexts/ModeContext";
 import SidebarOpenContext from "../contexts/SidebarOpenContext";
-import { faEye, faCode, faPen, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faCode, faPen, faCheck, faXmark, faEllipsis } from "@fortawesome/free-solid-svg-icons"
+
 
 export default function EditorNavbar({ form, setForm, savingState }) {
     const { setLayoutItems } = useContext(LayoutItemsContext);
@@ -75,9 +77,10 @@ export default function EditorNavbar({ form, setForm, savingState }) {
             </div>
             
             
-            <div className="flex flex-row gap-2 my-auto">
-                <button 
-                    className="btn btn-sm btn-primary text-white"
+            <div className="flex flex-row gap-3 md:gap-8 my-auto mr-2 md:mr-4">
+                {/* Preview/Edit button */}
+                <div 
+                    className="w-fit h-fit my-auto"
                     onClick={() => {
                         if (mode === "edit") {
                             previewForm();
@@ -85,23 +88,27 @@ export default function EditorNavbar({ form, setForm, savingState }) {
                             editForm();
                         }
                     }}>
-                    {mode === "edit" ?
-                        <>
-                            <FontAwesomeIcon icon={faEye} />
-                            Preview
-                        </> :
-                        <>
-                            <FontAwesomeIcon icon={faPen} />
-                            Edit
-                        </>
-                    }
-                </button>
-                <button 
-                    className="btn btn-sm btn-warning"
-                    onClick={()=>document.getElementById('form-json-modal').showModal()}>
-                    <FontAwesomeIcon icon={faCode} />
-                    View JSON
-                </button>
+                    {mode === "edit" ? 
+                        <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
+                        : 
+                        <FontAwesomeIcon icon={faPen} className="text-slate-200 hover:text-white duration-75"/>}
+                </div>
+
+                {/* More actions */}
+                <div className="dropdown dropdown-bottom dropdown-end">
+                    <div tabIndex={0} role="button" className="m-1">
+                        <FontAwesomeIcon icon={faEllipsis} className="text-slate-200 hover:text-white duration-75"/>
+                    </div>
+                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        {/* View JSON button */}
+                        <li>
+                            <Link href="#" onClick={()=>document.getElementById('form-json-modal').showModal()}>
+                                <FontAwesomeIcon icon={faCode} />
+                                View JSON
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     )
@@ -140,7 +147,7 @@ const FormTitle = ({ form, setForm }) => {
                     type="text" 
                     placeholder="Type here"
                     name="title"
-                    className="input input-bordered w-full max-w-xs" 
+                    className="input input-sm md:input-md input-bordered w-full max-w-xs" 
                     defaultValue={form.title}/>
             </form>
         )
@@ -148,7 +155,7 @@ const FormTitle = ({ form, setForm }) => {
 
     return (
         <div className="flex flex-col justify-center h-full" onClick={() => setMode("edit")}>
-            <h1 className="text-lg font-medium my-auto px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
+            <h1 className="text-base md:text-lg font-medium my-auto px-1 md:px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
         </div>
     )
 }

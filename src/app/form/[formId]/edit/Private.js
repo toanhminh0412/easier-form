@@ -128,22 +128,12 @@ export default function PrivatePage({ formId }) {
                     <ModeContext.Provider value={{mode, setMode}}>
                         <SidebarOpenContext.Provider value={{sidebarOpen, setSidebarOpen}}>
                             <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
-                            <main className="drawer drawer-open">
-                                <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                                <div className="drawer-content">
-                                    {/* Page content here */}
-                                    
-
-                                    <div className={`drawer drawer-end ${ formActiveItem ? "drawer-open" : "" } relative w-full`}>
-                                        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                                        <div className="drawer-content relative z-0 overflow-scroll pr-60 bg-slate-100">
-                                            {/* Page content here */}
-                                            <FormEditorBoard/>
-                                            <FormJSONModal json={layoutItems}/>
-                                        </div> 
-                                        <EditBar/>
-                                    </div>
+                            <main className="relative w-full">
+                                <div className="relative z-0 overflow-scroll bg-slate-100 lg:px-60">
+                                    <FormEditorBoard/>
+                                    <FormJSONModal json={layoutItems}/>
                                 </div>
+                                <EditBar open={formActiveItem !== null}/>
                                 <Sidebar open={sidebarOpen}/>
                             </main>
                         </SidebarOpenContext.Provider>

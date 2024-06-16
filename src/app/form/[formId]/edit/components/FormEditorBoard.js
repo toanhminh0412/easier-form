@@ -18,35 +18,7 @@ export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
     const { mode } = useContext(ModeContext);
-    const [layoutWidth, setLayoutWidth] = useState(800);
     const [layoutHeight, setLayoutHeight] = useState(1200);
-
-    // Resize layout grid when window is resized
-    const resizeGridLayout = () => {
-        const sidebarWidth = document.querySelector("#sidebar").offsetWidth;
-        setLayoutWidth(window.innerWidth - sidebarWidth * 2);
-    }
-
-    useEffect(() => {
-        resizeGridLayout();
-
-        // Add no padding to layout if the mode is preview
-        // Otherwise, add 400px bottom padding
-        if (mode === "preview") {
-            updateLayoutHeight(layoutItems.lg, 0);
-        } else {
-            updateLayoutHeight(layoutItems.lg, 400);
-        } 
-    }, [mode]);
-
-    useEffect(() => {
-        // Update layout width when window is resized
-        window.addEventListener("resize", resizeGridLayout);
-    
-        return () => {
-            window.removeEventListener("resize", resizeGridLayout);
-        }
-    }, []);
 
     useEffect(() => {
         // Update layout height when layout items change
@@ -150,8 +122,8 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20 shadow-lg`}
-                style={{ width: `${layoutWidth}px`, height: `${layoutHeight}px` }}
+                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} mb-20 shadow-lg w-full`}
+                style={{ height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
                 breakpoints={{ lg: 2000, md: 1300, sm: 900, xs: 500, xxs: 0 }}
