@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 
+import FormInfoContext from "./contexts/FormInfoContext";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
 import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
-import ModeContext from "./contexts/ModeContext";
 import SidebarOpenContext from "./contexts/SidebarOpenContext";
 import Sidebar from "@/app/form/[formId]/edit/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
@@ -16,12 +16,11 @@ import FormJSONModal from "./components/modals/FormJSONModal";
 export default function PrivatePage({ formId }) {
     const [form, setForm] = useState(null);
     const [loadFormError, setLoadFormError] = useState("");
-
+    const [formInfo, setFormInfo] = useState(null);
     const [layoutItems, setLayoutItems] = useState({
         lg: []
     });
     const [formActiveItem, setFormActiveItem] = useState(null);
-    const [mode, setMode] = useState("edit");
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const [savingState, setSavingState] = useState("saved");
@@ -34,6 +33,9 @@ export default function PrivatePage({ formId }) {
                 const data = await response.json();
                 console.log(data);
                 setForm(data.form);
+                const { layout, ...dataFormInfo } = data.form;
+                console.log(dataFormInfo);
+                setFormInfo(dataFormInfo);
                 setLayoutItems(data.form.layout);
             } else {
                 setLoadFormError(`${response.status} ${response.error ? response.error : response.statusText}`);
@@ -45,7 +47,7 @@ export default function PrivatePage({ formId }) {
     // If there is a change in form, wait for 1 second
     // If there is no new change, save the form
     useEffect(() => {
-        if (form && mode === "edit") {
+        if (form) {
             setSavingState("saving");
             const saveForm = async () => {
                 console.log("Saving form...");
@@ -81,6 +83,16 @@ export default function PrivatePage({ formId }) {
         });
     }, [layoutItems]);
 
+    // Update form when form info changes
+    useEffect(() => {
+        setForm(oldForm => {
+            return {
+                ...oldForm,
+                ...formInfo
+            }
+        });
+    }, [formInfo]);
+
     // Changes to the current active item result in changes to the layout items
     useEffect(() => {
         if (formActiveItem) {
@@ -107,7 +119,7 @@ export default function PrivatePage({ formId }) {
         setFormActiveItem(null);
     }
 
-    if (!form) {
+    if (!form || !formInfo) {
         if (loadFormError) {
             return (
                 <div className="flex justify-center items-center h-[90vh]">
@@ -124,9 +136,9 @@ export default function PrivatePage({ formId }) {
 
     return (
         <div className="relative pt-14">
-            <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
-                <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
-                    <ModeContext.Provider value={{mode, setMode}}>
+            <FormInfoContext.Provider value={{formInfo, setFormInfo}}>
+                <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
+                    <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
                         <SidebarOpenContext.Provider value={{sidebarOpen, setSidebarOpen}}>
                             <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
                             <main className="relative w-full">
@@ -139,9 +151,9 @@ export default function PrivatePage({ formId }) {
                                 <Sidebar open={sidebarOpen}/>
                             </main>
                         </SidebarOpenContext.Provider>
-                    </ModeContext.Provider>
-                </FormActiveItemContext.Provider>
-            </LayoutItemsContext.Provider>
+                    </FormActiveItemContext.Provider>
+                </LayoutItemsContext.Provider>
+            </FormInfoContext.Provider>
         </div>
     );
 }

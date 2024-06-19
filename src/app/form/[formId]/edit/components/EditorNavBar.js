@@ -1,62 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useContext, useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import FormInfoContext from "../contexts/FormInfoContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext"
-import ModeContext from "../contexts/ModeContext";
-import SidebarOpenContext from "../contexts/SidebarOpenContext";
-import { faEye, faCode, faPen, faCheck, faXmark, faEllipsis, faShareFromSquare } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare } from "@fortawesome/free-solid-svg-icons"
 
 
-export default function EditorNavbar({ form, setForm, savingState }) {
-    const { setLayoutItems } = useContext(LayoutItemsContext);
-    const { mode, setMode } = useContext(ModeContext);
-    const { setSidebarOpen } = useContext(SidebarOpenContext);
-
-    // Preview form by making all layout items static 
-    // and hide resize handles
-    const previewForm = () => {
-        setLayoutItems(oldLayoutItems => {
-            return {
-                lg: oldLayoutItems.lg.map(item => {
-                    return {
-                        ...item,
-                        static: true,
-                        resizeHandles: []
-                    }
-                })
-            }
-        });
-        setMode("preview");
-        setSidebarOpen(false);
-    }
-
-    // Edit form by making all layout items draggable
-    // and resizable
-    const editForm = () => {
-        setLayoutItems(oldLayoutItems => {
-            return {
-                lg: oldLayoutItems.lg.map(item => {
-                    return {
-                        ...item,
-                        static: false,
-                        resizeHandles: item.type !== "separator" ? ['sw', 'nw', 'se', 'ne'] : ['e', 'w']
-                    }
-                })
-            }
-        });
-        setMode("edit");
-        setSidebarOpen(true);
-    }
+export default function EditorNavbar({ savingState }) {
+    const { formInfo } = useContext(FormInfoContext);
 
     return (
         <div className="absolute top-0 left-0 w-full h-14 bg-neutral px-3 flex flex-row justify-between">
             <div className="flex flex-row gap-10">
                 {/* Form title */}
-                <FormTitle form={form} setForm={setForm} />
+                <FormTitle />
 
                 {/* Display saving state */}
                 <div className="flex flex-col justify-center">
@@ -78,21 +38,10 @@ export default function EditorNavbar({ form, setForm, savingState }) {
             
             
             <div className="flex flex-row gap-3 md:gap-8 my-auto mr-2 md:mr-4">
-                {/* Preview/Edit button */}
-                <div 
-                    className="w-fit h-fit my-auto"
-                    onClick={() => {
-                        if (mode === "edit") {
-                            previewForm();
-                        } else {
-                            editForm();
-                        }
-                    }}>
-                    {mode === "edit" ? 
-                        <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
-                        : 
-                        <FontAwesomeIcon icon={faPen} className="text-slate-200 hover:text-white duration-75"/>}
-                </div>
+                {/* Preview button */}
+                <Link href={`/form/${formInfo.domain}`} target="_blank" className="w-fit h-fit my-auto">
+                    <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
+                </Link>
 
                 {/* Share button */}
                 <div 
@@ -121,7 +70,8 @@ export default function EditorNavbar({ form, setForm, savingState }) {
     )
 }
 
-const FormTitle = ({ form, setForm }) => {
+const FormTitle = () => {
+    const { formInfo, setFormInfo } = useContext(FormInfoContext);
     const [mode, setMode] = useState("view");
 
     const formTitleRef = useRef(null);
@@ -134,9 +84,9 @@ const FormTitle = ({ form, setForm }) => {
     // Save form title when submitting title form
     const saveFormTitle = (e) => {
         e.preventDefault();
-        setForm(oldForm => {
+        setFormInfo(oldFormInfo => {
             return {
-                ...oldForm,
+                ...oldFormInfo,
                 title: e.target.title.value
             }
         });
@@ -155,14 +105,14 @@ const FormTitle = ({ form, setForm }) => {
                     placeholder="Type here"
                     name="title"
                     className="input input-sm md:input-md input-bordered w-full max-w-xs" 
-                    defaultValue={form.title}/>
+                    defaultValue={formInfo.title}/>
             </form>
         )
     }
 
     return (
         <div className="flex flex-col justify-center h-full" onClick={() => setMode("edit")}>
-            <h1 className="text-base md:text-lg font-medium my-auto px-1 md:px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{form.title}</h1>
+            <h1 className="text-base md:text-lg font-medium my-auto px-1 md:px-3 py-2 w-fit h-fit rounded-lg hover:bg-gray-900 cursor-pointer text-white">{formInfo.title}</h1>
         </div>
     )
 }

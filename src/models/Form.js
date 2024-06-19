@@ -26,6 +26,7 @@ const formSchema = new Schema({
         type: String,
         required: false,
         default: "",
+        unique: true
     },
     layout: {
         type: Schema.Types.Mixed

@@ -9,7 +9,6 @@ import { rowHeight } from "@/data/gridLayout";
 import gridItemData from "@/data/gridItemData";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
 import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
-import ModeContext from "../contexts/ModeContext";
 import FormField from "./formItems/FormField";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -17,17 +16,10 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
-    const { mode } = useContext(ModeContext);
     const [layoutHeight, setLayoutHeight] = useState(1200);
 
     useEffect(() => {
-        // Add a 400px bottom padding to layout when in edit mode
-        // to make space for dragging and dropping items
-        if (mode === "edit") {
-            updateLayoutHeight(layoutItems.lg, 400);
-        } else {
-            updateLayoutHeight(layoutItems.lg, 50);
-        }
+        updateLayoutHeight(layoutItems.lg, 400);
     }, [layoutItems]);
 
     // Maintain a padding at the bottom of the layout 
@@ -127,7 +119,7 @@ export default function FormEditorBoard() {
             }
         }}>
             <ResponsiveGridLayout 
-                className={`layout bg-white ${mode === "edit" ? "min-h-screen" : ""} shadow-lg w-full`}
+                className="layout bg-white min-h-screen shadow-lg w-full"
                 style={{ height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
                 rowHeight={rowHeight} 
@@ -145,7 +137,7 @@ export default function FormEditorBoard() {
                 {layoutItems.lg.map(item => (
                     <div 
                         key={item.i} 
-                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  ${mode === "edit" ? "hover:border-blue-400 cursor-move cursor-move-all hover:z-50 " : ""}`}
+                        className={`layout-item bg-white border-2 ${formActiveItem && formActiveItem.i === item.i ? "border-blue-400 z-50" : "border-white"}  hover:border-blue-400 cursor-move cursor-move-all hover:z-50`}
                         data-grid={{
                             x: item.x,
                             y: item.y,
@@ -161,9 +153,6 @@ export default function FormEditorBoard() {
                     </div>
                 ))}
             </ResponsiveGridLayout>
-            {mode === "preview" ? <div className="text-center mb-40 mt-12">
-                <button className="btn btn-primary">Submit</button>
-            </div> : null}
         </div>
     );
 }

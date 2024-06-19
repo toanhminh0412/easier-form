@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import FormInfoContext from "../../contexts/FormInfoContext";
 import Alert from "@/components/ui/Alert"
 
-export default function ShareModal({ currentDomain, formId }) {
-    const [domain, setDomain] = useState(currentDomain);
+export default function ShareModal() {
+    const { formInfo, setFormInfo } = useContext(FormInfoContext);
+
+    const [domain, setDomain] = useState(formInfo.domain || formInfo._id);
     const [loading, setLoading] = useState(false);
 
     const [success, setSuccess] = useState(false);
@@ -14,8 +17,8 @@ export default function ShareModal({ currentDomain, formId }) {
     // Update domain when currentDomain changes
     // curretDomain changes when form is loaded
     useEffect(() => {
-        setDomain(currentDomain);
-    }, [currentDomain]);
+        setDomain(formInfo.domain || formInfo._id);
+    }, [formInfo]);
 
     // Publish form
     const publishForm = async () => {
@@ -23,7 +26,7 @@ export default function ShareModal({ currentDomain, formId }) {
         setSuccess(false);
         setError(null);
         // Send an AJAX request to set the form domain
-        const response = await fetch(`/api/form/${formId}/publish`, {
+        const response = await fetch(`/api/form/${formInfo._id}/publish`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -33,6 +36,12 @@ export default function ShareModal({ currentDomain, formId }) {
 
         if (response.ok) {
             console.log("Form published successfully");
+            setFormInfo(oldFormInfo => {
+                return {
+                    ...oldFormInfo,
+                    domain
+                }
+            });
             setSuccess(true);
         } else {
             console.error("Error publishing form");
