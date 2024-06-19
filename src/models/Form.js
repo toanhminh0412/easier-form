@@ -22,10 +22,10 @@ const formSchema = new Schema({
         required: true,
         default: Date.now,
     },
-    published: {
-        type: Boolean,
-        required: true,
-        default: false,
+    domain: {
+        type: String,
+        required: false,
+        default: "",
     },
     layout: {
         type: Schema.Types.Mixed

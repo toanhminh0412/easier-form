@@ -8,7 +8,7 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext"
 import ModeContext from "../contexts/ModeContext";
 import SidebarOpenContext from "../contexts/SidebarOpenContext";
-import { faEye, faCode, faPen, faCheck, faXmark, faEllipsis } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faCode, faPen, faCheck, faXmark, faEllipsis, faShareFromSquare } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ form, setForm, savingState }) {
@@ -92,6 +92,13 @@ export default function EditorNavbar({ form, setForm, savingState }) {
                         <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
                         : 
                         <FontAwesomeIcon icon={faPen} className="text-slate-200 hover:text-white duration-75"/>}
+                </div>
+
+                {/* Share button */}
+                <div 
+                    className="w-fit h-fit my-auto"
+                    onClick={() => document.getElementById('shareModal').showModal()}>
+                    <FontAwesomeIcon icon={faShareFromSquare} className="text-slate-200 hover:text-white duration-75"/>
                 </div>
 
                 {/* More actions */}

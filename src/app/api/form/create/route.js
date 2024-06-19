@@ -19,6 +19,11 @@ export async function POST(req) {
     try {
         const form = new Form({ createdBy: user._id, layout: {lg: []} });
         await form.save();
+
+        // Set domain to form's id by default
+        form.domain = form._id.toString();
+        await form.save();
+
         return Response.json({ 
             message: "Form created successfully!",
             formId: form._id,

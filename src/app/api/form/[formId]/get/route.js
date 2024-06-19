@@ -24,7 +24,7 @@ export async function GET(req, { params }) {
 
     // Get the form
     try {
-        const form = await Form.findById(params.formId).exec();
+        const form = await Form.findById(params.formId);
         if (!form) {
             return Response.json({ error: "Form not found" }, { status: 404 });
         }
