@@ -18,7 +18,7 @@ export async function GET(req, { params }) {
         }
     }
 
-    const user = session.user;
+    const user = session ? session.user : null;
 
     await dbConnect();
 

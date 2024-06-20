@@ -6,10 +6,13 @@ import { useState } from "react";
 
 import { signIn as NextAuthSignIn } from "next-auth/react";
 
+import { redirectToHomeIfLoggedIn } from "@/helpers/routing";
 import { setCookie } from "@/serverActions/cookies";
 import Alert from "@/components/ui/Alert";
 
 export default function Page() {
+    redirectToHomeIfLoggedIn();
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
@@ -33,7 +36,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex min-h-full flex-1">
+        <div className="flex min-h-[95vh] flex-1">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
                     <div>

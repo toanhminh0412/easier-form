@@ -6,10 +6,13 @@ import { useState } from "react"
 
 import { signIn as NextAuthSignIn } from "next-auth/react";
 
+import { redirectToHomeIfLoggedIn } from "@/helpers/routing";
 import { setCookie } from "@/serverActions/cookies";
 import Alert from "@/components/ui/Alert"
 
 export default function Page() {
+    redirectToHomeIfLoggedIn();
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 

@@ -39,7 +39,7 @@ export default function EditorNavbar({ savingState }) {
             
             <div className="flex flex-row gap-3 md:gap-8 my-auto mr-2 md:mr-4">
                 {/* Preview button */}
-                <Link href={`/form/${formInfo.domain}`} target="_blank" className="w-fit h-fit my-auto">
+                <Link href={`/viewform/${formInfo.domain}`} target="_blank" className="w-fit h-fit my-auto">
                     <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
                 </Link>
 
