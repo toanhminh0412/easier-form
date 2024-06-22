@@ -10,7 +10,8 @@ export default function Textarea({ item }) {
                     id={item.i}
                     className="textarea textarea-bordered w-full h-full bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder={item.placeholder}
-                    aria-describedby={`${item.i}-description`}>
+                    aria-describedby={`${item.i}-description`}
+                    required = {item.required !== false}>
                 </textarea>                    
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>

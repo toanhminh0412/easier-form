@@ -8,7 +8,7 @@ export default function Radio({ item }) {
                 {item.options.map(option => 
                 <div key={option.id} className="flex flex-row gap-1">
                     <input
-                        id={option.id}
+                        id={`option-${item.i}-${option.id}`}
                         name={item.i}
                         type="radio"
                         value={option.value}

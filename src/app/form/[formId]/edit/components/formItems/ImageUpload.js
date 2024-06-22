@@ -15,6 +15,7 @@ export default function ImageUpload({ item }) {
                     accept="image/*"
                     className="file-input file-input-bordered file-input-sm w-full bg-white text-gray-900"
                     aria-describedby={`${item.i}-description`}
+                    required = {item.required !== false}
                 />
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>

@@ -208,7 +208,7 @@ const gridItemData = {
     "zip-code": {
         type: "zip-code",
         label: "Zip Code",
-        pattern: "([0-9][a-z][A-Z]){6}",
+        pattern: "^[a-zA-Z0-9]{6}$",
         placeholder: "Z12E3N",
         description: "Please enter your zip code",
         w: 12,

@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
 
+import { readResponseData } from "@/helpers/form";
 import { rowHeight } from "@/data/gridLayout";
 import FormField from "../../form/[formId]/edit/components/formItems/FormField";
+import Alert from "@/components/ui/Alert";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -14,6 +16,11 @@ export default function Page({ params }) {
     const [form, setForm] = useState(null);
     const [loadFormError, setLoadFormError] = useState("");
     const [layoutHeight, setLayoutHeight] = useState(1200);
+
+    // State for form submission
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(null);
 
     // Fetch form data
     useEffect(() => {
@@ -57,9 +64,53 @@ export default function Page({ params }) {
         );
     }
 
+    const submitForm = async (e) => {
+        e.preventDefault();
+
+        // Ignore form submission by pressing Enter
+        if (document.activeElement.type !== "submit") return;
+
+        // Render loading state and hide previous error
+        setLoading(true);
+        setError(null);
+
+        const responseData = readResponseData(form);
+        console.log(responseData);
+        // Send response data to the server
+        const response = await fetch("/api/response/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                form: form._id,
+                data: responseData
+            }),
+        });
+
+        // Hide loading state
+        setLoading(false);
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            
+            // Render success state
+            setSuccess(true);
+        } else {
+            console.error(`${response.status} ${response.error ? response.error : response.statusText}`);
+            
+            // Render error state
+            setError({
+                title: "Error submitting form",
+                message: `Please try again or contact us for support at ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`,
+            });
+        }
+    }
+
     return (
         <main className="relative w-full">
-            <div className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 min-h-screen">
+            <form onSubmit={submitForm} className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 min-h-screen">
                 <ResponsiveGridLayout 
                     className="layout bg-white shadow-lg w-full"
                     style={{ height: `${layoutHeight}px` }}
@@ -89,11 +140,17 @@ export default function Page({ params }) {
                     ))}
                 </ResponsiveGridLayout>
 
+                {/* Error alert */}
+                {error && <div className="mt-4"><Alert type="danger" title={error.title} message={error.message} /></div>}
+
+                {/* Success alert */}
+                {success && <div className="mt-4"><Alert type="success" title="Form submitted successfully!" message="Thank you for your response." /></div>}
+
                 {/* Submit button */}
                 <div className="w-full mt-8 text-center">
-                    <button className="btn btn-primary w-1/2 mx-auto">Submit</button>
+                    <button disabled={loading || success} type="submit" className="btn btn-primary mx-auto">Submit</button>
                 </div>
-            </div>
+            </form>
         </main>
     )
 }
