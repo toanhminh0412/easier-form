@@ -90,7 +90,7 @@ export default function ShareModal() {
 
                 <div className="mt-4 text-sm">
                     <p>Your form is hosted at:</p>
-                    <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}//{window.location.hostname}/viewform/{domain}</div>
+                    <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}&#47;&#47;{window.location.hostname}&#47;viewform&#47;{domain}</div>
                     <CopyToClipboard 
                         text={`${window.location.protocol}//${window.location.hostname}/viewform/${domain}`}
                         onCopy={() => console.log(`copied: ${domain}`)}>
