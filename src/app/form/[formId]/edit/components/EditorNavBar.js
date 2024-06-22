@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import FormInfoContext from "../contexts/FormInfoContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare } from "@fortawesome/free-solid-svg-icons"
+import { faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ savingState }) {
@@ -19,7 +19,7 @@ export default function EditorNavbar({ savingState }) {
                 <FormTitle />
 
                 {/* Display saving state */}
-                <div className="flex flex-col justify-center">
+                {savingState ? <div className="flex flex-col justify-center">
                     {savingState === "saving" ? 
                     <div className="text-slate-400 text-sm flex flex-row">
                         <span className="loading loading-spinner text-slate-400 loading-sm mr-2"></span>
@@ -33,7 +33,7 @@ export default function EditorNavbar({ savingState }) {
                         <FontAwesomeIcon icon={faXmark} className="mr-2"/>
                         Error saving form
                     </div>}
-                </div>
+                </div> : null}
             </div>
             
             
@@ -41,6 +41,11 @@ export default function EditorNavbar({ savingState }) {
                 {/* Preview button */}
                 <Link href={`/viewform/${formInfo.domain}`} target="_blank" className="w-fit h-fit my-auto">
                     <FontAwesomeIcon icon={faEye} className="text-slate-200 hover:text-white duration-75"/> 
+                </Link>
+
+                {/* View responses button */}
+                <Link href={`/form/${formInfo._id}/responses`} className="w-fit h-fit my-auto">
+                    <FontAwesomeIcon icon={faComment} className="text-slate-200 hover:text-white duration-75"/>
                 </Link>
 
                 {/* Share button */}

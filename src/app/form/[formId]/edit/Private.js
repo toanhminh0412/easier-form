@@ -68,7 +68,7 @@ export default function PrivatePage({ formId }) {
                 }
             }
                 
-            const timeout = setTimeout(saveForm, 1000);
+            const timeout = setTimeout(saveForm, 3000);
             return () => clearTimeout(timeout);
         }
     }, [form]);
@@ -142,7 +142,7 @@ export default function PrivatePage({ formId }) {
                         <SidebarOpenContext.Provider value={{sidebarOpen, setSidebarOpen}}>
                             <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
                             <main className="relative w-full">
-                                <div className="relative z-0 overflow-scroll bg-slate-100 lg:px-60">
+                                <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
                                     <FormEditorBoard/>
                                     <ShareModal currentDomain={form.domain} formId={formId}/>
                                     <FormJSONModal json={layoutItems}/>

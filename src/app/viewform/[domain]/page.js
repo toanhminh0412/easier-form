@@ -110,7 +110,7 @@ export default function Page({ params }) {
 
     return (
         <main className="relative w-full">
-            <form onSubmit={submitForm} className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 min-h-screen">
+            <form onSubmit={submitForm} className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 pb-20 min-h-screen">
                 <ResponsiveGridLayout 
                     className="layout bg-white shadow-lg w-full"
                     style={{ height: `${layoutHeight}px` }}

@@ -10,6 +10,7 @@ const readResponseData = (form) => {
     const responseData = [];
     for (const item of form.layout.lg) {
         let value = null;
+        const label = item.label ? item.label : item.description ? item.description : item.placeholder;
         switch (item.type) {
             case "short-text":
             case "long-text":
@@ -25,19 +26,19 @@ const readResponseData = (form) => {
             case "date-time":
             case "dropdown":
                 value = document.getElementById(item.i).value;
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "checkbox":
             case "toggle":
                 value = document.getElementById(item.i).checked;
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "radio":
                 const selectedInput = document.querySelector(`input[name="${item.i}"]:checked`);
                 if (selectedInput) {
                     value = selectedInput.value;
                 }
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "multiple-choices":
                 value = [];
@@ -46,7 +47,7 @@ const readResponseData = (form) => {
                         value.push(option.value);
                     }
                 }
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "single-choice-grid":
                 value = [];
@@ -58,7 +59,7 @@ const readResponseData = (form) => {
                         value.push({ row: row.text, col: colText });
                     }
                 }
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "multiple-choices-grid":
                 value = [];
@@ -71,13 +72,13 @@ const readResponseData = (form) => {
                     }
                     value.push({ row: row.text, cols: cols });
                 }
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "pdf-file-upload":
             case "image-upload":
                 // Get file source
                 value = document.getElementById(item.i).files[0];
-                responseData.push({ id: item.i, label: item.label, type: item.type, value: value });
+                responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             default:
                 continue;
@@ -86,4 +87,37 @@ const readResponseData = (form) => {
     return responseData;
 }
 
-export {readResponseData};
+/* Convert responses to a table
+    * 
+    * @param {Object} form - A form object
+    * @param {Array} responses - An array of responses
+    * @returns {Object} - A table object {rows: Array, cols: Array}
+*/
+const convertResponsesToAgGridTable = (form, responses) => {
+    const cols = [];
+    const rows = [];
+
+    // Set all form fields as columns
+    for (const item of form.layout.lg) {
+        if (item.label) {
+            cols.push({ headerName: item.label, field: item.label });
+        } else if (item.description) {
+            cols.push({ headerName: item.description, field: item.description });
+        } else if (item.placeholder) {
+            cols.push({ headerName: item.placeholder, field: item.placeholder });
+        }
+    }
+
+    // Set all row data
+    for (const response of responses) {
+        const row = {};
+        for (const item of response.data) {
+            row[item.label] = String(item.value);
+        }
+
+        rows.push(row);
+    }
+    return { rows, cols };
+}
+
+export {readResponseData, convertResponsesToAgGridTable};
