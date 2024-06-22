@@ -99,12 +99,19 @@ const convertResponsesToAgGridTable = (form, responses) => {
 
     // Set all form fields as columns
     for (const item of form.layout.lg) {
+        const col = { headerName: "", field: "" };
         if (item.label) {
-            cols.push({ headerName: item.label, field: item.label });
+            col.headerName = item.label;
+            col.field = item.label;
+            cols.push(col);
         } else if (item.description) {
-            cols.push({ headerName: item.description, field: item.description });
+            col.headerName = item.description;
+            col.field = item.description;
+            cols.push(col);
         } else if (item.placeholder) {
-            cols.push({ headerName: item.placeholder, field: item.placeholder });
+            col.headerName = item.placeholder;
+            col.field = item.placeholder;
+            cols.push(col);
         }
     }
 
