@@ -39,7 +39,12 @@ export default function DeleteFormModal() {
                 <div className="mt-2">
                     {error && <Alert type="danger" title={error.title} message={error.message} />}
                 </div>
-                {formToDelete ? <p className="py-4">Are you sure you want to delete <strong>{formToDelete.title}</strong> form?</p> : <p className="py-4">Loading...</p>}
+                {formToDelete ? 
+                    <div>
+                        <p className="py-4">Are you sure you want to delete <strong>{formToDelete.title}</strong> form?</p>
+                        <p><strong>Note: </strong>Delete this form will delete all responses that are associated it.</p>
+                    </div>
+                    : <p className="py-4">Loading...</p>}
                 <div className="modal-action">
                     <button
                         className="btn btn-error"

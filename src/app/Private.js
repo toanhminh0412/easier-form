@@ -105,7 +105,7 @@ const DashboardBody = ({forms, error, loading}) => {
                 </div>
             );
         } else {
-            return <Alert type="warning" title="No forms found" message="You haven't created any forms yet. Click the button above to create a new form." />;
+            return <Alert type="warning" title="No forms found" message="You haven't created any forms yet. Click the 'Create form' button above to create a new form." />;
         }
     }
 
