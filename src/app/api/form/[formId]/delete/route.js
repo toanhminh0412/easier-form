@@ -3,6 +3,7 @@ import authOptions from "@/app/api/auth/[...nextauth]/options";
 
 import dbConnect from "@/lib/dbConnect";
 import { Form } from "@/models/Form";
+import { Response as ResponseModel } from "@/models/Response";
 
 export async function DELETE(req, { params }) {
     const formId = params.formId;
@@ -29,6 +30,9 @@ export async function DELETE(req, { params }) {
         if (form.createdBy.toString() !== user._id.toString()) {
             return Response.json({ error: "Unauthorized. You are not the owner of this form." }, { status: 401 });
         }
+
+        // Delete all form's responses
+        await ResponseModel.deleteMany({ form: formId }).exec();
 
         await Form.deleteOne({ _id: formId }).exec();
 
