@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import { Form } from "@/models/Form";
 
-export async function GET(req, { params }) {
+export async function GET(req) {
     const domain = req.nextUrl.searchParams.get("domain");
 
     await dbConnect();

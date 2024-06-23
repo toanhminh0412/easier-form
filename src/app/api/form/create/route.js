@@ -13,11 +13,24 @@ export async function POST(req) {
 
     const user = session.user;
 
+    const type = req.nextUrl.searchParams.get("type");
+    let layout = {lg: []};
+
+    if (type === 'json') {
+        const body = await req.json();
+        layout = body.layout;
+
+        // 400: Missing JSON file for importing JSON for form creation
+        if (!layout) {
+            return Response.json({ error: "Missing JSON file for importing JSON for form creation" }, { status: 400 });
+        }
+    }
+
     await dbConnect();
 
     // Create a new form for this user
     try {
-        const form = new Form({ createdBy: user._id, layout: {lg: []} });
+        const form = new Form({ createdBy: user._id, layout: layout });
         await form.save();
 
         // Set domain to form's id by default

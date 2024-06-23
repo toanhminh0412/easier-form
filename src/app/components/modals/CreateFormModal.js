@@ -2,32 +2,83 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Alert from "@/components/ui/Alert";
+import CreateFormOptions from "./CreateFormOptions";
 
 export default function CreateFormModal() {
     const router = useRouter();
 
+    const [selectedOption, setSelectedOption] = useState('scratch');
+    const [jsonFileContent, setJsonFileContent] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Create a new form
     const createForm = async () => {
         setLoading(true);
         setError(null);
-        const response = await fetch('/api/form/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            const formId = data.formId;
-            router.push(`/form/${formId}/edit`);
+
+        // Create a blank form
+        if (selectedOption === 'scratch') {
+            const response = await fetch(`/api/form/create?type=${selectedOption}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                const formId = data.formId;
+                router.push(`/form/${formId}/edit`);
+            } else {
+                const error = await response.json();
+                setError({ title: "Form creation error", message: error.error });
+            }
+        } 
+        
+        // Create a form from a JSON file
+        // The new form will have fields that are specified in the JSON file
+        else if (selectedOption === 'json') {
+            const response = await fetch(`/api/form/create?type=${selectedOption}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ layout: jsonFileContent })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                const formId = data.formId;
+                router.push(`/form/${formId}/edit`);
+            } else {
+                const error = await response.json();
+                setError({ title: "Form creation error", message: error.error });
+            }
         } else {
-            const error = await response.json();
-            setError({ title: "Form creation error", message: error.error });
+            console.error('Invalid form creation option:', selectedOption);
         }
         setLoading(false);
+    }
+
+    // Upload a JSON file for import
+    const uploadJsonFile = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type === 'application/json') {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const json = JSON.parse(e.target.result);
+                    setJsonFileContent(json);
+                    console.log('File content:', json);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            console.error('Please upload a valid JSON file.');
+        }
     }
 
     return (
@@ -42,31 +93,26 @@ export default function CreateFormModal() {
                     {error && <Alert type="danger" title={error.title} message={error.message} />}
                 </div>
                 <p className="py-4">Select how you want to create your amazing form</p>
-                <div className="flex flex-col md:flex-row justify-center gap-4">
-                    
-                    {/* Create from scratch */}
-                    <div className="card min-w-[120px] w-full md:w-1/2 bg-primary border-4 border-info cursor-pointer">
-                        <div className="card-body">
-                            <h2 className="card-title">Create from scratch</h2>
-                            <p>Start from scratch, use your creativity and build your own personal and customized form. Publish for others to use as you wish!</p>
-                        </div>
-                    </div>
 
-                    {/* Create form a template */}
-                    <div className="card min-w-[120px] w-full md:w-1/2 bg-primary opacity-50 cursor-pointer">
-                        <div className="card-body">
-                            <h2 className="card-title">Use prebuilt templates (Coming soon!)</h2>
-                            <p>Use one of our prebuilt professional form templates customized to your specific need so you can start collecting answers with as little effort as possible!</p>
-                        </div>
-                    </div>
+                <CreateFormOptions selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
 
-                </div>
+                <label className={`form-control w-full max-w-xs ${selectedOption !== 'json' ? 'hidden' : ''}`}>
+                    <div className="label">
+                        <span className="label-text">Upload your JSON file</span>
+                    </div>
+                    <input 
+                        type="file"
+                        accept="application/json"
+                        className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                        onChange={uploadJsonFile}/>
+                </label>
 
                 {/* Action buttons */}
                 <div className="modal-action">
                     <button 
                         className="btn btn-secondary"
-                        onClick={createForm}>
+                        onClick={createForm}
+                        disabled={selectedOption === 'json' && !jsonFileContent}>
                         {loading ? "Creating form..." : "Create form"}
                     </button>
                 </div>
