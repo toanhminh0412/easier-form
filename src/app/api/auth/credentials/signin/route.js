@@ -11,7 +11,7 @@ export async function POST(req) {
     // Find an user with email
     const user = await User.findOne({ email: email }).exec();
     if (!user) {
-        return Response.json({ error: "User does not exist. Please sign up!" }, { status: 400 });
+        return Response.json({ error: "Email does not exist. Please sign up!" }, { status: 400 });
     }
 
     // Check if the password is correct
