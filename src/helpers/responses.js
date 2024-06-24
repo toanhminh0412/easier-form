@@ -87,7 +87,7 @@ const readResponseData = (form) => {
     return responseData;
 }
 
-/* Convert responses to a table
+/* Convert responses to an AGGrid table
     * 
     * @param {Object} form - A form object
     * @param {Array} responses - An array of responses
@@ -127,4 +127,43 @@ const convertResponsesToAgGridTable = (form, responses) => {
     return { rows, cols };
 }
 
-export {readResponseData, convertResponsesToAgGridTable};
+// Helper function to escape values
+// that contain commas, quotes, or newlines
+const escapeCSVValue = (value) => {
+    if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
+      return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
+};
+
+/* Convert responses to CSV
+    * 
+    * @param {Object} form - A form object
+    * @param {Array} responses - An array of responses
+    * @returns {String} - A CSV string
+*/
+const convertResponsesToCsv = (form, responses) => {
+    const csv = [];
+    const header = [];
+    for (const item of form.layout.lg) {
+        if (item.label) {
+            header.push(item.label);
+        } else if (item.description) {
+            header.push(item.description);
+        } else if (item.placeholder) {
+            header.push(item.placeholder);
+        }
+    }
+    csv.push(header.join(","));
+    for (const response of responses) {
+        const row = [];
+        for (const item of response.data) {
+            const value = escapeCSVValue(item.value);
+            row.push(value);
+        }
+        csv.push(row.join(","));
+    }
+    return csv.join("\n");
+}
+
+export {readResponseData, convertResponsesToAgGridTable, convertResponsesToCsv};

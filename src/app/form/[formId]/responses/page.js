@@ -1,10 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import FormContext from "./contexts/FormContext";
+import ResponsesContext from "./contexts/ResponsesContext";
 import ResponsesNavbar from "./components/ResponsesNavbar";
 import ResponsesTable from "./components/ResponsesTable";
+import ResponsesViewOptionsDropdown from "./components/ResponsesViewOptionsDropdown";
+
 
 export default function Page({ params }) {
     const formId = params.formId;
@@ -77,13 +81,27 @@ export default function Page({ params }) {
     return (
         <div className="relative pt-14">
             <FormContext.Provider value={{ form, setForm }}>
-                <ResponsesNavbar />
-                <main className="relative w-full lg:w-11/12 mx-auto mt-8">
-                    <div className="prose mb-8">
-                        <h1 className="text-black">{responses.length} response{responses.length > 1 ? "s" : ""}</h1>
-                    </div>
-                    <ResponsesTable form={form} responses={responses} />
-                </main>
+                <ResponsesContext.Provider value={{ responses }}>
+                    <ResponsesNavbar />
+                    <main className="relative w-full lg:w-11/12 mx-auto mt-8">
+                        <div className="bg-white p-4 border border-gray-300 shadow-sm rounded-md flex flex-col gap-3 md:gap-0 md:flex-row justify-between mb-8">
+                            {/* Total responses */}
+                            <div className="prose">
+                                <h3 className="text-black">{responses.length} response{responses.length > 1 ? "s" : ""}</h3>
+                            </div>
+
+                            {/* View responses options */}
+                            <div role="tablist" className="tabs tabs-bordered">
+                                <Link href="#" role="tab" className="tab tab-active text-black">Table</Link>
+                                <Link href="#" role="tab" className="tab text-black">Form</Link>
+                            </div>
+
+                            {/* Action buttons */}
+                            <ResponsesViewOptionsDropdown/>
+                        </div>
+                        <ResponsesTable form={form} responses={responses} />
+                    </main>
+                </ResponsesContext.Provider>
             </FormContext.Provider>
         </div>
     )
