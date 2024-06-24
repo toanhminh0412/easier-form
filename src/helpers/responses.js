@@ -166,4 +166,36 @@ const convertResponsesToCsv = (form, responses) => {
     return csv.join("\n");
 }
 
-export {readResponseData, convertResponsesToAgGridTable, convertResponsesToCsv};
+/* Convert responses to Excel following format of json-as-xlsx
+    * 
+    * @param {Object} form - A form object
+    * @param {Array} responses - An array of responses
+    * @returns {Object} - An Excel object
+*/
+const convertResponsesToExcel = (form, responses) => {
+    const sheet = `${form.title} Responses`;
+    const columns = [];
+    const content = [];
+
+    for (const item of form.layout.lg) {
+        if (item.label) {
+            columns.push({ label: item.label, value: item.label });
+        } else if (item.description) {
+            columns.push({ label: item.description, value: item.description });
+        } else if (item.placeholder) {
+            columns.push({ label: item.placeholder, value: item.placeholder });
+        }
+    }
+
+    for (const response of responses) {
+        const row = {};
+        for (const item of response.data) {
+            row[item.label] = item.value;
+        }
+        content.push(row);
+    }
+
+    return { sheet, columns, content };
+}
+
+export {readResponseData, convertResponsesToAgGridTable, convertResponsesToCsv, convertResponsesToExcel};

@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import { useContext } from 'react'
 
+import xlsx from 'json-as-xlsx'
+
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 import FormContext from '../contexts/FormContext'
 import ResponsesContext from '../contexts/ResponsesContext'
-import { convertResponsesToCsv } from '@/helpers/responses'
+import { convertResponsesToCsv, convertResponsesToExcel } from '@/helpers/responses'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -30,6 +32,24 @@ export default function ResponsesViewOptionsDropdown() {
         element.download = `${formattedFormTitle}.csv`;
         document.body.appendChild(element);
         element.click();
+    }
+
+    const downloadExcel = () => {
+        const excel = convertResponsesToExcel(form, responses);
+        console.log(excel);
+
+        // Strip spaces and replace with underscore and convert to lowercase
+        // for the file name
+        const formattedFormTitle = form.title.replace(/ /g, "_").toLowerCase();
+
+        const settings = {
+            fileName: formattedFormTitle, // Name of the resulting spreadsheet
+            extraLength: 3, // A bigger number means that columns will be wider
+            writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+            writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+            RTL: false, // Display the columns from right-to-left (the default value is false)
+        }
+        xlsx([excel], settings);
     }
 
     return (
@@ -72,6 +92,7 @@ export default function ResponsesViewOptionsDropdown() {
                         <Link
                             href="#"
                             className={classNames(focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
+                            onClick={downloadExcel}
                         >
                             Download Excel
                         </Link>
