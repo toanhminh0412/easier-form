@@ -24,16 +24,16 @@ import DateTime from "./DateTime";
 import PDFFileUpload from "./PDFFileUpload";
 import ImageUpload from "./ImageUpload";
 
-export default function FormField({ item }) {
+export default function FormField({ item, value }) {
     switch (item.type) {
         case "short-text":
-            return <TextInput item={item}/>
+            return <TextInput item={item} value={value}/>
         case "long-text":
-            return <Textarea item={item}/>
+            return <Textarea item={item} value={value}/>
         case "number":
-            return <Number item={item}/>
+            return <Number item={item} value={value}/>
         case "password":
-            return <Password item={item}/>
+            return <Password item={item} value={value}/>
         case "heading":
             return <Heading item={item}/>
         case "paragraph":
@@ -43,39 +43,39 @@ export default function FormField({ item }) {
         case "separator":
             return <Separator item={item}/>
         case "checkbox":
-            return <Checkbox item={item}/>
+            return <Checkbox item={item} value={value}/>
         case "toggle":
-            return <Toggle item={item}/>
+            return <Toggle item={item} value={value}/>
         case "dropdown":
-            return <Dropdown item={item}/>
+            return <Dropdown item={item} value={value}/>
         case "radio":
-            return <Radio item={item}/>
+            return <Radio item={item} value={value}/>
         case "multiple-choices":
-            return <MultipleChoices item={item}/>
+            return <MultipleChoices item={item} value={value}/>
         case "single-choice-grid":
-            return <SingleChoiceGrid item={item}/>
+            return <SingleChoiceGrid item={item} value={value}/>
         case "multiple-choices-grid":
-            return <MultipleChoicesGrid item={item}/>
+            return <MultipleChoicesGrid item={item} value={value}/>
         case "email":
-            return <Email item={item}/>
+            return <Email item={item} value={value}/>
         case "phone":
-            return <Phone item={item}/>
+            return <Phone item={item} value={value}/>
         case "address":
-            return <Address item={item}/>
+            return <Address item={item} value={value}/>
         case "zip-code":
-            return <Zipcode item={item}/>
+            return <Zipcode item={item} value={value}/>
         case "website":
-            return <Website item={item}/>
+            return <Website item={item} value={value}/>
         case "date":
-            return <Date item={item}/>
+            return <Date item={item} value={value}/>
         case "time":
-            return <Time item={item}/>
+            return <Time item={item} value={value}/>
         case "date-time":
-            return <DateTime item={item}/>
+            return <DateTime item={item} value={value}/>
         case "pdf-file-upload":
-            return <PDFFileUpload item={item}/>
+            return <PDFFileUpload item={item} value={value}/>
         case "image-upload":
-            return <ImageUpload item={item}/>
+            return <ImageUpload item={item} value={value}/>
 
         default:
             return <div>Unknown item type</div>;

@@ -1,4 +1,4 @@
-export default function MultipleChoices({ item }) {
+export default function MultipleChoices({ item, value=null }) {
     // Users can select multiple options
     return (
         <div>
@@ -13,6 +13,8 @@ export default function MultipleChoices({ item }) {
                             name={item.i}
                             type="checkbox"
                             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            defaultChecked={value.includes(option.value)}
+                            disabled={value !== null}
                         />
                         <label htmlFor={`${item.i}-${index}`} className="ml-2 block text-sm text-gray-900">
                             {option.label}

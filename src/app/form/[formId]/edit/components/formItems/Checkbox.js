@@ -1,4 +1,4 @@
-export default function Checkbox({item}) {
+export default function Checkbox({ item, value=null }) {
     return (
         <div>
             <div className="flex items-center">
@@ -7,6 +7,8 @@ export default function Checkbox({item}) {
                     name={item.i}
                     type="checkbox"
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    defaultChecked={value}
+                    disabled={value !== null}
                 />
                 <label htmlFor={item.i} className="ml-2 block text-sm text-gray-900">
                     {item.label}

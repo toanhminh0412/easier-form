@@ -1,4 +1,11 @@
-export default function MultipleChoicesGrid({ item }) {
+export default function MultipleChoicesGrid({ item, value=null }) {
+    // Get all selected cols for each row
+    const getRowValues = (rowText) => {
+        if (value === null) return [];
+        const rowValObj = value.find(v => v.row === rowText);
+        return rowValObj ? rowValObj.cols : [];
+    }
+
     // A table where each cell is a checkbox
     return (
         <div>
@@ -33,6 +40,8 @@ export default function MultipleChoicesGrid({ item }) {
                                                 name={`${item.i}-${row.id}`}
                                                 id={`${item.i}-${row.id}-${col.id}`}
                                                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                defaultChecked={getRowValues(row.text).includes(col.text)}
+                                                disabled={value !== null}
                                             />
                                         </div>
                                     </td>

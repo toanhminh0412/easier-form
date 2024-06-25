@@ -1,4 +1,4 @@
-export default function Website({ item }) {
+export default function Website({ item, value=null }) {
     return (
         <div>
             <label
@@ -16,6 +16,8 @@ export default function Website({ item }) {
                     placeholder={item.placeholder}
                     aria-describedby={`${item.i}-description`}
                     required = {item.required !== false}
+                    disabled={value !== null}
+                    defaultValue={value !== null ? value : ""}
                 />
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>

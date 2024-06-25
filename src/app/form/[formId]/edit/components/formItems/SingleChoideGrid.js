@@ -1,4 +1,11 @@
-export default function SingleChoiceGrid({ item }) {
+export default function SingleChoiceGrid({ item, value=null }) {
+    // Get the selected col for a row
+    const getRowValue = (rowText) => {
+        if (value === null) return null;
+        const rowValObj = value.find(v => v.row === rowText);
+        return rowValObj ? rowValObj.col : null;
+    }
+    
     // A table where each cell is a radio button
     return (
         <div>
@@ -33,6 +40,8 @@ export default function SingleChoiceGrid({ item }) {
                                                 name={`${item.i}-${row.id}`}
                                                 id={`${item.i}-${row.id}-${col.id}`}
                                                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                defaultChecked={col.text === getRowValue(row.text)}
+                                                disabled={value !== null}
                                             />
                                         </div>
                                     </td>

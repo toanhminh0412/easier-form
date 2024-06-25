@@ -1,4 +1,17 @@
-export default function PDFFileUpload({ item }) {
+import Link from "next/link";
+
+export default function PDFFileUpload({ item, value=null }) {
+    // Download the file
+    if (value) {
+        return (
+            <div>
+                <Link href={value} target="_blank">
+                    <a className="text-indigo-600 hover:text-indigo-900">{item.label}</a>
+                </Link>
+            </div>
+        )
+    }
+    
     return (
         <div>
             <label

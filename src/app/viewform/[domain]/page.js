@@ -124,7 +124,7 @@ export default function Page({ params }) {
                     {form.layout.lg.map(item => (
                         <div 
                             key={item.i} 
-                            className={`layout-item bg-white border-2 border-white cursor-move cursor-move-all hover:z-50`}
+                            className={`layout-item bg-white border-2 border-white hover:z-50`}
                             data-grid={{
                                 x: item.x,
                                 y: item.y,

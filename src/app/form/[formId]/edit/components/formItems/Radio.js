@@ -1,4 +1,4 @@
-export default function Radio({ item }) {
+export default function Radio({ item, value=null }) {
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900 mb-3">
@@ -13,6 +13,8 @@ export default function Radio({ item }) {
                         type="radio"
                         value={option.value}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        defaultChecked={option.value === value}
+                        disabled={value !== null}
                     />
                     <label htmlFor={option.value} className="ml-2 block text-sm text-gray-900">
                         {option.label}

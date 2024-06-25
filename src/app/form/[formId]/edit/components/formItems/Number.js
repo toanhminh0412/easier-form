@@ -1,4 +1,4 @@
-export default function Number({item}) {    
+export default function Number({ item, value=null }) {    
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
@@ -13,6 +13,8 @@ export default function Number({item}) {
                     placeholder={item.placeholder}
                     aria-describedby={`${item.i}-description`}
                     required = {item.required !== false}
+                    disabled={value !== null}
+                    defaultValue={value !== null ? value : ""}
                 />
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>

@@ -1,4 +1,18 @@
-export default function ImageUpload({ item }) {
+import Image from "next/image";
+
+export default function ImageUpload({ item, value=null }) {
+    // Display the image
+    if (value) {
+        return (
+            <Image
+                src={value}
+                alt={item.label}
+                width={200}
+                height={200}
+            />
+        )
+    }
+
     return (
         <div>
             <label
