@@ -73,7 +73,7 @@ const authOptions = {
                         existingUser.name = profile.name;
                     }
                     if (!existingUser.image) {
-                        existingUser.image = profile.image;
+                        existingUser.image = profile.picture;
                     }
                     if (!existingUser.isEmailVerified && profile.email_verified) {
                         existingUser.isEmailVerified = true;
@@ -84,7 +84,7 @@ const authOptions = {
                     const user = new User({
                         email: email,
                         name: profile.name,
-                        image: profile.image,
+                        image: profile.picture,
                         isEmailVerified: profile.email_verified
                     });
                     await user.save();

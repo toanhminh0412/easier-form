@@ -22,7 +22,7 @@ export async function POST(req) {
 
     // Create a new user
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-    const user = new User({ email: email, password: hashedPassword, isEmailVerified: true });
+    const user = new User({ email: email, password: hashedPassword, isEmailVerified: false });
     await user.save();
     return Response.json({ message: "Sign up successfully!" }, { status: 201 });
 }
