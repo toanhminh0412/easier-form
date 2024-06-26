@@ -8,7 +8,7 @@ import { deleteCookie } from "@/serverActions/cookies";
 export default function Navbar({ signedIn=false }) {
     const signOut = async () => {
         deleteCookie("signedIn");
-        await NextAuthSignOut();
+        await NextAuthSignOut({ redirect: true, callbackUrl: "/signin" });
     }
 
     return (

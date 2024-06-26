@@ -55,7 +55,7 @@ export default function VerifyEmail() {
     useEffect(() => {
         const signOut = async () => {
             deleteCookie("signedIn");
-            await NextAuthSignOut();
+            await NextAuthSignOut({ redirect: true, callbackUrl: "/signin" });
         }
 
         if (failedTrials >= 3) {
