@@ -57,7 +57,7 @@ const authOptions = {
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
+        async signIn({ account, profile }) {
             // Handle Google sign in
             if (account.provider === "google") {
                 const email = profile.email;
@@ -81,17 +81,17 @@ const authOptions = {
                     await existingUser.save();
                 } else {
                     // If no, create a new user
-                    const user = new User({
+                    const newUser = new User({
                         email: email,
                         name: profile.name,
                         image: profile.picture,
                         isEmailVerified: profile.email_verified
                     });
-                    await user.save();
+                    await newUser.save();
                 }
 
                 cookies().set("signedIn", "true", { httpOnly: true, secure: true, sameSite: "strict" });
-            
+
                 return true;
             
             // Handle credentials sign in
@@ -103,11 +103,19 @@ const authOptions = {
                 return false;
             }
         },
-        async jwt({ token, user }) {
-            // Add access_token to the token right after signin
-            if (user) {
-                return {...token, user};
+        async jwt({ token, user, trigger, session }) {
+            // When signed in, populate session user from database
+            if (trigger === "signIn") {
+                await dbConnect();
+                const dbUser = await User.findOne({ email: user.email });
+                token = { ...token, user: dbUser }
             }
+
+            // Handle updating token
+            if (trigger === "update" && session) {
+                token.user.isEmailVerified = session.isEmailVerified;
+            }
+
             return token;
         },
         async session({ session, token }) {
