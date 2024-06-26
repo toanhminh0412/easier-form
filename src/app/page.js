@@ -17,8 +17,17 @@ export default async function Home() {
         redirect("/verify-email");
     }
 
+    // Clear signedIn cookie if session expired
+    if (cookies().get("signedIn")) {
+        if (!session || !session.user) {
+            deleteCookie("signedIn");
+        };
+    }
+
     const signedInCookie = cookies().get("signedIn");
     const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
+
+
 
     if (signedIn) {
         return (
