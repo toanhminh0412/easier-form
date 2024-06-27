@@ -1,36 +1,42 @@
-import { useContext } from "react";
+import Image from "next/image";
+import { useContext, useState } from "react";
 
 import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 
+import FilesManagerModal from "@/components/modals/FilesManagerModal";
+
 export default function EditBarImage({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);
+    const [previewSrc, setPreviewSrc] = useState(item.src);
 
-    const updateItem = (e) => {
-        const name = e.target.name;
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                setFormActiveItem(oldItem => {
-                    return {
-                        ...oldItem,
-                        [name]: e.target.result
-                    }
-                });
-            };
-            reader.readAsDataURL(file);
-        }
+    const updateItem = (src) => {
+        document.getElementById('filesManager').close();
+        setPreviewSrc(src);
+        setFormActiveItem(oldItem => {
+            return {
+                ...oldItem,
+                src: src
+            }
+        });
     }
 
     return (
         <div className="text-gray-300">
-            <input
-                type="file"
-                name="src"
-                accept="image/*"
-                className="file-input file-input-bordered file-input-sm w-full bg-white text-gray-900"
-                onChange={updateItem}
+            {/* Preview image */}
+            <Image
+                src={previewSrc}
+                width={200}
+                height={200}
+                alt="Preview"
+                className="object-cover mx-auto"
             />
+
+            <div className="mt-8">
+                <button className="btn btn-primary w-full" onClick={()=>document.getElementById('filesManager').showModal()}>
+                    Change image
+                </button>
+                <FilesManagerModal selectImage={updateItem}/>
+            </div>
         </div>
     )
 }
