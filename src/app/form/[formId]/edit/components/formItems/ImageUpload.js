@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function ImageUpload({ item, value=null }) {
+export default function ImageUpload({ item, value=null, edit=false }) {
     // Display the image
     if (value) {
         return (
@@ -21,7 +21,7 @@ export default function ImageUpload({ item, value=null }) {
             >
                 {item.label}
             </label>
-            <div className="mt-2">
+            <div className={`mt-2 ${edit ? "relative" : ""}`}>
                 <input
                     type="file"
                     name={item.i}
@@ -29,8 +29,9 @@ export default function ImageUpload({ item, value=null }) {
                     accept="image/*"
                     className="file-input file-input-bordered file-input-sm w-full bg-white text-gray-900"
                     aria-describedby={`${item.i}-description`}
-                    required = {item.required !== false}
+                    required={item.required !== false}
                 />
+                {edit ? <div className="absolute inset-0"></div> : null}
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
                 {item.description}

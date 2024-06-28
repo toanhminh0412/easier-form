@@ -24,7 +24,7 @@ import DateTime from "./DateTime";
 import PDFFileUpload from "./PDFFileUpload";
 import ImageUpload from "./ImageUpload";
 
-export default function FormField({ item, value }) {
+export default function FormField({ item, value, edit=false }) {
     switch (item.type) {
         case "short-text":
             return <TextInput item={item} value={value}/>
@@ -73,9 +73,9 @@ export default function FormField({ item, value }) {
         case "date-time":
             return <DateTime item={item} value={value}/>
         case "pdf-file-upload":
-            return <PDFFileUpload item={item} value={value}/>
+            return <PDFFileUpload item={item} value={value} edit={edit}/>
         case "image-upload":
-            return <ImageUpload item={item} value={value}/>
+            return <ImageUpload item={item} value={value} edit={edit}/>
 
         default:
             return <div>Unknown item type</div>;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function PDFFileUpload({ item, value=null }) {
+export default function PDFFileUpload({ item, value=null, edit=false }) {
     // Download the file
     if (value) {
         return (
@@ -20,7 +20,7 @@ export default function PDFFileUpload({ item, value=null }) {
             >
                 {item.label}
             </label>
-            <div className="mt-2">
+            <div className={`mt-2 ${edit ? "relative" : ""}`}>
                 <input
                     type="file"
                     name={item.i}
@@ -28,8 +28,9 @@ export default function PDFFileUpload({ item, value=null }) {
                     accept=".pdf"
                     className="file-input file-input-bordered file-input-sm w-full bg-white text-gray-900"
                     aria-describedby={`${item.i}-description`}
-                    required = {item.required !== false}
+                    required={item.required !== false}
                 />
+                {edit ? <div className="absolute inset-0"></div> : null}
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
                 {item.description}
