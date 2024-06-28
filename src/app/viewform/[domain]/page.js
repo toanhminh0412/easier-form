@@ -74,8 +74,20 @@ export default function Page({ params }) {
         setLoading(true);
         setError(null);
 
-        const responseData = readResponseData(form);
-        console.log(responseData);
+        let responseData = null;
+        try {
+            responseData = await readResponseData(form);
+            console.log(responseData);
+        } catch (error) {
+            console.error(error);
+            setError({
+                title: "Error submitting form",
+                message: error.message
+            });
+            setLoading(false);
+            return;
+        }
+        
         // Send response data to the server
         const response = await fetch("/api/response/create", {
             method: "POST",

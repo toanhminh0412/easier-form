@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import FormToDeleteContext from "../contexts/FormToDeleteContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical, faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faPen, faTrashCan, faComment } from "@fortawesome/free-solid-svg-icons";
 
 import { timeAgo } from "@/helpers/datetime";
 
@@ -37,6 +37,10 @@ export default function Form({ form }) {
                         <FontAwesomeIcon icon={faEllipsisVertical} />
                     </div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white text-black text-xs rounded-md border border-slate-100 w-52">
+                        <li><Link href={`/form/${form._id}/responses`}>
+                            <FontAwesomeIcon icon={faComment} />
+                            View responses
+                        </Link></li>
                         <li><Link href={`/form/${form._id}/edit`}>
                             <FontAwesomeIcon icon={faPen} />
                             Edit form

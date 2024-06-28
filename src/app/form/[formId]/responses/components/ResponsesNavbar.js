@@ -18,7 +18,7 @@ export default function ResponsesNavbar() {
             {/* Edit form button */}
             <Link href={`/form/${form._id}/edit`} className="w-fit h-fit my-auto text-sm mr-3 text-slate-200 hover:text-white">
                 <FontAwesomeIcon icon={faPen} className="duration-75 mr-2"/>
-                Back to edit form
+                Edit form
             </Link>
         </div>
     )

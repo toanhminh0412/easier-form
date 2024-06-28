@@ -47,7 +47,7 @@ export default function FilesManagerModal({ selectImage }) {
         // Upload file to Firebase Storage
         let file = e.target.files[0];
         file = await compressImageSize(file, 1);
-        const storageRef = ref(firebaseStorage, `${userId}/files/${file.name}`);
+        const storageRef = ref(firebaseStorage, `users/${userId}/files/${file.name}`);
         
         // Check if file already exists
         try {

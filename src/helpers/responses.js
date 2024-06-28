@@ -1,12 +1,17 @@
 "use client";
 
+import { firebaseStorage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { compressImageSize } from "./files";
+import AGGridResponseFile from "@/components/responses/aggrid/AGGridResponseFile";
+
 /* Read a form's response
     * 
     * @param {String} form - A form object
     * @returns {Object} - A response's data object
 */
-
-const readResponseData = (form) => {
+const readResponseData = async (form) => {
     const responseData = [];
     for (const item of form.layout.lg) {
         let value = null;
@@ -78,6 +83,25 @@ const readResponseData = (form) => {
             case "image-upload":
                 // Get file source
                 value = document.getElementById(item.i).files[0];
+
+                // Upload file to Firebase Storage
+                let file = value;
+                if (file.type.startsWith("image/")) {
+                    file = await compressImageSize(value, 1);
+                }
+
+                // File cannot be larger than 10MB
+                if (file.size > 10 * 1024 * 1024) {
+                    throw new Error(`${label}: File size cannot exceed 10MB`);
+                }
+
+                const storageRef = ref(firebaseStorage, `responses/${form._id}/files/${value.name}`);
+                await uploadBytes(storageRef, file);
+
+                // Get download URL
+                const fileUrl = await getDownloadURL(storageRef);
+                value = { name: value.name, url: fileUrl, size: file.size };
+
                 responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             default:
@@ -113,13 +137,22 @@ const convertResponsesToAgGridTable = (form, responses) => {
             col.field = item.placeholder;
             cols.push(col);
         }
+
+        // Render images
+        if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+            col.cellRenderer = AGGridResponseFile;
+        }
     }
 
     // Set all row data
     for (const response of responses) {
         const row = {};
         for (const item of response.data) {
-            row[item.label] = String(item.value);
+            if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+                row[item.label] = item.value;
+            } else {
+                row[item.label] = String(item.value);
+            }
         }
 
         rows.push(row);

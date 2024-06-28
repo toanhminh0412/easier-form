@@ -2,6 +2,8 @@ import imageCompression from 'browser-image-compression';
 
 // Compress a image size to smaller or equal to an input size (in MB)
 export const compressImageSize = async (image, size) => {
+    if (!image) return;
+    
     const options = {
         maxSizeMB: size,
         maxWidthOrHeight: 1920,

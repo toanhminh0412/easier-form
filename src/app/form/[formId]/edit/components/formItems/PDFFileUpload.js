@@ -1,26 +1,20 @@
 import Link from "next/link";
 
 export default function PDFFileUpload({ item, value=null, edit=false }) {
-    // Download the file
-    if (value) {
-        return (
-            <div>
-                <Link href={value} target="_blank">
-                    <a className="text-indigo-600 hover:text-indigo-900">{item.label}</a>
-                </Link>
-            </div>
-        )
-    }
-    
     return (
-        <div>
+        <div className={edit || value ? "relative" : ""}>
+            {value ? <div className="mb-2">
+                <Link href={value.url} target="_blank" className="text-indigo-600 hover:text-indigo-900 underline">
+                    {value.name}
+                </Link>
+            </div> : null}
             <label
                 htmlFor={item.i}
                 className="block text-sm font-medium leading-6 text-gray-900"
             >
                 {item.label}
             </label>
-            <div className={`mt-2 ${edit ? "relative" : ""}`}>
+            <div className="mt-2">
                 <input
                     type="file"
                     name={item.i}
@@ -30,7 +24,7 @@ export default function PDFFileUpload({ item, value=null, edit=false }) {
                     aria-describedby={`${item.i}-description`}
                     required={item.required !== false}
                 />
-                {edit ? <div className="absolute inset-0"></div> : null}
+                {edit || value ? <div className="absolute inset-0"></div> : null}
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
                 {item.description}
