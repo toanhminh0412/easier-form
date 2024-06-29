@@ -170,7 +170,7 @@ export default function FilesManagerModal({ selectImage }) {
                             />
                         </svg>
                         <h3 className="mt-2 text-sm font-semibold text-white">No files</h3>
-                        <p className="mt-1 text-sm text-gray-300">Click "Upload" to start uploading files. You have 1GB of storage available.</p>
+                        <p className="mt-1 text-sm text-gray-300">Click &quot;Upload&quot; to start uploading files. You have 1GB of storage available.</p>
                         <div className="mt-6">
                             <button
                                 type="button"
