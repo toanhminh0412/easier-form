@@ -107,11 +107,15 @@ export default function Page() {
                                         id="password"
                                         name="password"
                                         type="password"
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                                         autoComplete="current-password"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
+                                    <p className="mt-2 text-sm text-gray-500" id="email-description">
+                                        A password must contain at least 8 characters, including at least one lowercase letter, one uppercase letter and one number.
+                                    </p>
                                 </div>
 
                                 <div>
@@ -144,7 +148,7 @@ export default function Page() {
                                     </div> */}
                 
                                     <div className="text-sm leading-6">
-                                        <Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                        <Link href="/forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                         Forgot password?
                                         </Link>
                                     </div>

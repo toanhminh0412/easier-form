@@ -7,6 +7,7 @@ import authOptions from "./api/auth/[...nextauth]/options";
 import Public from "./Public";
 import Private from "./Private";
 
+// import { deleteCookie } from "@/serverActions/cookies";
 import Navbar from "@/components/navbars/Navbar";
 
 export default async function Home() {
@@ -20,6 +21,10 @@ export default async function Home() {
     // Clear signedIn cookie if session expired
     if (cookies().get("signedIn")) {
         if (!session || !session.user) {
+            const deleteCookie = async (name) => {
+                "use server";
+                cookies().delete(name);
+            }
             deleteCookie("signedIn");
         };
     }
