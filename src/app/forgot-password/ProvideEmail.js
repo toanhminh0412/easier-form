@@ -54,7 +54,7 @@ export default function ProvideEmail({ setStep }) {
                                 Enter your email
                             </h2>
                             <p className="mt-2 text-sm leading-6 text-gray-500">
-                                Please enter your email. We will send you a 6-digits code to verify your email address. Once you're email is verified, you can reset your password.
+                                Please enter your email. We will send you a 6-digits code to verify your email address. Once your email is verified, you can reset your password.
                             </p>
                         </div>
         
