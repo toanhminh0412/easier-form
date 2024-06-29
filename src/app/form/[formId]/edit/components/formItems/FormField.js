@@ -24,16 +24,16 @@ import DateTime from "./DateTime";
 import PDFFileUpload from "./PDFFileUpload";
 import ImageUpload from "./ImageUpload";
 
-export default function FormField({ item, value, edit=false }) {
+export default function FormField({ item, value, edit=false, readOnly=false }) {
     switch (item.type) {
         case "short-text":
-            return <TextInput item={item} value={value}/>
+            return <TextInput item={item} value={value} readOnly={readOnly}/>
         case "long-text":
-            return <Textarea item={item} value={value}/>
+            return <Textarea item={item} value={value} readOnly={readOnly}/>
         case "number":
-            return <Number item={item} value={value}/>
+            return <Number item={item} value={value} readOnly={readOnly}/>
         case "password":
-            return <Password item={item} value={value}/>
+            return <Password item={item} value={value} readOnly={readOnly}/>
         case "heading":
             return <Heading item={item}/>
         case "paragraph":
@@ -43,39 +43,39 @@ export default function FormField({ item, value, edit=false }) {
         case "separator":
             return <Separator item={item}/>
         case "checkbox":
-            return <Checkbox item={item} value={value}/>
+            return <Checkbox item={item} value={value} readOnly={readOnly}/>
         case "toggle":
-            return <Toggle item={item} value={value}/>
+            return <Toggle item={item} value={value} readOnly={readOnly}/>
         case "dropdown":
-            return <Dropdown item={item} value={value}/>
+            return <Dropdown item={item} value={value} readOnly={readOnly}/>
         case "radio":
-            return <Radio item={item} value={value}/>
+            return <Radio item={item} value={value} readOnly={readOnly}/>
         case "multiple-choices":
-            return <MultipleChoices item={item} value={value}/>
+            return <MultipleChoices item={item} value={value} readOnly={readOnly}/>
         case "single-choice-grid":
-            return <SingleChoiceGrid item={item} value={value}/>
+            return <SingleChoiceGrid item={item} value={value} readOnly={readOnly}/>
         case "multiple-choices-grid":
-            return <MultipleChoicesGrid item={item} value={value}/>
+            return <MultipleChoicesGrid item={item} value={value} readOnly={readOnly}/>
         case "email":
-            return <Email item={item} value={value}/>
+            return <Email item={item} value={value} readOnly={readOnly}/>
         case "phone":
-            return <Phone item={item} value={value}/>
+            return <Phone item={item} value={value} readOnly={readOnly}/>
         case "address":
-            return <Address item={item} value={value}/>
+            return <Address item={item} value={value} readOnly={readOnly}/>
         case "zip-code":
-            return <Zipcode item={item} value={value}/>
+            return <Zipcode item={item} value={value} readOnly={readOnly}/>
         case "website":
-            return <Website item={item} value={value}/>
+            return <Website item={item} value={value} readOnly={readOnly}/>
         case "date":
-            return <Date item={item} value={value}/>
+            return <Date item={item} value={value} readOnly={readOnly}/>
         case "time":
-            return <Time item={item} value={value}/>
+            return <Time item={item} value={value} readOnly={readOnly}/>
         case "date-time":
-            return <DateTime item={item} value={value}/>
+            return <DateTime item={item} value={value} readOnly={readOnly}/>
         case "pdf-file-upload":
-            return <PDFFileUpload item={item} value={value} edit={edit}/>
+            return <PDFFileUpload item={item} value={value} edit={edit} readOnly={readOnly}/>
         case "image-upload":
-            return <ImageUpload item={item} value={value} edit={edit}/>
+            return <ImageUpload item={item} value={value} edit={edit} readOnly={readOnly}/>
 
         default:
             return <div>Unknown item type</div>;

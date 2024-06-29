@@ -1,4 +1,4 @@
-export default function Phone({ item, value=null }) {
+export default function Phone({ item, value=null, readOnly=false}) {
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
@@ -14,7 +14,7 @@ export default function Phone({ item, value=null }) {
                     placeholder={item.placeholder}
                     aria-describedby={`${item.i}-description`}
                     required = {item.required !== false}
-                    disabled={value !== null}
+                    readOnly={readOnly}
                     defaultValue={value !== null ? value : ""}
                 />
             </div>

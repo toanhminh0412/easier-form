@@ -112,7 +112,7 @@ export default function Page({ params }) {
                         </div>
 
                         {/* Form view */}
-                        <div>
+                        <div className={view === "form" ? "" : "hidden"}>
                             <div className="flex flex-row items-center gap-3 mb-4">
                                 <button
                                     className="text-gray-500 hover:text-black disabled:text-gray-300 duration-100"
@@ -151,7 +151,7 @@ export default function Page({ params }) {
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </button>
                             </div>
-                            <div className={`${view === "form" ? "" : "hidden"} relative z-0 overflow-scroll bg-slate-50 lg:px-20 pt-8 pb-20 min-h-screen`}>
+                            <div className={`relative z-0 overflow-scroll bg-slate-50 lg:px-20 pt-8 pb-20 min-h-screen`}>
                                 <ResponsesForm form={form} response={responses[activeResponseFormIndex]} />
                             </div>
                         </div>

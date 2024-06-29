@@ -149,7 +149,7 @@ export default function FormEditorBoard() {
                             resizeHandles: item.resizeHandles
                         }}
                         >
-                        <FormField item={item} edit />
+                        <FormField item={item} readOnly />
                     </div>
                 ))}
             </ResponsiveGridLayout>

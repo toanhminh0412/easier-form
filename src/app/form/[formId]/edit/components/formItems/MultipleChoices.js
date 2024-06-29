@@ -1,4 +1,25 @@
-export default function MultipleChoices({ item, value=null }) {
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function MultipleChoices({ item, value=null, readOnly=false }) {
+    const [selected, setSelected] = useState([]);
+
+    useEffect(() => {
+        if (value !== null) {
+            setSelected(value);
+        }
+    }, [value]);
+
+    const handleChange = (e) => {
+        const selectedValue = e.target.value;
+        if (selected.includes(selectedValue)) {
+            setSelected(selected.filter(value => value !== selectedValue));
+        } else {
+            setSelected([...selected, selectedValue]);
+        }
+    }
+
     // Users can select multiple options
     return (
         <div>
@@ -10,11 +31,13 @@ export default function MultipleChoices({ item, value=null }) {
                     <div key={option.id} className="flex flex-row gap-1">
                         <input
                             id={`${item.i}-${option.id}`}
+                            value={option.value}
                             name={item.i}
                             type="checkbox"
                             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            defaultChecked={value.includes(option.value)}
-                            disabled={value !== null}
+                            checked={selected.includes(option.value)}
+                            disabled={readOnly}
+                            onChange={handleChange}
                         />
                         <label htmlFor={`${item.i}-${index}`} className="ml-2 block text-sm text-gray-900">
                             {option.label}

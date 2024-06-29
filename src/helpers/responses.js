@@ -5,6 +5,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { compressImageSize } from "./files";
 import AGGridResponseFile from "@/components/responses/aggrid/AGGridResponseFile";
+import AGGridResponseWebsite from "@/components/responses/aggrid/AGGridResponseWebsite";
+import AGGridPasswordRenderer from "@/components/responses/aggrid/AGGridPasswordRenderer";
 
 /* Read a form's response
     * 
@@ -123,7 +125,21 @@ const convertResponsesToAgGridTable = (form, responses) => {
 
     // Set all form fields as columns
     for (const item of form.layout.lg) {
-        const col = { headerName: "", field: "" };
+        let col = { headerName: "", field: "" };
+        
+        // Render files
+        if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+            col.cellRenderer = AGGridResponseFile;
+        }
+        // Render websites
+        else if (item.type === "website") {
+            col.cellRenderer = AGGridResponseWebsite;
+        }
+        // Render password
+        else if (item.type === "password") {
+            col.cellRenderer = AGGridPasswordRenderer;
+        }
+
         if (item.label) {
             col.headerName = item.label;
             col.field = item.label;
@@ -137,11 +153,6 @@ const convertResponsesToAgGridTable = (form, responses) => {
             col.field = item.placeholder;
             cols.push(col);
         }
-
-        // Render images
-        if (item.type === "image-upload" || item.type === "pdf-file-upload") {
-            col.cellRenderer = AGGridResponseFile;
-        }
     }
 
     // Set all row data
@@ -149,6 +160,16 @@ const convertResponsesToAgGridTable = (form, responses) => {
         const row = {};
         for (const item of response.data) {
             if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+                row[item.label] = item.value;
+            } else if (item.type === "checkbox" || item.type === "toggle") {
+                row[item.label] = item.value ? "Yes" : "No";
+            } else if (item.type === "multiple-choices") {
+                row[item.label] = item.value.join(", ");
+            } else if (item.type === "single-choice-grid") {
+                row[item.label] = item.value.map(choice => `${choice.row}: ${choice.col}`).join(", ");
+            } else if (item.type === "multiple-choices-grid") {
+                row[item.label] = item.value.map(choice => `${choice.row}: ${choice.cols.join(", ")}`).join(", ");
+            } else if (item.type === "website") {
                 row[item.label] = item.value;
             } else {
                 row[item.label] = String(item.value);

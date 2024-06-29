@@ -1,4 +1,4 @@
-export default function Address({ item, value=null }) {
+export default function Address({ item, value=null, readOnly=false }) {
     return (
         <div>
             <label
@@ -16,7 +16,7 @@ export default function Address({ item, value=null }) {
                 placeholder={item.placeholder}
                 aria-describedby={`${item.i}-description`}
                 required = {item.required !== false}
-                disabled={value !== null}
+                readOnly={readOnly}
                 defaultValue={value !== null ? value : ""}
                 />
             </div>

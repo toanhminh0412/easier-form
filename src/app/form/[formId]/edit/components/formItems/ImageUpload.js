@@ -1,17 +1,23 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function ImageUpload({ item, value=null, edit=false }) {
+export default function ImageUpload({ item, value=null, readOnly=false }) {
+    if (value) {
+        return (
+        <div>
+            <label
+                htmlFor={item.i}
+                className="block text-sm font-medium leading-6 text-gray-900"
+            >
+                {item.label}
+            </label>
+            <Link href={value.url} target="_blank" className="text-indigo-600 hover:text-indigo-900 underline">
+                {value.name}
+            </Link>
+        </div>)
+    }
+
     return (
-        <div className={edit || value ? "relative" : ""}>
-            {value ? <div className="mb-2">
-                <Image
-                    src={value.url}
-                    alt={value.name}
-                    width={200}
-                    height={200}
-                    className="object-cover"
-                />
-            </div> : null}
+        <div className={readOnly ? "relative" : ""}>
             <label
                 htmlFor={item.i}
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -28,7 +34,7 @@ export default function ImageUpload({ item, value=null, edit=false }) {
                     aria-describedby={`${item.i}-description`}
                     required={item.required !== false}
                 />
-                {edit || value ? <div className="absolute inset-0"></div> : null}
+                {readOnly ? <div className="absolute inset-0"></div> : null}
             </div>
             <p className="mt-2 text-sm text-gray-500" id={`${item.i}-description`}>
                 {item.description}

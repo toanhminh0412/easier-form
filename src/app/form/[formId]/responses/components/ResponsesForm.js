@@ -25,8 +25,17 @@ export default function ResponsesForm({ form, response }) {
     useEffect(() => {
         if (!response) return;
         const fieldResponses = {};
-        for (const field of response.data) {
-            fieldResponses[field.id] = field.value;
+        for (const field of form.layout.lg) {
+            const fieldResponse = response.data.find(f => f.id === field.i);
+            if (fieldResponse) {
+                fieldResponses[field.i] = fieldResponse.value;
+            } else {
+                // If there is no response for this field, look for response with the same label
+                const fieldResponseWithSameLabel = response.data.find(f => f.label === field.label);
+                if (fieldResponseWithSameLabel && fieldResponseWithSameLabel.type === field.type) {
+                    fieldResponses[field.i] = fieldResponseWithSameLabel.value;
+                }
+            }
         }
         setFieldResponses(fieldResponses);
     }, [response]);
@@ -62,7 +71,7 @@ export default function ResponsesForm({ form, response }) {
                         static: true,
                     }}
                     >
-                    <FormField item={item} value={fieldResponses[item.i]}/>
+                    <FormField item={item} value={fieldResponses[item.i]} readOnly={true}/>
                 </div>
             ))}
         </ResponsiveGridLayout>

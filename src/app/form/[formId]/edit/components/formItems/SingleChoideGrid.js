@@ -1,9 +1,43 @@
-export default function SingleChoiceGrid({ item, value=null }) {
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
+    const [selected, setSelected] = useState(null);
+
+    useEffect(() => {
+        if (value !== null) {
+            setSelected(value);
+        } else {
+            // Set all row values to empty
+            const newSelected = item.rows.map(row => ({ row: row.text, col: "" }));
+            setSelected(newSelected);
+        }
+    }, [value]);
+
     // Get the selected col for a row
     const getRowValue = (rowText) => {
-        if (value === null) return null;
-        const rowValObj = value.find(v => v.row === rowText);
+        if (selected === null) return null;
+        const rowValObj = selected.find(v => v.row === rowText);
         return rowValObj ? rowValObj.col : null;
+    }
+
+    const handleChange = (e) => {
+        const row = e.target.getAttribute("rowvalue");
+        const col = e.target.getAttribute("colvalue");
+        setSelected(oldSelected => {
+            const newSelected = oldSelected.map(v => {
+                if (v.row === row) {
+                    return { row, col };
+                }
+                return v;
+            });
+            return newSelected;
+        });
+    }
+
+    if (!selected) {
+        return <p>Loading grid ...</p>
     }
     
     // A table where each cell is a radio button
@@ -39,9 +73,12 @@ export default function SingleChoiceGrid({ item, value=null }) {
                                                 type="radio"
                                                 name={`${item.i}-${row.id}`}
                                                 id={`${item.i}-${row.id}-${col.id}`}
+                                                rowvalue={row.text}
+                                                colvalue={col.text}
                                                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                defaultChecked={col.text === getRowValue(row.text)}
-                                                disabled={value !== null}
+                                                checked={col.text === getRowValue(row.text)}
+                                                disabled={readOnly}
+                                                onChange={handleChange}
                                             />
                                         </div>
                                     </td>

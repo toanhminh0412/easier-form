@@ -1,4 +1,4 @@
-export default function Textarea({ item, value=null }) {    
+export default function Textarea({ item, value=null, readOnly=false }) {    
     return (
         <div className="h-full flex flex-col">
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
@@ -12,7 +12,7 @@ export default function Textarea({ item, value=null }) {
                     placeholder={item.placeholder}
                     aria-describedby={`${item.i}-description`}
                     required = {item.required !== false}
-                    disabled={value !== null}
+                    readOnly={readOnly}
                     defaultValue={value !== null ? value : ""}
                 >
                 </textarea>                    

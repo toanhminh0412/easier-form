@@ -1,4 +1,20 @@
-export default function Radio({ item, value=null }) {
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function Radio({ item, value=null, readOnly=false }) {
+    const [selected, setSelected] = useState("");
+
+    useEffect(() => {
+        if (value !== null) {
+            setSelected(value);
+        }
+    }, [value]);
+
+    const handleChange = (e) => {
+        setSelected(e.target.value);
+    }
+
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900 mb-3">
@@ -13,8 +29,9 @@ export default function Radio({ item, value=null }) {
                         type="radio"
                         value={option.value}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                        defaultChecked={option.value === value}
-                        disabled={value !== null}
+                        checked={option.value === selected}
+                        disabled={readOnly}
+                        onChange={handleChange}
                     />
                     <label htmlFor={option.value} className="ml-2 block text-sm text-gray-900">
                         {option.label}
