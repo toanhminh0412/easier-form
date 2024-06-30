@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 import { getServerSession } from "next-auth";
 import authOptions from "../../auth/[...nextauth]/options";
 
@@ -9,6 +11,11 @@ export async function GET(req) {
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
+        // Delete cookie if session expires
+        const cookiesHeader = cookies();
+        if (cookiesHeader.get("signedIn") && cookiesHeader.get("signedIn").value === "true") {
+            cookiesHeader.delete("signedIn");
+        }
         return Response.json({ error: "Unauthorized. Must log in!" }, { status: 401 });
     }
 

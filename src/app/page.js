@@ -18,20 +18,8 @@ export default async function Home() {
         redirect("/verify-email");
     }
 
-    // Clear signedIn cookie if session expired
-    if (cookies().get("signedIn")) {
-        if (!session || !session.user) {
-            const deleteCookie = async (name) => {
-                "use server";
-                cookies().delete(name);
-            }
-            deleteCookie("signedIn");
-        };
-    }
-
     const signedInCookie = cookies().get("signedIn");
     const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
-
 
 
     if (signedIn) {

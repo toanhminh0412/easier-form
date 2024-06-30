@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+import { signOut as NextAuthSignOut } from "next-auth/react";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -39,6 +41,10 @@ export default function Private() {
                 if (response.ok) {
                     setForms(data.forms);
                 } else {
+                    if (response.status === 401) {
+                        // Sign out if unauthorized
+                        await NextAuthSignOut({ redirect: true, callbackUrl: "/signin" });
+                    }
                     setError({
                         type: "get-forms",
                         title: "Get forms error",
