@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link"
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signOut as NextAuthSignOut, useSession } from "next-auth/react";
 
@@ -76,10 +77,12 @@ export default function SignedinNavbar({ navigation }) {
                                         <MenuButton className="relative flex rounded-full bg-base-100 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             <span className="absolute -inset-1.5" />
                                             <span className="sr-only">Open user menu</span>
-                                            <img
+                                            <Image
+                                                width={20}
+                                                height={20}
                                                 className="h-8 w-8 rounded-full"
                                                 src={user?.image ? user.image : "/img/blank-user.png"}
-                                                alt=""
+                                                alt="Avatar"
                                             />
                                         </MenuButton>
                                     </div>
