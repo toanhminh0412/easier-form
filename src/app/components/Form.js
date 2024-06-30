@@ -30,20 +30,20 @@ export default function Form({ form }) {
                 <Link href={`/form/${form._id}/edit`}
                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                 >
-                View form<span className="sr-only">, {form.name}</span>
+                Edit form<span className="sr-only">, {form.name}</span>
                 </Link>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost m-1">
                         <FontAwesomeIcon icon={faEllipsisVertical} />
                     </div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white text-black text-xs rounded-md border border-slate-100 w-52">
+                        <li><Link href={`/viewform/${form._id}`} target="_blank">
+                            <FontAwesomeIcon icon={faPen} />
+                            View form
+                        </Link></li>
                         <li><Link href={`/form/${form._id}/responses`}>
                             <FontAwesomeIcon icon={faComment} />
                             View responses
-                        </Link></li>
-                        <li><Link href={`/form/${form._id}/edit`}>
-                            <FontAwesomeIcon icon={faPen} />
-                            Edit form
                         </Link></li>
                         <li><Link href="#" onClick={() => {
                             setFormToDelete(form);

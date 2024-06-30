@@ -8,6 +8,7 @@ import Public from "./Public";
 import Private from "./Private";
 
 // import { deleteCookie } from "@/serverActions/cookies";
+import LoggedInLayout from "@/components/layouts/LoggedInLayout";
 import Navbar from "@/components/navbars/Navbar";
 
 export default async function Home() {
@@ -24,10 +25,9 @@ export default async function Home() {
 
     if (signedIn) {
         return (
-            <>
-                <Navbar signedIn/>
+            <LoggedInLayout>
                 <Private />
-            </>
+            </LoggedInLayout>
         );
     }
 

@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { getSession, SessionProvider } from "next-auth/react";
 
+import Navbar from "../navbars/Navbar";
+
 export default function LoggedInLayout({ children }) {
     const [session, setSession] = useState(null);
 
@@ -17,6 +19,7 @@ export default function LoggedInLayout({ children }) {
 
     return (
         <SessionProvider session={session}>
+            <Navbar signedIn/>
             {children}
         </SessionProvider>
     )
