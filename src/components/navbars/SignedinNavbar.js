@@ -20,7 +20,6 @@ export default function SignedinNavbar({ navigation }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        console.log(session);
         if (session) {
             setUser(session.user);
         }
