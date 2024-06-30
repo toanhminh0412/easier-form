@@ -20,6 +20,7 @@ export default function SignedinNavbar({ navigation }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        console.log(session);
         if (session) {
             setUser(session.user);
         }
@@ -81,7 +82,7 @@ export default function SignedinNavbar({ navigation }) {
                                                 width={20}
                                                 height={20}
                                                 className="h-8 w-8 rounded-full"
-                                                src={user.image ? user.image : "/img/blank-user.png"}
+                                                src={user?.image ? user.image : "/img/blank-user.png"}
                                                 alt="Avatar"
                                             />
                                         </MenuButton>
