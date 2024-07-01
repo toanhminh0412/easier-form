@@ -1,9 +1,16 @@
 "use client";
 
+import Link from 'next/link';
 import { useState } from 'react'
+
 import { Radio, RadioGroup } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+
+const smallBusinessPlanMonthlyLink = process.env.NEXT_PUBLIC_ENV === 'dev' ? process.env.NEXT_PUBLIC_STRIPE_SMALL_BUSINESS_PLAN_MONTHLY_TEST_PAYMENT_LINK : process.env.NEXT_PUBLIC_STRIPE_SMALL_BUSINESS_PLAN_MONTHLY_LIVE_PAYMENT_LINK
+const smallBusinessPlanAnnuallyLink = process.env.NEXT_PUBLIC_ENV === 'dev' ? process.env.NEXT_PUBLIC_STRIPE_SMALL_BUSINESS_PLAN_ANNUALLY_TEST_PAYMENT_LINK : process.env.NEXT_PUBLIC_STRIPE_SMALL_BUSINESS_PLAN_ANNUALLY_LIVE_PAYMENT_LINK
+const enterprisePlanMonthlyLink = process.env.NEXT_PUBLIC_ENV === 'dev' ? process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PLAN_MONTHLY_TEST_PAYMENT_LINK : process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PLAN_MONTHLY_LIVE_PAYMENT_LINK
+const enterprisePlanAnnuallyLink = process.env.NEXT_PUBLIC_ENV === 'dev' ? process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PLAN_ANNUALLY_TEST_PAYMENT_LINK : process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PLAN_ANNUALLY_LIVE_PAYMENT_LINK
 
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -13,7 +20,7 @@ const tiers = [
     {
         name: 'Individual',
         id: 'tier-individual',
-        href: '#',
+        href: { monthly: '/signin', annually: '/signin' },
         price: { monthly: 'Free', annually: 'Free' },
         description: 'The essentials to build beautiful forms and collect responses for a limited usage.',
         features: ['10 forms', '500 monthly responses', '5000 monthly form views', '500MB of file storage', 'EasierForm branding'],
@@ -22,7 +29,10 @@ const tiers = [
     {
         name: 'Small Business',
         id: 'tier-small-business',
-        href: '#',
+        href: { 
+            monthly: smallBusinessPlanMonthlyLink, 
+            annually: smallBusinessPlanAnnuallyLink
+        },
         price: { monthly: '$9.99', annually: '$99.99' },
         description: 'A plan that grows with your business and offers more neccessary usage.',
         features: [
@@ -38,7 +48,10 @@ const tiers = [
     {
         name: 'Enterprise',
         id: 'tier-enterprise',
-        href: '#',
+        href: { 
+            monthly: enterprisePlanMonthlyLink,
+            annually: enterprisePlanAnnuallyLink 
+        },
         price: { monthly: '$19.99', annually: '$199.99' },
         description: 'The best plan for businesses that need more advanced features and usage.',
         features: [
@@ -57,8 +70,8 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Pricing() {
-    const [frequency, setFrequency] = useState(frequencies[0])
+export default function Pricing({ signedIn=false }) {
+    const [frequency, setFrequency] = useState(frequencies[0]);
 
     return (
         <div className="bg-gray-900 py-24 sm:py-32">
@@ -117,8 +130,8 @@ export default function Pricing() {
                     <span className="text-4xl font-bold tracking-tight text-white">{tier.price[frequency.value]}</span>
                     <span className="text-sm font-semibold leading-6 text-gray-300">{frequency.priceSuffix}</span>
                 </p>
-                <a
-                    href={tier.href}
+                <Link
+                    href={signedIn ? tier.href[frequency.value] : tier.id === "tier-individual" ? tier.href[frequency.value] : `/signin?redirect=${encodeURI(tier.href[frequency.value])}`}
                     aria-describedby={tier.id}
                     className={classNames(
                     tier.mostPopular
@@ -127,8 +140,8 @@ export default function Pricing() {
                     'mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
                     )}
                 >
-                    Buy plan
-                </a>
+                    Get started
+                </Link>
                 <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                     {tier.features.map((feature) => (
                     <li key={feature} className="flex gap-x-3">
