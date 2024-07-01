@@ -3,7 +3,8 @@ import Features from "@/components/landing/Features";
 import Pricing from "@/components/landing/Pricing";
 import Showcase from "@/components/landing/Showcase";
 import CTA from "@/components/landing/CTA";
-import Footer from "@/components/landing/Footer";
+import Newsletter from "@/components/landing/Newsletter";
+import SocialMedia from "@/components/landing/SocialMedia";
 
 export default function Public() {
     return (
@@ -13,7 +14,8 @@ export default function Public() {
             <Pricing />
             <Showcase />
             <CTA />
-            <Footer />
+            <Newsletter />
+            <SocialMedia />
         </main>
     );
 }

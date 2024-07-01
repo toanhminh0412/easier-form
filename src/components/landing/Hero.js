@@ -25,13 +25,17 @@ export default function Hero() {
                             </Link>
                         </div>
                         </div>
-                        <img
+                        {/* <img
                         src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
                         alt="App screenshot"
                         width={2432}
                         height={1442}
                         className="mt-16 rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 sm:mt-24"
-                        />
+                        /> */}
+                        <video className="mt-16 rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 sm:mt-24" autoPlay loop muted playsInline>
+                            <source src="https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/videos%2Fdemo.mp4?alt=media&token=ffe7533a-c37e-4e9e-82ff-6155464ab4f3" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
                 <div

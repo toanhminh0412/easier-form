@@ -11,26 +11,27 @@ const frequencies = [
     ]
 const tiers = [
     {
-        name: 'Freelancer',
-        id: 'tier-freelancer',
+        name: 'Individual',
+        id: 'tier-individual',
         href: '#',
-        price: { monthly: '$15', annually: '$144' },
-        description: 'The essentials to provide your best work for clients.',
-        features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', '48-hour support response time'],
+        price: { monthly: 'Free', annually: 'Free' },
+        description: 'The essentials to build beautiful forms and collect responses for a limited usage.',
+        features: ['10 forms', '200 responses/form', '1000 views/form', '500MB of file storage', 'EasierForm branding'],
         mostPopular: false,
     },
     {
-        name: 'Startup',
-        id: 'tier-startup',
+        name: 'Small Business',
+        id: 'tier-small-business',
         href: '#',
-        price: { monthly: '$30', annually: '$288' },
-        description: 'A plan that scales with your rapidly growing business.',
+        price: { monthly: '$9.99', annually: '$99.99' },
+        description: 'A plan that grows with your business and offers more neccessary usage.',
         features: [
-        '25 products',
-        'Up to 10,000 subscribers',
-        'Advanced analytics',
-        '24-hour support response time',
-        'Marketing automations',
+        '50 forms',
+        '3000 responses/form',
+        '5000 views/form',
+        '5GB of file storage',
+        'Custom URL',
+        'No EasierForm branding',
         ],
         mostPopular: true,
     },
@@ -38,15 +39,15 @@ const tiers = [
         name: 'Enterprise',
         id: 'tier-enterprise',
         href: '#',
-        price: { monthly: '$48', annually: '$576' },
-        description: 'Dedicated support and infrastructure for your company.',
+        price: { monthly: '$19.99', annually: '$199.99' },
+        description: 'The best plan for businesses that need more advanced features and usage.',
         features: [
-        'Unlimited products',
-        'Unlimited subscribers',
-        'Advanced analytics',
-        '1-hour, dedicated support response time',
-        'Marketing automations',
-        'Custom reporting tools',
+        '100 forms',
+        '10000 responses/form',
+        '20000 views/form',
+        '10GB of file storage',
+        'Custom URL',
+        'No EasierForm branding',
         ],
         mostPopular: false,
     },
@@ -65,12 +66,11 @@ export default function Pricing() {
             <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-400">Pricing</h2>
             <p className="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                Pricing plans for teams of&nbsp;all&nbsp;sizes
+                Pricing plans for all users
             </p>
             </div>
             <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-300">
-            Choose an affordable plan that’s packed with the best features for engaging your audience, creating customer
-            loyalty, and driving sales.
+            Choose an affordable plan that&apos;s packed with the best features for your needs.
             </p>
             <div className="mt-16 flex justify-center">
             <fieldset aria-label="Payment frequency">
