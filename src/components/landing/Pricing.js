@@ -16,7 +16,7 @@ const tiers = [
         href: '#',
         price: { monthly: 'Free', annually: 'Free' },
         description: 'The essentials to build beautiful forms and collect responses for a limited usage.',
-        features: ['10 forms', '200 responses/form', '1000 views/form', '500MB of file storage', 'EasierForm branding'],
+        features: ['10 forms', '500 monthly responses', '5000 monthly form views', '500MB of file storage', 'EasierForm branding'],
         mostPopular: false,
     },
     {
@@ -27,8 +27,8 @@ const tiers = [
         description: 'A plan that grows with your business and offers more neccessary usage.',
         features: [
         '50 forms',
-        '3000 responses/form',
-        '5000 views/form',
+        '5000 monthly responses',
+        '20000 monthly form views',
         '5GB of file storage',
         'Custom URL',
         'No EasierForm branding',
@@ -43,8 +43,8 @@ const tiers = [
         description: 'The best plan for businesses that need more advanced features and usage.',
         features: [
         '100 forms',
-        '10000 responses/form',
-        '20000 views/form',
+        '10000 monthly responses',
+        '50000 monthly form views',
         '10GB of file storage',
         'Custom URL',
         'No EasierForm branding',
