@@ -27,6 +27,10 @@ const userSchema = new Schema({
         type: String,
         required: false,
     },
+    stripeCustomerId: {
+        type: String,
+        required: false,
+    },
 }, {
     methods: {
         repr() {

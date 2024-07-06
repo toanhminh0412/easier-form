@@ -5,6 +5,8 @@ import Credentials from "next-auth/providers/credentials";
 
 import dbConnect from "@/lib/dbConnect";
 import { User } from "@/models/User";
+import { Plan } from "@/models/Plan";
+import planData from "@/data/planData";
 
 const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
@@ -111,9 +113,53 @@ const authOptions = {
                 token = { ...token, user: dbUser }
             }
 
-            // Handle updating token
-            if (trigger === "update" && session) {
-                token.user.isEmailVerified = session.isEmailVerified;
+            // Update token to store the latest user data
+            if (trigger === "update") {
+                console.log("Update trigger:");
+                console.log(token);
+                // token.user.isEmailVerified = session.isEmailVerified;
+                await dbConnect();
+                const dbUserDoc = await User.findOne({ email: token.user.email });
+                const dbUser = dbUserDoc.toObject();
+                const updatedUser = { ...token.user, ...dbUser };
+                token = { ...token, user: updatedUser }
+
+                // Update user's plan
+                if (token.user && token.user.plan) {
+                    const dbPlanDoc = await Plan.findOne({ _id: token.user.plan._id });
+                    const dbPlan = dbPlanDoc.toObject();
+                    token.user.plan = dbPlan;
+                }
+                console.log(token);
+            }
+
+            // Create a plan for user if user doesn't have one
+            if (token.user && !token.user.plan) {
+                await dbConnect();
+                // Check if user already has a plan
+                const existingPlan = await Plan.findOne({ user: token.user._id });
+                if (existingPlan) {
+                    token.user.plan = existingPlan;
+                    return token;
+                }
+
+                // Individual (free) plan by default
+                const planUsage = planData.find(p => p.id === "individual");
+                const plan = new Plan({
+                    type: "individual",
+                    user: token.user._id,
+                    status: "active",
+                    usage: {
+                        forms: planUsage.forms,
+                        monthlyResponses: planUsage.monthlyResponses,
+                        monthlyFormViews: planUsage.monthlyFormViews,
+                        fileStorage: planUsage.fileStorage
+                    },
+                    frequency: "monthly",
+                    expiredDate: null
+                })
+                await plan.save();
+                token.user.plan = plan;
             }
 
             return token;

@@ -93,14 +93,14 @@ export default function SignedinNavbar({ navigation }) {
                                     <MenuItem>
                                         {({ focus }) => (
                                         <Link
-                                            href="#"
+                                            href="/manage-account"
                                             className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                         >
-                                            Your Profile
+                                            Manage account
                                         </Link>
                                         )}
                                     </MenuItem>
-                                    <MenuItem>
+                                    {/* <MenuItem>
                                         {({ focus }) => (
                                         <Link
                                             href="#"
@@ -109,7 +109,7 @@ export default function SignedinNavbar({ navigation }) {
                                             Settings
                                         </Link>
                                         )}
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     <MenuItem>
                                         {({ focus }) => (
                                         <Link
