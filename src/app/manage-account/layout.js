@@ -1,5 +1,6 @@
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+// import { cookies } from "next/headers"
+// import { redirect } from "next/navigation"
+import { Suspense } from "react"
 
 import LoggedInLayout from "@/components/layouts/LoggedInLayout"
 
@@ -16,7 +17,9 @@ export default function FormLayout({ children }) {
 
     return (
         <LoggedInLayout>
-            {children}
+            <Suspense fallback={<div>Loading...</div>}>
+                {children}
+            </Suspense>
         </LoggedInLayout>
     )
 }
