@@ -77,13 +77,6 @@ export async function POST(req) {
         mode: 'subscription',
         success_url: `${process.env.APP_URL}/manage-account?tab=subscription`,
         cancel_url: `${process.env.APP_URL}/manage-account?tab=subscription`,
-        subscription_data: {
-            metadata: {
-                userId: user._id.toString(),
-                plan: plan,
-                frequency: frequency
-            }
-        }
     });
 
     return Response.json({ 

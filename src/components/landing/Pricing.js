@@ -191,9 +191,31 @@ const PlanButton = ({ plan, user, frequency }) => {
         }
     }
 
+    const openStripePortalSession = async () => {
+        setLoading(true);
+        const response = await fetch('/api/stripe/create_portal_session',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            window.location.href = data.sessionUrl;
+        } else {
+            console.log('Failed to create Stripe portal session');
+            setLoading(false);
+        }
+    }
+
     const handleClick = async () => {
-        if (userHasPlan()) {
-            // Manage plan
+        // if (userHasPlan()) {
+        if (user.plan && user.plan.type !== 'individual') {
+            await openStripePortalSession();
         } else {
             await openStripeCheckoutSession();
         }

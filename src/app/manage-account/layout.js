@@ -4,12 +4,15 @@ import { redirect } from "next/navigation"
 import LoggedInLayout from "@/components/layouts/LoggedInLayout"
 
 export default function FormLayout({ children }) {
-    // User must sign in to visit any form page
-    const signedInCookie = cookies().get("signedIn");
-    const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
-    if (!signedIn) {
-        redirect("/signin");
-    }
+    // NOTE: Temporarily commented out
+    // Stripe when redirects to this page doesn't have the signedIn cookie set
+    // Therefore, automatically redirect to signin page, leads to poor and confusing UX
+    
+    // const signedInCookie = cookies().get("signedIn");
+    // const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
+    // if (!signedIn) {
+    //     redirect("/signin");
+    // }
 
     return (
         <LoggedInLayout>

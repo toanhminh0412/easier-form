@@ -115,9 +115,6 @@ const authOptions = {
 
             // Update token to store the latest user data
             if (trigger === "update") {
-                console.log("Update trigger:");
-                console.log(token);
-                // token.user.isEmailVerified = session.isEmailVerified;
                 await dbConnect();
                 const dbUserDoc = await User.findOne({ email: token.user.email });
                 const dbUser = dbUserDoc.toObject();
@@ -127,10 +124,14 @@ const authOptions = {
                 // Update user's plan
                 if (token.user && token.user.plan) {
                     const dbPlanDoc = await Plan.findOne({ _id: token.user.plan._id });
-                    const dbPlan = dbPlanDoc.toObject();
-                    token.user.plan = dbPlan;
+                    if (dbPlanDoc) {
+                        const dbPlan = dbPlanDoc.toObject();
+                        token.user.plan = dbPlan;
+                    // Handle the case where plan is deleted from the database manually
+                    } else {
+                        token.user.plan = null;
+                    }
                 }
-                console.log(token);
             }
 
             // Create a plan for user if user doesn't have one
@@ -161,7 +162,8 @@ const authOptions = {
                 await plan.save();
                 token.user.plan = plan;
             }
-
+            console.log("From jwt function:");
+            console.log(token);
             return token;
         },
         async session({ session, token }) {

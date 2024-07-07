@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 
 import { useSession } from 'next-auth/react';
@@ -25,22 +25,21 @@ function classNames(...classes) {
 
 export default function Page() {
     const { data: session, update } = useSession();
+    const [sessionLoaded, setSessionLoaded] = useState(false);
     const tabSearchParam = useSearchParams().get('tab');
     const tab = tabSearchParam ? tabSearchParam : 'profile';
 
     useEffect(() => {
-        const updateSession = async () => {
+        if (tab === 'subscription' && sessionLoaded) {
             update();
         }
-
-        // Make sure user's plan is up to date
-        if (tab === 'subscription') {
-            updateSession();
-        }
-    }, [tab]);
+    }, [sessionLoaded]);
 
     useEffect(() => {
         console.log(session);
+        if (session) {
+            setSessionLoaded(true);
+        }
     }, [session]);
 
     return (
@@ -80,7 +79,7 @@ export default function Page() {
 
                 <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
                     {!tab || tab === 'profile' && <Profile />}
-                    {tab === 'subscription' && <Pricing user={session?.user} />}
+                    {tab === 'subscription' && (session?.user ? <Pricing user={session?.user} /> : <div>Loading your subscription...</div>)}
                     {tab === 'usage' && <div>Usage</div>}
                 </main>
             </div>
