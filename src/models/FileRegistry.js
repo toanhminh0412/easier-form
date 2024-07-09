@@ -6,6 +6,7 @@ const fileSchema = new Schema({
         type: String,
         required: true,
     },
+    // in KB
     size: {
         type: Number,
         required: true,

@@ -24,6 +24,7 @@ const usageSchema = new Schema({
         required: true,
         default: 0
     },
+    // In MB
     fileStorage: {
         type: Number,
         required: true,

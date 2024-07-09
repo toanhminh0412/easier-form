@@ -3,15 +3,19 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
+import { useSession } from "next-auth/react";
 import { firebaseStorage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
+import planData from "@/data/planData";
 import { compressImageSize } from "@/helpers/files";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsis, faTrash, faArrowPointer } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../ui/Alert";
 
 export default function FilesManagerModal({ selectImage }) {
+    const { data: session } = useSession();
+    const [currentPlan, setCurrentPlan] = useState(planData[0]);
     const [userId, setUserId] = useState(null);
     const [totalSize, setTotalSize] = useState(0);
     const [images, setImages] = useState([]);
@@ -19,6 +23,14 @@ export default function FilesManagerModal({ selectImage }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const fileInput = useRef(null);
+
+    // Get user's current plan
+    useEffect(() => {
+        if (session?.user?.plan) {
+            const plan = planData.find(plan => plan.id === session.user.plan.type);
+            setCurrentPlan(plan);
+        }
+    }, [session]);
 
     // Get user's files
     useEffect(() => {
@@ -47,6 +59,14 @@ export default function FilesManagerModal({ selectImage }) {
         // Upload file to Firebase Storage
         let file = e.target.files[0];
         file = await compressImageSize(file, 1);
+
+        // Check if user still have enough file storage left
+        if (parseFloat((file.size + totalSize) / 1000000) > currentPlan.fileStorage) {
+            setError({ title: `File size is larger than the avaiable storage left. You only have ${parseFloat((currentPlan.fileStorage - totalSize / 1000000) / 1000)}GB left`, message: "Please choose a smaller file"})
+            setLoading(false);
+            return;
+        }
+
         const storageRef = ref(firebaseStorage, `users/${userId}/files/${file.name}`);
         
         // Check if file already exists
@@ -82,10 +102,13 @@ export default function FilesManagerModal({ selectImage }) {
             }),
         });
 
+        // Upload successfully
         if (response.ok) {
             const { images, size } = await response.json();
             setImages(images);
             setTotalSize(size);
+        
+        // Failed to upload file
         } else {
             console.error("Failed to update file registry metadata");
             setError({ title: "Failed to upload file", message: "Please try again"})
@@ -119,10 +142,13 @@ export default function FilesManagerModal({ selectImage }) {
             }),
         });
 
+        // Delete successfully
         if (response.ok) {
             const { images, size } = await response.json();
             setImages(images);
             setTotalSize(size);
+
+        // Failed to delete files
         } else {
             console.error("Failed to delete files");
             setError({ title: "Failed to delete files", message: "Please try again"})
@@ -148,7 +174,7 @@ export default function FilesManagerModal({ selectImage }) {
                 
                 {/* Display total file size */}
                 <div className="text-gray-300 mt-2">
-                    <p className="text-sm">Total size: {parseFloat(totalSize / 1000000)} MB / 1GB</p>
+                    <p className="text-sm">Total size: {parseFloat(totalSize / 1000000)} MB / { parseFloat(currentPlan.fileStorage / 1000) } GB</p>
                 </div>
 
                 {/* No image display */}
@@ -170,7 +196,7 @@ export default function FilesManagerModal({ selectImage }) {
                             />
                         </svg>
                         <h3 className="mt-2 text-sm font-semibold text-white">No files</h3>
-                        <p className="mt-1 text-sm text-gray-300">Click &quot;Upload&quot; to start uploading files. You have 1GB of storage available.</p>
+                        <p className="mt-1 text-sm text-gray-300">Click &quot;Upload&quot; to start uploading files. You have { parseFloat(currentPlan.fileStorage / 1000) }GB of storage available.</p>
                         <div className="mt-6">
                             <button
                                 type="button"
@@ -235,7 +261,7 @@ export default function FilesManagerModal({ selectImage }) {
                     </button>
                 </div> : null}
 
-                <input type="file" className="hidden" ref={fileInput} onChange={uploadFile}></input>
+                <input type="file" className="hidden" accept="image/*" ref={fileInput} onChange={uploadFile}></input>
 
             </div>
             <form method="dialog" className="modal-backdrop">

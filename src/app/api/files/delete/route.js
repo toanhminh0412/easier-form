@@ -2,7 +2,9 @@ import { getServerSession } from "next-auth";
 import authOptions from "../../auth/[...nextauth]/options";
 
 import dbConnect from "@/lib/dbConnect";
+import planData from "@/data/planData";
 import { FileRegistry } from "@/models/FileRegistry";
+import { Plan } from "@/models/Plan";
 
 export async function POST(req) {
     const session = await getServerSession(authOptions);
@@ -36,6 +38,12 @@ export async function POST(req) {
         fileRegistry.totalSize = images.reduce((acc, image) => acc + image.size, 0);
         fileRegistry.lastUpdated = Date.now();
         await fileRegistry.save();
+
+        // Updte user's file storage usage
+        const plan = await Plan.findOne({ user: user._id });
+        const currentPlanUsage = planData.find(p => p.id === plan.type);
+        plan.usage.fileStorage = currentPlanUsage.fileStorage - fileRegistry.totalSize / 1000000;
+        await plan.save();
 
         return Response.json({ 
             message: "Images deleted successfully!",
