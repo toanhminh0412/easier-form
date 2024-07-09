@@ -3,6 +3,7 @@ import authOptions from "@/app/api/auth/[...nextauth]/options";
 
 import dbConnect from "@/lib/dbConnect";
 import { Form } from "@/models/Form";
+import { Plan } from "@/models/Plan";
 import { Response as ResponseModel } from "@/models/Response";
 
 export async function DELETE(req, { params }) {
@@ -35,6 +36,11 @@ export async function DELETE(req, { params }) {
         await ResponseModel.deleteMany({ form: formId }).exec();
 
         await Form.deleteOne({ _id: formId }).exec();
+
+        // Allow user to create another form
+        const plan = await Plan.findOne({ user: user._id });
+        plan.usage.forms += 1;
+        await plan.save();
 
         return Response.json({ message: "Form deleted successfully!" }, { status: 200 });
     } catch (error) {

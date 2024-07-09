@@ -28,6 +28,11 @@ const formSchema = new Schema({
         default: "",
         unique: true
     },
+    views: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
     layout: {
         type: Schema.Types.Mixed
     },

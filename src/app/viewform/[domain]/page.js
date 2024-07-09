@@ -31,10 +31,13 @@ export default function Page({ params }) {
                 console.log(data);
                 setForm(data.form);
             } else {
-                setLoadFormError(`${response.status} ${response.error ? response.error : response.statusText}`);
+                const data = await response.json();
+                setLoadFormError(`${response.status} - ${data.error ? data.error : response.statusText}`);
             }
         }
-        fetchForm();
+        if (!form) {
+            fetchForm();
+        }
     }, []);
 
     // Give form layout a padding at the bottom

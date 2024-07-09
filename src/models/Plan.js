@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
+import { Form } from "./Form";
+import { Response } from "./Response";
+import { FileRegistry } from "./FileRegistry";
+
+import planData from "@/data/planData";
+
 // Track user's current usage for the current plan
 const usageSchema = new Schema({
     forms: {
@@ -61,7 +67,61 @@ const planSchema = new Schema({
         required: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    methods: {
+        async updateUsage(type="all") {
+            const planUsage = planData.find(p => p.id === this.type);
+            const createdForms = await Form.find({ createdBy: this.user });
+            let totalResponses;
+            let totalFormViews;
+            let fileRegistry;
+            let totalSize;
+
+            switch (type) {
+                case "form":
+                    // Get the number of forms created by the user
+                    this.usage.forms = planUsage.forms - createdForms.length;
+                    break;
+                case "response":
+                    totalResponses = 0;
+                    for (const form of createdForms) {
+                        const responses = await Response.find({ form: form._id });
+                        totalResponses += responses.length;
+                    }
+                    this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
+                    break;
+                case "formView":
+                    totalFormViews = 0;
+                    for (const form of createdForms) {
+                        totalFormViews += form.views;
+                    }
+                    this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+                    break;
+                case "file":
+                    fileRegistry = await FileRegistry.findOne({ owner: this.user });
+                    totalSize = fileRegistry ? fileRegistry.totalSize : 0;
+                    this.usage.fileStorage = planUsage.fileStorage - totalSize;
+                    break;
+                default:
+                    this.usage.forms = planUsage.forms - createdForms.length;
+                    totalResponses = 0;
+                    totalFormViews = 0;
+                    for (const form of createdForms) {
+                        const responses = await Response.find({ form: form._id });
+                        totalResponses += responses.length;
+                        totalFormViews += form.views;
+                    }
+                    this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
+                    this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+                    fileRegistry = await FileRegistry.findOne({ owner: this.user });
+                    totalSize = fileRegistry ? fileRegistry.totalSize : 0;
+                    this.usage.fileStorage = planUsage.fileStorage - totalSize;
+                    break;
+            }
+
+            await this.save();
+        }
+    }
 });
 
 export const Plan = mongoose.models.Plan || mongoose.model('Plan', planSchema);

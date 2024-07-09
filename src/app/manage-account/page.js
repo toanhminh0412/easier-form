@@ -31,9 +31,9 @@ export default function Page() {
 
     useEffect(() => {
         if (tab === 'subscription' && sessionLoaded) {
-            update();
+            update({ updatePlanUsage: true });
         }
-    }, [sessionLoaded]);
+    }, [sessionLoaded, tab]);
 
     useEffect(() => {
         console.log(session);

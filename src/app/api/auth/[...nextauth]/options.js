@@ -43,8 +43,6 @@ const authOptions = {
             
                 // If no error and we have user data, return it
                 if (res.status === 200 && user) {
-                    console.log("From authorize function:");
-                    console.log(user);
                     return user
                 }
 
@@ -125,8 +123,13 @@ const authOptions = {
                 if (token.user && token.user.plan) {
                     const dbPlanDoc = await Plan.findOne({ _id: token.user.plan._id });
                     if (dbPlanDoc) {
-                        const dbPlan = dbPlanDoc.toObject();
-                        token.user.plan = dbPlan;
+                        // Do a heavy operation to update plan usage
+                        // Call only be triggered by update({ updatePlanUsage: true })
+                        if (session && session.updatePlanUsage === true) {
+                            await dbPlanDoc.updateUsage("all");
+                        }
+                        const plan = dbPlanDoc.toObject();
+                        token.user.plan = plan;
                     // Handle the case where plan is deleted from the database manually
                     } else {
                         token.user.plan = null;
@@ -160,10 +163,9 @@ const authOptions = {
                     expiredDate: null
                 })
                 await plan.save();
+                await plan.updateUsage("all");
                 token.user.plan = plan;
             }
-            console.log("From jwt function:");
-            console.log(token);
             return token;
         },
         async session({ session, token }) {

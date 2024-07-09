@@ -37,7 +37,7 @@ export default function Form({ form }) {
                         <FontAwesomeIcon icon={faEllipsisVertical} />
                     </div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white text-black text-xs rounded-md border border-slate-100 w-52">
-                        <li><Link href={`/viewform/${form._id}`} target="_blank">
+                        <li><Link href={`/viewform/${form.domain}`} target="_blank">
                             <FontAwesomeIcon icon={faPen} />
                             View form
                         </Link></li>
