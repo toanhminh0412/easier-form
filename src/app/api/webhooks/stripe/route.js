@@ -37,8 +37,8 @@ export async function POST(req) {
             planUsage = planData.find(p => p.id === plan);
             newUsage = {
                 forms: planUsage.forms,
-                monthlyResponses: planUsage.monthlyResponses,
-                monthlyFormViews: planUsage.monthlyFormViews,
+                monthlyResponses: plan === "individual" || frequency === "monthly" ? planUsage.monthlyResponses : planUsage.monthlyResponses * 12,
+                monthlyFormViews: plan === "individual" || frequency === "monthly" ? planUsage.monthlyFormViews : planUsage.monthlyFormViews * 12,
                 fileStorage: planUsage.fileStorage
             }
             userPlan.usage = newUsage;
@@ -67,8 +67,8 @@ export async function POST(req) {
             planUsage = planData.find(p => p.id === updatedPlan);
             newUsage = {
                 forms: planUsage.forms,
-                monthlyResponses: planUsage.monthlyResponses,
-                monthlyFormViews: planUsage.monthlyFormViews,
+                monthlyResponses: updatedPlan === "individual" || updatedFrequency === "monthly" ? planUsage.monthlyResponses : planUsage.monthlyResponses * 12,
+                monthlyFormViews: updatedPlan === "individual" || updatedFrequency === "monthly" ? planUsage.monthlyFormViews : planUsage.monthlyFormViews * 12,
                 fileStorage: planUsage.fileStorage
             }
             userPlan.usage = newUsage;
