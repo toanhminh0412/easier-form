@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
 
+import planData from "@/data/planData";
 import { readResponseData } from "@/helpers/responses";
 import { rowHeight } from "@/data/gridLayout";
 import FormField from "../../form/[formId]/edit/components/formItems/FormField";
@@ -16,6 +18,7 @@ export default function Page({ params }) {
     const [form, setForm] = useState(null);
     const [loadFormError, setLoadFormError] = useState("");
     const [layoutHeight, setLayoutHeight] = useState(1200);
+    const [ownerPlanSpec, setOwnerPlanSpec] = useState(null);
 
     // State for form submission
     const [loading, setLoading] = useState(false);
@@ -30,6 +33,8 @@ export default function Page({ params }) {
                 const data = await response.json();
                 console.log(data);
                 setForm(data.form);
+                setOwnerPlanSpec(planData.find(plan => plan.id === data.ownerPlan.type));
+                console.log(planData.find(plan => plan.id === data.ownerPlan.type));
             } else {
                 const data = await response.json();
                 setLoadFormError(`${response.status} - ${data.error ? data.error : response.statusText}`);
@@ -125,7 +130,7 @@ export default function Page({ params }) {
 
     return (
         <main className="relative w-full">
-            <form onSubmit={submitForm} className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 pb-20 min-h-screen">
+            <form onSubmit={submitForm} className="relative z-0 overflow-scroll bg-slate-100 lg:px-60 pt-20 pb-40 min-h-screen">
                 <ResponsiveGridLayout 
                     className="layout bg-white shadow-lg w-full"
                     style={{ height: `${layoutHeight}px` }}
@@ -165,6 +170,15 @@ export default function Page({ params }) {
                 <div className="w-full mt-8 text-center">
                     <button disabled={loading || success} type="submit" className="btn btn-primary mx-auto">Submit</button>
                 </div>
+
+                {/* Custom branding if current plan enforces */}
+                {ownerPlanSpec.branding && (
+                    <div className="fixed bottom-0 left-0 right-0 bg-base-100 py-2 px-4 flex flex-row justify-center md:justify-between items-center">
+                        <h2 className="text-sm md:text-lg"><span className="md:hidden text-white">Powered by </span><Link href="/" target="_blank" className="text-indigo-300 font-semibold">Easierform</Link></h2>
+                        <p className="hidden md:block text-white text-base my-auto text-center">Create your own form - It&apos;s free</p>
+                        <Link href="/signin"><button className="hidden md:block btn btn-primary btn-sm">Sign in</button></Link>
+                    </div>
+                )}
             </form>
         </main>
     )

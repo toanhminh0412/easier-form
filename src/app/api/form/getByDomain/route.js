@@ -34,6 +34,7 @@ export async function GET(req) {
 
         return Response.json({ 
             form: form,
+            ownerPlan: plan
         }, { status: 200 });
     } catch (error) {
         return Response.json({ error: `Oops, something went wrong! Please try again or contact us for support at ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}` }, { status: 500 });
