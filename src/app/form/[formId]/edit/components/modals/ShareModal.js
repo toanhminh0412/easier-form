@@ -1,18 +1,31 @@
 import { useState, useEffect, useContext } from "react"
 
+import { useSession } from "next-auth/react";
+
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
+import planData from "@/data/planData";
 import FormInfoContext from "../../contexts/FormInfoContext";
 import Alert from "@/components/ui/Alert"
 
 export default function ShareModal() {
     const { formInfo, setFormInfo } = useContext(FormInfoContext);
+    const { data: session } = useSession();
+    const [currentPlan, setCurrentPlan] = useState(null);
 
     const [domain, setDomain] = useState(formInfo.domain || formInfo._id);
     const [loading, setLoading] = useState(false);
 
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
+
+    // Get current plan
+    useEffect(() => {
+        if (session) {
+            const plan = planData.find(plan => plan.id === session.user?.plan?.type);
+            setCurrentPlan(plan);
+        }
+    }, [session]);
 
     // Update domain when currentDomain changes
     // curretDomain changes when form is loaded
@@ -44,8 +57,9 @@ export default function ShareModal() {
             });
             setSuccess(true);
         } else {
+            const data = await response.json();
             console.error("Error publishing form");
-            setError({ title: "Publish error", message: response.error ? response.error : response.statusText });
+            setError({ title: "Publish error", message: data.error ? data.error : response.statusText });
         }
 
         setLoading(false);
@@ -75,6 +89,11 @@ export default function ShareModal() {
                     <Alert type="danger" title={error.title} message={error.message} />
                 </div>}
 
+                {/* Display an info message explaining if the current plan doesn't allow custom URL */}
+                {!currentPlan?.customUrl && <div className="mt-4">
+                    <Alert type="info" title="Custom URL not available" message="Custom URL is only available for Small Business and Enterprise plans"/>
+                </div>}
+
                 {/* Domain */}
                 <label className="form-control w-full max-w-xs mt-2">
                     <div className="label">
@@ -85,14 +104,15 @@ export default function ShareModal() {
                         placeholder="Enter a domain" 
                         className="input input-sm input-bordered w-full max-w-xs"
                         value={domain}
+                        readOnly={!currentPlan?.customUrl}
                         onChange={e => setDomain(e.target.value)}/>
                 </label>
 
                 <div className="mt-4 text-sm">
                     <p>Your form is hosted at:</p>
-                    <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}&#47;&#47;{window.location.hostname}&#47;viewform&#47;{domain}</div>
+                    <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}&#47;&#47;{window.location.hostname}{window.location.port ? ":" + window.location.port : ""}&#47;viewform&#47;{domain}</div>
                     <CopyToClipboard 
-                        text={`${window.location.protocol}//${window.location.hostname}/viewform/${domain}`}
+                        text={`${window.location.protocol}//${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/viewform/${domain}`}
                         onCopy={() => console.log(`copied: ${domain}`)}>
                         <button className="btn btn-secondary btn-sm mt-2 ml-auto">Copy link</button>
                     </CopyToClipboard>

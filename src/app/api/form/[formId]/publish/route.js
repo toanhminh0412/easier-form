@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/api/auth/[...nextauth]/options";
 
+import planData from "@/data/planData";
 import dbConnect from "@/lib/dbConnect";
 import { Form } from "@/models/Form";
+import { Plan } from "@/models/Plan";
 
 export async function POST(req, { params }) {
     const formId = params.formId;
@@ -35,6 +37,13 @@ export async function POST(req, { params }) {
         const domain = body.domain;
         if (!domain) {
             return Response.json({ error: "Domain is required" }, { status: 400 });
+        }
+
+        // Check if user's current plan allows custom domains
+        const plan = await Plan.findOne({ user: user._id });
+        const currentPlan = planData.find(p => p.id === plan.type);
+        if (!currentPlan.customUrl && domain !== form._id.toString()) {
+            return Response.json({ error: "Upgrade to a plan that supports custom URLs to use this feature" }, { status: 400 });
         }
 
         // 400: Bad request. Domain must be unique
