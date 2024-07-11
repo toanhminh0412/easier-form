@@ -24,6 +24,10 @@ export default function LoggedInLayout({ children }) {
         initSession();
     }, []);
 
+    if (!session) {
+        return <h1>Loading...</h1>
+    }
+
     return (
         <SessionProvider session={session}>
             <Navbar signedIn/>
