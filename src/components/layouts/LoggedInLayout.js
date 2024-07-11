@@ -11,8 +11,6 @@ export default function LoggedInLayout({ children }) {
     useEffect(() => {
         const initSession = async () => {
             const session = await getSession();
-            console.log("Session initialized");
-            console.log(session);
             setSession(session);
 
             // Force users to verify email
