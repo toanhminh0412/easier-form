@@ -57,7 +57,7 @@ function classNames(...classes) {
 }
 
 export default function Pricing({ user=null }) {
-    const [frequency, setFrequency] = useState(frequencies[0]);
+    const [frequency, setFrequency] = useState(user?.plan?.frequency ? frequencies.find(f => f.value === user?.plan?.frequency) : frequencies[0]);
 
     const userHasPlan = (plan) => {
         if (user) {
