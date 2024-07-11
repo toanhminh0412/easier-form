@@ -53,7 +53,7 @@ export async function POST(req) {
 
         // Decrement user's file storage usage
         const currentPlanUsage = planData.find(p => p.id === plan.type);
-        plan.usage.fileStorage = currentPlanUsage.fileStorage  - fileRegistry.totalSize / 1000000;
+        plan.usage.fileStorage = currentPlanUsage.fileStorage  - parseFloat(fileRegistry.totalSize / 1000000);
         await plan.save();
 
         return Response.json({ 
@@ -62,6 +62,7 @@ export async function POST(req) {
             size: fileRegistry.totalSize,
         }, { status: 201 });
     } catch (error) {
+        console.error(error);
         return Response.json({ error: `Oops, something went wrong! Please try again or contact us for support at ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}` }, { status: 500 });
     }
 }

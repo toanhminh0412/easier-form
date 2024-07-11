@@ -12,6 +12,7 @@ import { faUserCircle, faCreditCard, faChartLine } from '@fortawesome/free-solid
 
 import Profile from './components/Profile';
 import Pricing from '@/components/landing/Pricing';
+import Usage from './components/Usage';
 
 const navigation = [
     { id: "profile", name: 'Profile', icon: faUserCircle },
@@ -32,6 +33,8 @@ export default function Page() {
     useEffect(() => {
         if (tab === 'subscription' && sessionLoaded) {
             update({ updatePlanUsage: true });
+        } else {
+            update();
         }
     }, [sessionLoaded, tab]);
 
@@ -80,7 +83,7 @@ export default function Page() {
                 <main className="px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
                     {!tab || tab === 'profile' && <Profile />}
                     {tab === 'subscription' && (session?.user ? <Pricing user={session?.user} /> : <div>Loading your subscription...</div>)}
-                    {tab === 'usage' && <div>Usage</div>}
+                    {tab === 'usage' && <Usage />}
                 </main>
             </div>
         </>

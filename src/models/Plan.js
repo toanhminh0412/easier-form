@@ -28,7 +28,8 @@ const usageSchema = new Schema({
     fileStorage: {
         type: Number,
         required: true,
-        default: 0
+        default: 0,
+        set: v => parseFloat(v.toFixed(2)), // Setter to limit to 2 decimal points
     }
 }, {
     timestamps: true
@@ -100,7 +101,7 @@ const planSchema = new Schema({
                     break;
                 case "file":
                     fileRegistry = await FileRegistry.findOne({ owner: this.user });
-                    totalSize = fileRegistry ? fileRegistry.totalSize : 0;
+                    totalSize = fileRegistry ? parseFloat(fileRegistry.totalSize / 1000000) : 0;
                     this.usage.fileStorage = planUsage.fileStorage - totalSize;
                     break;
                 default:
@@ -115,7 +116,7 @@ const planSchema = new Schema({
                     this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
                     this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
                     fileRegistry = await FileRegistry.findOne({ owner: this.user });
-                    totalSize = fileRegistry ? fileRegistry.totalSize : 0;
+                    totalSize = fileRegistry ? parseFloat(fileRegistry.totalSize / 1000000) : 0;
                     this.usage.fileStorage = planUsage.fileStorage - totalSize;
                     break;
             }

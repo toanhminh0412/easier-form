@@ -6,7 +6,7 @@ const fileSchema = new Schema({
         type: String,
         required: true,
     },
-    // in KB
+    // in Bytes
     size: {
         type: Number,
         required: true,
@@ -34,6 +34,7 @@ const fileRegistrySchema = new Schema({
         ref: "User",
         required: true,
     },
+    // in Bytes
     totalSize: {
         type: Number,
         required: true,

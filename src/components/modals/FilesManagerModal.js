@@ -111,7 +111,8 @@ export default function FilesManagerModal({ selectImage }) {
         // Failed to upload file
         } else {
             console.error("Failed to update file registry metadata");
-            setError({ title: "Failed to upload file", message: "Please try again"})
+            const data = await response.json();
+            setError({ title: "Failed to upload file", message: data.error ? data.error : "Please try again"})
         }
 
         setLoading(false);

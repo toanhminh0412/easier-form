@@ -39,10 +39,10 @@ export async function POST(req) {
         fileRegistry.lastUpdated = Date.now();
         await fileRegistry.save();
 
-        // Updte user's file storage usage
+        // Update user's file storage usage
         const plan = await Plan.findOne({ user: user._id });
         const currentPlanUsage = planData.find(p => p.id === plan.type);
-        plan.usage.fileStorage = currentPlanUsage.fileStorage - fileRegistry.totalSize / 1000000;
+        plan.usage.fileStorage = currentPlanUsage.fileStorage - parseFloat(fileRegistry.totalSize / 1000000);
         await plan.save();
 
         return Response.json({ 
