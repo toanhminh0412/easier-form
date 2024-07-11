@@ -12,6 +12,11 @@ export default function LoggedInLayout({ children }) {
         const initSession = async () => {
             const session = await getSession();
             setSession(session);
+
+            // Force users to verify email
+            if (session && session.user && !session.user.isEmailVerified) {
+                window.location.href = "/verify-email";
+            }
         }
 
         initSession();

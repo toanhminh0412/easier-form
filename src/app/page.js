@@ -13,11 +13,11 @@ import Navbar from "@/components/navbars/Navbar";
 
 export default async function Home() {
     // Force users to verify email
-    const session = await getServerSession(authOptions);
-    console.log(session);
-    if (session && session.user && !session.user.isEmailVerified) {
-        redirect("/verify-email");
-    }
+    // const session = await getServerSession(authOptions);
+    // console.log(session);
+    // if (session && session.user && !session.user.isEmailVerified) {
+    //     redirect("/verify-email");
+    // }
 
     const signedInCookie = cookies().get("signedIn");
     const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false;
