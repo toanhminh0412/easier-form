@@ -90,14 +90,22 @@ const planSchema = new Schema({
                         const responses = await Response.find({ form: form._id });
                         totalResponses += responses.length;
                     }
-                    this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
+                    if (this.frequency === "monthly" || this.type === "individual") {
+                        this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
+                    } else {
+                        this.usage.monthlyResponses = planUsage.monthlyResponses * 12 - totalResponses;
+                    }
                     break;
                 case "formView":
                     totalFormViews = 0;
                     for (const form of createdForms) {
                         totalFormViews += form.views;
                     }
-                    this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+                    if (this.frequency === "monthly" || this.type === "individual") {
+                        this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+                    } else {
+                        this.usage.monthlyFormViews = planUsage.monthlyFormViews * 12 - totalFormViews;
+                    }
                     break;
                 case "file":
                     fileRegistry = await FileRegistry.findOne({ owner: this.user });
@@ -113,8 +121,15 @@ const planSchema = new Schema({
                         totalResponses += responses.length;
                         totalFormViews += form.views;
                     }
-                    this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
-                    this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+
+                    if (this.frequency === "monthly" || this.type === "individual") {    
+                        this.usage.monthlyResponses = planUsage.monthlyResponses - totalResponses;
+                        this.usage.monthlyFormViews = planUsage.monthlyFormViews - totalFormViews;
+                    } else {
+                        this.usage.monthlyResponses = planUsage.monthlyResponses * 12 - totalResponses;
+                        this.usage.monthlyFormViews = planUsage.monthlyFormViews * 12 - totalFormViews;
+                    }
+                    
                     fileRegistry = await FileRegistry.findOne({ owner: this.user });
                     totalSize = fileRegistry ? parseFloat(fileRegistry.totalSize / 1000000) : 0;
                     this.usage.fileStorage = planUsage.fileStorage - totalSize;

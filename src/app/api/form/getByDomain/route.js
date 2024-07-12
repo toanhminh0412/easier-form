@@ -32,6 +32,10 @@ export async function GET(req) {
         plan.usage.monthlyFormViews -= 1;
         await plan.save();
 
+        // Add 1 view to the form
+        form.views += 1;
+        await form.save();
+
         return Response.json({ 
             form: form,
             ownerPlan: plan

@@ -21,8 +21,8 @@ export default function Usage() {
             const planTotalUsage = planData.find((item) => item.id === plan.type);
             setStats([
                 { name: 'Forms', stat: `${plan.usage.forms} / ${planTotalUsage.forms}` },
-                { name: 'Received responses', stat: `${plan.usage.monthlyResponses} / ${planTotalUsage.monthlyResponses}` },
-                { name: 'Form views', stat: `${plan.usage.monthlyFormViews} / ${planTotalUsage.monthlyFormViews}` },
+                { name: 'Received responses', stat: `${plan.usage.monthlyResponses} / ${plan.type === "individual" || plan.frequency === "monthly" ?  planTotalUsage.monthlyResponses : planTotalUsage.monthlyResponses * 12}` },
+                { name: 'Form views', stat: `${plan.usage.monthlyFormViews} / ${plan.type === "individual" || plan.frequency === "monthly" ?  planTotalUsage.monthlyFormViews : planTotalUsage.monthlyFormViews * 12}` },
                 { name: 'File storage (in GB)', stat: `${parseFloat(plan.usage.fileStorage / 1000).toFixed(2)} / ${parseFloat(planTotalUsage.fileStorage / 1000)}` },
             ]);
         }
