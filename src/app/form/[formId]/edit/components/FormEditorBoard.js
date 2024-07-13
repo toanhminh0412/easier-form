@@ -40,35 +40,6 @@ export default function FormEditorBoard() {
         setLayoutItems({lg: [...layoutItems.lg, newItem] });
     }
 
-    // Save layout changes for resizing an item
-    const onResizeStop = (layout, oldItem, newItem, placeholder, e, element) => {
-        const newLayoutItems = {lg: []}
-        newLayoutItems.lg = layoutItems.lg.map(item => {
-            if (item.i === oldItem.i) {
-                return {
-                    ...item,
-                    w: newItem.w,
-                    h: newItem.h
-                };
-            }
-            return item;
-        })
-        setLayoutItems(newLayoutItems);
-
-        // If the resized item is the active item, update the active item
-        if (formActiveItem && formActiveItem.i === oldItem.i) {
-            setFormActiveItem(oldFormActiveItem => {
-                return {
-                    ...oldFormActiveItem,
-                    x: newItem.x,
-                    y: newItem.y,
-                    w: newItem.w,
-                    h: newItem.h
-                }
-            });
-        }
-    }
-
     // Save layout changes for dragging an item
     const onDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
         // If the item is dropped in the same position (meaning it's a click, not a drag), open the edit bar
@@ -77,32 +48,24 @@ export default function FormEditorBoard() {
             setFormActiveItem(item);
             return;
         }
+    }
 
-        // If the item is dropped in a different position, save the new position
-        const newLayoutItems = {lg: []}
-        newLayoutItems.lg = layoutItems.lg.map(item => {
-            if (item.i === oldItem.i) {
+    // Save new layout items when layout changes
+    const onLayoutChange = (newLayout) => {
+        setLayoutItems(oldLayoutItems => {
+            const updatedLayoutItems = oldLayoutItems.lg.map(item => {
+                const newItem = newLayout.find(newItem => newItem.i === item.i);
                 return {
                     ...item,
                     x: newItem.x,
-                    y: newItem.y
-                };
-            }
-            return item;
-        })
-        console.log(newLayoutItems)
-        setLayoutItems(newLayoutItems);
-
-        // If the dragged item is the active item, update the active item
-        if (formActiveItem && formActiveItem.i === oldItem.i) {
-            setFormActiveItem(oldFormActiveItem => {
-                return {
-                    ...oldFormActiveItem,
-                    x: newItem.x,
-                    y: newItem.y
+                    y: newItem.y,
+                    w: newItem.w,
+                    h: newItem.h
                 }
             });
-        }
+            const newLayoutItems = {lg: updatedLayoutItems};
+            return newLayoutItems;
+        });
     }
 
     // If click in the board but not in any item, close the edit bar
@@ -129,7 +92,7 @@ export default function FormEditorBoard() {
                 isDroppable={true}
                 onDrop={onDrop}
                 onDragStop={onDragStop}
-                onResizeStop={onResizeStop}
+                onLayoutChange={onLayoutChange}
                 compactType={null}
                 allowOverlap={true}
                 autoSize={true}

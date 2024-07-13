@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link"
+import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark, faPencil, faAlignLeft, 
@@ -9,14 +12,16 @@ import { faXmark, faPencil, faAlignLeft,
     faCalendar, faClock, faCalendarAlt, faFileUpload
 } from "@fortawesome/free-solid-svg-icons"
 
-export default function Sidebar({ open }) {
-    if (!open) return null
+export default function Sidebar() {
+    const [open, setOpen] = useState(true)
+
+    if (!open) return <button onClick={() => setOpen(true)} className="btn btn-primary absolute top-4 left-4 z-30">Add elements</button>
 
     return (
         <div id="sidebar" className="absolute top-0 left-0 z-30 max-h-full overflow-scroll">
             <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
                 <h1 className="text-md font-semibold w-fit text-white">Add elements</h1>
-                {/* <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white"></FontAwesomeIcon> */}
+                <FontAwesomeIcon icon={faXmark} className="my-auto text-xl hover:text-white" onClick={() => setOpen(false)}></FontAwesomeIcon>
             </div>
             <ul className="menu p-4 w-60 bg-base-100 text-base-content">
                 {/* Basic fields */}

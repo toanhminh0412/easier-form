@@ -134,7 +134,7 @@ export default function Page({ params }) {
                 <ResponsiveGridLayout 
                     className="layout bg-white shadow-lg w-full"
                     style={{ height: `${layoutHeight}px` }}
-                    cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48}}
+                    cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48 }}
                     rowHeight={rowHeight} 
                     breakpoints={{ lg: 2000, md: 1300, sm: 900, xs: 500, xxs: 0 }}
                     margin={[0,0]}

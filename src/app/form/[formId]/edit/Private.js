@@ -21,8 +21,6 @@ export default function PrivatePage({ formId }) {
         lg: []
     });
     const [formActiveItem, setFormActiveItem] = useState(null);
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-
     const [savingState, setSavingState] = useState("saved");
 
     // Fetch form data
@@ -44,7 +42,7 @@ export default function PrivatePage({ formId }) {
         fetchForm();
     }, []);
 
-    // If there is a change in form, wait for 1 second
+    // If there is a change in form, wait for 3 seconds
     // If there is no new change, save the form
     useEffect(() => {
         if (form) {
@@ -139,18 +137,16 @@ export default function PrivatePage({ formId }) {
             <FormInfoContext.Provider value={{formInfo, setFormInfo}}>
                 <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
                     <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
-                        <SidebarOpenContext.Provider value={{sidebarOpen, setSidebarOpen}}>
-                            <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
-                            <main className="relative w-full">
-                                <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
-                                    <FormEditorBoard/>
-                                    <ShareModal currentDomain={form.domain} formId={formId}/>
-                                    <FormJSONModal json={layoutItems}/>
-                                </div>
-                                <EditBar open={formActiveItem !== null}/>
-                                <Sidebar open={sidebarOpen}/>
-                            </main>
-                        </SidebarOpenContext.Provider>
+                        <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
+                        <main className="relative w-full">
+                            <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
+                                <FormEditorBoard/>
+                                <ShareModal currentDomain={form.domain} formId={formId}/>
+                                <FormJSONModal json={layoutItems}/>
+                            </div>
+                            <EditBar open={formActiveItem !== null}/>
+                            <Sidebar/>
+                        </main>
                     </FormActiveItemContext.Provider>
                 </LayoutItemsContext.Provider>
             </FormInfoContext.Provider>
