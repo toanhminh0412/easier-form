@@ -30,7 +30,7 @@ export default function Usage() {
 
     return (
         <div>
-            <h3 className="text-sm leading-6 text-gray-700">Amount that you have left until <strong className="text-gray-900">{session?.user?.plan?.expiredDate}</strong></h3>
+            <h3 className="text-sm leading-6 text-gray-700">Amount that you have left until <strong className="text-gray-900">{session?.user?.plan?.expiredDate ? new Date(session?.user?.plan?.expiredDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : null}</strong></h3>
             <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             {stats.map((item) => (
                 <div key={item.name} className="overflow-hidden rounded-lg bg-white px-4 py-5 border border-gray-100 shadow sm:p-6">
