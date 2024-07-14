@@ -5,11 +5,13 @@ import { useState, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import FormInfoContext from "../contexts/FormInfoContext";
+import CurrentBreakpointContext from "../contexts/CurrentBreakpointContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment } from "@fortawesome/free-solid-svg-icons"
+import { faLaptop, faTabletScreenButton, faMobileScreenButton, faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ savingState }) {
+    const { currentBreakpoint, setCurrentBreakpoint } = useContext(CurrentBreakpointContext);
     const { formInfo } = useContext(FormInfoContext);
 
     return (
@@ -35,8 +37,20 @@ export default function EditorNavbar({ savingState }) {
                     </div>}
                 </div> : null}
             </div>
-            
-            
+
+            {/* Responsive design options */}
+            <div className="flex flex-row items-center">
+                <div className={`btn btn-ghost ${currentBreakpoint === "lg" ? "btn-active" : ""} ${window.innerWidth < 1200 ? "btn-disabled" : ""}`} onClick={() => {if (currentBreakpoint !== "lg") { setCurrentBreakpoint("lg") }}}>
+                    <FontAwesomeIcon icon={faLaptop} className="text-slate-200 hover:text-white duration-75"/>
+                </div>
+                <div className={`btn btn-ghost ${currentBreakpoint === "md" ? "btn-active" : ""} ${window.innerWidth < 768 ? "btn-disabled" : ""}`} onClick={() => {if (currentBreakpoint !== "md") { setCurrentBreakpoint("md") }}}>
+                    <FontAwesomeIcon icon={faTabletScreenButton} className="text-slate-200 hover:text-white duration-75"/>
+                </div>
+                <div className={`btn btn-ghost ${currentBreakpoint === "sm" ? "btn-active" : ""}`} onClick={() => {if (currentBreakpoint !== "sm") { setCurrentBreakpoint("sm") }}}>
+                    <FontAwesomeIcon icon={faMobileScreenButton} className="text-slate-200 hover:text-white duration-75"/>
+                </div>
+            </div>
+
             <div className="flex flex-row gap-3 md:gap-8 my-auto mr-2 md:mr-4">
                 {/* Preview button */}
                 <Link href={`/viewform/${formInfo.domain}`} target="_blank" className="w-fit h-fit my-auto">

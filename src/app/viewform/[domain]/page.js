@@ -7,7 +7,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 
 import planData from "@/data/planData";
 import { readResponseData } from "@/helpers/responses";
-import { rowHeight } from "@/data/gridLayout";
+import { rowHeight, breakpoints } from "@/data/gridLayout";
 import FormField from "../../form/[formId]/edit/components/formItems/FormField";
 import Alert from "@/components/ui/Alert";
 
@@ -19,7 +19,9 @@ export default function Page({ params }) {
     const [loadFormError, setLoadFormError] = useState("");
     const [layoutHeight, setLayoutHeight] = useState(1200);
     const [ownerPlanSpec, setOwnerPlanSpec] = useState(null);
-
+    const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
+    const [currentLayout, setCurrentLayout] = useState(null);
+    
     // State for form submission
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -45,11 +47,32 @@ export default function Page({ params }) {
         }
     }, []);
 
+    // Set current breakpoint by checking the window width
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setCurrentBreakpoint("sm");
+            } else if (window.innerWidth < 1200) {
+                setCurrentBreakpoint("md");
+            } else {
+                setCurrentBreakpoint("lg");
+            }
+        }
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     // Give form layout a padding at the bottom
     useEffect(() => {
         if (!form) return;
-        updateLayoutHeight(form.layout.lg, 40);
-    }, [form]);
+
+        // Set current layout based on available breakpoints
+        const layout = form.layout[currentBreakpoint] ? form.layout[currentBreakpoint] : form.layout.lg;
+        setCurrentLayout(layout);
+
+        updateLayoutHeight(layout, 40);
+    }, [form, currentBreakpoint]);
 
     // Maintain a padding at the bottom of the layout 
     const updateLayoutHeight = (layout, paddingBottom) => {
@@ -57,7 +80,7 @@ export default function Page({ params }) {
         setLayoutHeight(maxY * rowHeight + paddingBottom);
     };
 
-    if (!form) {
+    if (!form || !currentLayout) {
         if (loadFormError) {
             return (
                 <div className="flex justify-center items-center h-[90vh]">
@@ -134,14 +157,14 @@ export default function Page({ params }) {
                 <ResponsiveGridLayout 
                     className="layout bg-white shadow-lg w-full"
                     style={{ height: `${layoutHeight}px` }}
-                    cols={{ lg: 48, md: 48, sm: 48, xs: 48, xxs: 48 }}
+                    cols={{ lg: 48, md: 48, sm: 48 }}
                     rowHeight={rowHeight} 
-                    breakpoints={{ lg: 2000, md: 1300, sm: 900, xs: 500, xxs: 0 }}
+                    breakpoints={breakpoints}
                     margin={[0,0]}
                     layouts={form.layout}
                     autoSize={true}
                     >
-                    {form.layout.lg.map(item => (
+                    {currentLayout.map(item => (
                         <div 
                             key={item.i} 
                             className={`layout-item bg-white border-2 border-white hover:z-50`}

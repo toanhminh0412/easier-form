@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 
 import FormInfoContext from "./contexts/FormInfoContext";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
+import CurrentBreakpointContext from "./contexts/CurrentBreakpointContext";
 import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
-import SidebarOpenContext from "./contexts/SidebarOpenContext";
 import Sidebar from "@/app/form/[formId]/edit/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
 import EditBar from "./components/sidebars/Editbar";
@@ -18,10 +18,27 @@ export default function PrivatePage({ formId }) {
     const [loadFormError, setLoadFormError] = useState("");
     const [formInfo, setFormInfo] = useState(null);
     const [layoutItems, setLayoutItems] = useState({
-        lg: []
+        lg: [], md: [], sm: []
     });
+    const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
     const [formActiveItem, setFormActiveItem] = useState(null);
     const [savingState, setSavingState] = useState("saved");
+
+    // Set current breakpoint by checking the window width
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setCurrentBreakpoint("sm");
+            } else if (window.innerWidth < 1200) {
+                setCurrentBreakpoint("md");
+            } else {
+                setCurrentBreakpoint("lg");
+            }
+        }
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     // Fetch form data
     useEffect(() => {
@@ -34,7 +51,11 @@ export default function PrivatePage({ formId }) {
                 const { layout, ...dataFormInfo } = data.form;
                 console.log(dataFormInfo);
                 setFormInfo(dataFormInfo);
-                setLayoutItems(data.form.layout);
+                setLayoutItems({
+                    lg: data.form.layout.lg,
+                    md: data.form.layout.md ? data.form.layout.md : data.form.layout.lg,
+                    sm: data.form.layout.sm ? data.form.layout.sm : data.form.layout.lg
+                });
             } else {
                 setLoadFormError(`${response.status} ${response.error ? response.error : response.statusText}`);
             }
@@ -98,7 +119,37 @@ export default function PrivatePage({ formId }) {
                 return {
                     lg: oldLayoutItems.lg.map(item => {
                         if (item.i === formActiveItem.i) {
-                            return formActiveItem;
+                            return {
+                                ...formActiveItem,
+                                x: item.x,
+                                y: item.y,
+                                w: item.w,
+                                h: item.h
+                            }   
+                        }
+                        return item;
+                    }),
+                    md: oldLayoutItems.md.map(item => {
+                        if (item.i === formActiveItem.i) {
+                            return {
+                                ...formActiveItem,
+                                x: item.x,
+                                y: item.y,
+                                w: item.w,
+                                h: item.h
+                            }
+                        }
+                        return item;
+                    }),
+                    sm: oldLayoutItems.sm.map(item => {
+                        if (item.i === formActiveItem.i) {
+                            return {
+                                ...formActiveItem,
+                                x: item.x,
+                                y: item.y,
+                                w: item.w,
+                                h: item.h
+                            }
                         }
                         return item;
                     })
@@ -111,7 +162,9 @@ export default function PrivatePage({ formId }) {
     const deleteActiveItem = () => {
         setLayoutItems(oldLayoutItems => {
             return {
-                lg: oldLayoutItems.lg.filter(item => item.i !== formActiveItem.i)
+                lg: oldLayoutItems.lg.filter(item => item.i !== formActiveItem.i),
+                md: oldLayoutItems.md.filter(item => item.i !== formActiveItem.i),
+                sm: oldLayoutItems.sm.filter(item => item.i !== formActiveItem.i)
             }
         });
         setFormActiveItem(null);
@@ -136,18 +189,20 @@ export default function PrivatePage({ formId }) {
         <div className="relative pt-14">
             <FormInfoContext.Provider value={{formInfo, setFormInfo}}>
                 <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
-                    <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
-                        <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
-                        <main className="relative w-full">
-                            <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
-                                <FormEditorBoard/>
-                                <ShareModal currentDomain={form.domain} formId={formId}/>
-                                <FormJSONModal json={layoutItems}/>
-                            </div>
-                            <EditBar open={formActiveItem !== null}/>
-                            <Sidebar/>
-                        </main>
-                    </FormActiveItemContext.Provider>
+                    <CurrentBreakpointContext.Provider value={{currentBreakpoint, setCurrentBreakpoint}}>
+                        <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
+                            <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
+                            <main className="relative w-full">
+                                <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
+                                    <FormEditorBoard/>
+                                    <ShareModal currentDomain={form.domain} formId={formId}/>
+                                    <FormJSONModal json={layoutItems}/>
+                                </div>
+                                <EditBar open={formActiveItem !== null}/>
+                                <Sidebar/>
+                            </main>
+                        </FormActiveItemContext.Provider>
+                    </CurrentBreakpointContext.Provider>
                 </LayoutItemsContext.Provider>
             </FormInfoContext.Provider>
         </div>

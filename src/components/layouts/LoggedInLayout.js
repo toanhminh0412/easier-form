@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSession, SessionProvider } from "next-auth/react";
+import { getSession, SessionProvider, signOut } from "next-auth/react";
 
+import { deleteCookie } from "@/serverActions/cookies";
 import Navbar from "../navbars/Navbar";
 
 export default function LoggedInLayout({ children }) {
@@ -16,6 +17,12 @@ export default function LoggedInLayout({ children }) {
             // Force users to verify email
             if (session && session.user && !session.user.isEmailVerified) {
                 window.location.href = "/verify-email";
+            }
+
+            // If user doesn't have a session, sign them out
+            if (!session) {
+                deleteCookie("signedIn");
+                await signOut({ redirect: true, callbackUrl: "/signin" });
             }
         }
 

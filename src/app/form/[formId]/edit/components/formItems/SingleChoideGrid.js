@@ -42,19 +42,19 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
     
     // A table where each cell is a radio button
     return (
-        <div>
+        <div className="@container">
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
                 {item.label}
             </label>
-            <div className="mt-2">
-                <table className="max-w-full divide-y divide-gray-200">
+            <div className="mt-2 overflow-auto">
+                <table className="max-h-full max-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" className="px-1 @lg:px-3 @2xl:px-6 py-1 @lg:py-2 @2xl:py-3 text-left text-xs font-medium @2xl:uppercase text-gray-500 tracking-wider">
                                 {item.description}
                             </th>
                             {item.cols.map(col => (
-                                <th key={col.id} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th key={col.id} scope="col" className="px-1 @lg:px-3 @2xl:px-6 py-1 @lg:py-2 @2xl:py-3 text-left text-xs font-medium @2xl:uppercase text-gray-500 tracking-wider">
                                     {col.text}
                                 </th>
                             ))}
@@ -63,11 +63,11 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
                     <tbody className="bg-white divide-y divide-gray-200">
                         {item.rows.map(row => (
                             <tr key={row.id}>
-                                <th scope="row" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+                                <th scope="row" className="px-1 @lg:px-3 @2xl:px-6 py-1 @lg:py-2 @2xl:py-3 text-left text-xs @lg:text-sm font-medium text-gray-900">
                                     {row.text}
                                 </th>
                                 {item.cols.map(col => (
-                                    <td key={col.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td key={col.id} className="px-1 @lg:px-3 @2xl:px-6 py-1 @lg:py-2 @2xl:py-3 whitespace-nowrap text-xs @lg:text-sm text-gray-500">
                                         <div className="w-full text-center">
                                             <input
                                                 type="radio"
@@ -75,7 +75,7 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
                                                 id={`${item.i}-${row.id}-${col.id}`}
                                                 rowvalue={row.text}
                                                 colvalue={col.text}
-                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                className="focus:ring-indigo-500 h-3 w-3 @2xl:h-4 @2xl:w-4 text-indigo-600 border-gray-300"
                                                 checked={col.text === getRowValue(row.text)}
                                                 disabled={readOnly}
                                                 onChange={handleChange}
