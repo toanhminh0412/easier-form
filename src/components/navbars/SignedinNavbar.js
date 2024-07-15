@@ -7,7 +7,7 @@ import { signOut as NextAuthSignOut, useSession } from "next-auth/react";
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark, faHand } from "@fortawesome/free-solid-svg-icons";
 
 import { deleteCookie } from "@/serverActions/cookies";
 
@@ -90,37 +90,45 @@ export default function SignedinNavbar({ navigation }) {
                                     transition
                                     className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                                     >
-                                    <MenuItem>
-                                        {({ focus }) => (
-                                        <Link
-                                            href="/manage-account"
-                                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                        >
-                                            Manage account
-                                        </Link>
-                                        )}
-                                    </MenuItem>
-                                    {/* <MenuItem>
-                                        {({ focus }) => (
-                                        <Link
-                                            href="#"
-                                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                        >
-                                            Settings
-                                        </Link>
-                                        )}
-                                    </MenuItem> */}
-                                    <MenuItem>
-                                        {({ focus }) => (
-                                        <Link
-                                            href="#"
-                                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                            onClick={signOut}
-                                        >
-                                            Sign out
-                                        </Link>
-                                        )}
-                                    </MenuItem>
+                                        <MenuItem>
+                                            <label
+                                                className='block px-4 py-3 text-sm text-gray-700 border-b border-gray-200'
+                                            >
+                                                Hello <strong>{user?.name}</strong>
+                                                <FontAwesomeIcon icon={faHand} className="ml-2 text-yellow-500 text-lg"/>
+                                            </label>
+                                        </MenuItem>
+                                        <MenuItem>
+                                            {({ focus }) => (
+                                            <Link
+                                                href="/manage-account"
+                                                className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                            >
+                                                Manage account
+                                            </Link>
+                                            )}
+                                        </MenuItem>
+                                        {/* <MenuItem>
+                                            {({ focus }) => (
+                                            <Link
+                                                href="#"
+                                                className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                            >
+                                                Settings
+                                            </Link>
+                                            )}
+                                        </MenuItem> */}
+                                        <MenuItem>
+                                            {({ focus }) => (
+                                            <Link
+                                                href="#"
+                                                className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                onClick={signOut}
+                                            >
+                                                Sign out
+                                            </Link>
+                                            )}
+                                        </MenuItem>
                                     </MenuItems>
                                 </Menu>
                             </div>
