@@ -89,6 +89,8 @@ export default function FormEditorBoard() {
                     if (item.i === oldItem.i) {
                         return {
                             ...item,
+                            x: newItem.x,
+                            y: newItem.y,
                             w: newItem.w,
                             h: newItem.h
                         }
