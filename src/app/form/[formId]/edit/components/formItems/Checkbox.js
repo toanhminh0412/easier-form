@@ -29,7 +29,7 @@ export default function Checkbox({ item, value=null, readOnly=false }) {
                     required={item.required}
                 />
                 <label htmlFor={item.i} className="ml-2 block text-sm text-gray-900">
-                    {item.label} {item.required && <span className="text-red-600">*</span>}
+                    {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
                 </label>
             </div>
         </div>

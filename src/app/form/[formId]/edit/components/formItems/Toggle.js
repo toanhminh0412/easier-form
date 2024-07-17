@@ -28,7 +28,7 @@ export default function Toggle({ item, value=null, readOnly=false }) {
                 required={item.required}
             />
             <label htmlFor={item.i} className="ml-2 text-sm font-medium leading-6 text-gray-900">
-                {item.label} {item.required && <span className="text-red-600">*</span>}
+                {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
             </label>
         </div>
     )

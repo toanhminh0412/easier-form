@@ -8,7 +8,7 @@ export default function Password({ item, value=null, readOnly=false }) {
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
-                {item.label} {item.required && <span className="text-red-600">*</span>}
+                {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
             </label>
             <div className={`mt-2 ${readOnly && value ? "flex flex-row" : ""}`}>
                 <input

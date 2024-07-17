@@ -18,7 +18,7 @@ export default function Radio({ item, value=null, readOnly=false }) {
     return (
         <div>
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900 mb-3">
-                {item.label} {item.required && <span className="text-red-600">*</span>}
+                {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
             </label>
             <div className="flex flex-col gap-2">
                 {item.options.map(option => 

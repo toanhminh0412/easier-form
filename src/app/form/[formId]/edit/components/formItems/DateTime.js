@@ -5,7 +5,7 @@ export default function DateTime({ item, value=null, readOnly=false }) {
                 htmlFor={item.i}
                 className="block text-sm font-medium leading-6 text-gray-900"
             >
-                {item.label} {item.required && <span className="text-red-600">*</span>}
+                {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
             </label>
             <div className="mt-2">
                 <input

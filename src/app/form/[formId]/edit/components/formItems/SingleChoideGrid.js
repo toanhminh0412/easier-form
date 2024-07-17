@@ -55,7 +55,7 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
     return (
         <div className="@container">
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
-                {item.label} {item.required && <span className="text-red-600">*</span>}
+                {item.label} {item.required && item.label && <span className="text-red-600">*</span>}
             </label>
             <div className="mt-2 overflow-auto">
                 <table className="max-h-full max-w-full divide-y divide-gray-200">
