@@ -3,7 +3,18 @@
 import { useState, useEffect } from "react";
 
 export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState([]);
+    const [isEmpty, setIsEmpty] = useState(true);
+
+    useEffect(() => {
+        let isEmpty = true;
+        selected.forEach(v => {
+            if (v.col !== "") {
+                isEmpty = false;
+            }
+        });
+        setIsEmpty(isEmpty);
+    }, [selected]);
 
     useEffect(() => {
         if (value !== null) {
@@ -44,7 +55,7 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
     return (
         <div className="@container">
             <label htmlFor={item.i} className="block text-sm font-medium leading-6 text-gray-900">
-                {item.label}
+                {item.label} {item.required && <span className="text-red-600">*</span>}
             </label>
             <div className="mt-2 overflow-auto">
                 <table className="max-h-full max-w-full divide-y divide-gray-200">
@@ -79,6 +90,7 @@ export default function SingleChoiceGrid({ item, value=null, readOnly=false }) {
                                                 checked={col.text === getRowValue(row.text)}
                                                 disabled={readOnly}
                                                 onChange={handleChange}
+                                                required={item.required && isEmpty}
                                             />
                                         </div>
                                     </td>

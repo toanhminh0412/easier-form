@@ -22,7 +22,7 @@ export default function PDFFileUpload({ item, value=null, readOnly=false }) {
                 htmlFor={item.i}
                 className="block text-sm font-medium leading-6 text-gray-900"
             >
-                {item.label}
+                {item.label} {item.required && <span className="text-red-600">*</span>}
             </label>
             <div className="mt-2">
                 <input
@@ -32,7 +32,7 @@ export default function PDFFileUpload({ item, value=null, readOnly=false }) {
                     accept=".pdf"
                     className="file-input file-input-bordered file-input-sm w-full bg-white text-gray-900"
                     aria-describedby={`${item.i}-description`}
-                    required={item.required !== false}
+                    required={item.required}
                 />
                 {readOnly ? <div className="absolute inset-0"></div> : null}
             </div>

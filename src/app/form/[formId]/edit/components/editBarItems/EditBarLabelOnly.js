@@ -5,17 +5,29 @@ import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveI
 export default function EditBarLabelOnly({ item }) {
     const { setFormActiveItem } = useContext(FormActiveItemContext);
 
-    const updateItem = (label) => {
+    // Change the item's label and required
+    const updateItem = (e) => {
+        if (e.target.name === "required") {
+            setFormActiveItem(oldItem => {
+                return {
+                    ...oldItem,
+                    required: e.target.checked
+                }
+            });
+            return;
+        }
+
+        const { name, value } = e.target;
         setFormActiveItem(oldItem => {
             return {
                 ...oldItem,
-                label
+                [name]: value
             }
         });
     }
 
     return (
-        <div className="text-gray-300">
+        <div className="text-white">
             <div>
                 <label className="block text-sm font-medium leading-6">
                     Label
@@ -27,8 +39,30 @@ export default function EditBarLabelOnly({ item }) {
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="e.g. First Name"
                         value={item.label}
-                        onChange={(e) => updateItem(e.target.value)}
+                        onChange={updateItem}
                     />
+                </div>
+            </div>
+
+            {/* Required */}
+            <div className="relative flex items-start mt-3">
+                <div className="flex h-6 items-center">
+                    <input
+                    name="required"
+                    type="checkbox"
+                    aria-describedby="field-required"
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={item.required}
+                    onChange={updateItem}
+                    />
+                </div>
+                <div className="ml-3 text-sm leading-6">
+                    <label htmlFor="required" className="font-medium text-white">
+                        Required
+                    </label>
+                    <p className="text-gray-200">
+                        Visitors must check this field before submitting the form.
+                    </p>
                 </div>
             </div>
         </div>

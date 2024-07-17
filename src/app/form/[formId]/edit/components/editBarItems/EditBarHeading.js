@@ -37,7 +37,7 @@ export default function EditBarBasicHeading({ item }) {
 
             {/* Tag */}
             <div className="mt-3">
-                <label className="block text-sm font-medium leading-6 text-gray-900">
+                <label className="block text-sm font-medium leading-6">
                     Heading Level
                 </label>
                 <select

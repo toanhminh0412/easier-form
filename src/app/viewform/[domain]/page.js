@@ -106,6 +106,7 @@ export default function Page({ params }) {
         setError(null);
 
         let responseData = null;
+        console.log(form);
         try {
             responseData = await readResponseData(form);
             console.log(responseData);

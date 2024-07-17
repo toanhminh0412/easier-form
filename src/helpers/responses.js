@@ -16,6 +16,7 @@ import AGGridPasswordRenderer from "@/components/responses/aggrid/AGGridPassword
 const readResponseData = async (form) => {
     const responseData = [];
     for (const item of form.layout.lg) {
+        console.log(item);
         let value = null;
         const label = item.label ? item.label : item.description ? item.description : item.placeholder;
         switch (item.type) {
@@ -41,6 +42,7 @@ const readResponseData = async (form) => {
                 responseData.push({ id: item.i, label: label, type: item.type, value: value });
                 continue;
             case "radio":
+                value=""
                 const selectedInput = document.querySelector(`input[name="${item.i}"]:checked`);
                 if (selectedInput) {
                     value = selectedInput.value;
@@ -84,9 +86,14 @@ const readResponseData = async (form) => {
             case "pdf-file-upload":
             case "image-upload":
                 // Get file source
-                value = document.getElementById(item.i).files[0];
+                const uploadedFiles = document.getElementById(item.i).files;
+                if (uploadedFiles.length === 0) {
+                    responseData.push({ id: item.i, label: label, type: item.type, value: null });
+                    continue;
+                }
 
                 // Upload file to Firebase Storage
+                value = uploadedFiles[0];
                 let file = value;
                 if (file.type.startsWith("image/")) {
                     file = await compressImageSize(value, 1);

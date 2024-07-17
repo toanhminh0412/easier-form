@@ -14,6 +14,16 @@ export default function EditBarGrid({ item }) {
 
     // Change the item's label, placeholder, and description on type
     const updateItem = (e) => {
+        if (e.target.name === "required") {
+            setFormActiveItem(oldItem => {
+                return {
+                    ...oldItem,
+                    required: e.target.checked
+                }
+            });
+            return;
+        }
+
         const { name, value } = e.target;
         setFormActiveItem(oldItem => {
             return {
@@ -93,7 +103,7 @@ export default function EditBarGrid({ item }) {
     }
 
     return (
-        <div className="text-gray-300">
+        <div className="text-white">
             {/* Label */}
             <div>
                 <label className="block text-sm font-medium leading-6">
@@ -269,6 +279,28 @@ export default function EditBarGrid({ item }) {
                     value={item.description}
                     onChange={updateItem}
                     />
+                </div>
+            </div>
+
+            {/* Required */}
+            <div className="relative flex items-start mt-3">
+                <div className="flex h-6 items-center">
+                    <input
+                    name="required"
+                    type="checkbox"
+                    aria-describedby="field-required"
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={item.required}
+                    onChange={updateItem}
+                    />
+                </div>
+                <div className="ml-3 text-sm leading-6">
+                    <label htmlFor="required" className="font-medium text-white">
+                        Required
+                    </label>
+                    <p className="text-gray-200">
+                        Visitors must fill out this field before submitting the form.
+                    </p>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "long-text": {
         type: "long-text",
@@ -20,6 +21,7 @@ const gridItemData = {
         h: 12,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "number": {
         type: "number",
@@ -31,6 +33,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "heading": {
         type: "heading",
@@ -76,6 +79,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "checkbox": {
         type: "checkbox",
@@ -84,6 +88,7 @@ const gridItemData = {
         h: 6,
         minW: 1,
         minH: 1,
+        required: false,
     },
     "toggle": {
         type: "toggle",
@@ -92,6 +97,7 @@ const gridItemData = {
         h: 6,
         minW: 1,
         minH: 1,
+        required: false,
     },
     "dropdown": {
         type: "dropdown",
@@ -107,6 +113,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "radio": {
         type: "radio",
@@ -122,6 +129,7 @@ const gridItemData = {
         h: 10,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "multiple-choices": {
         type: "multiple-choices",
@@ -137,6 +145,7 @@ const gridItemData = {
         h: 10,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "single-choice-grid": {
         type: "single-choice-grid",
@@ -159,6 +168,7 @@ const gridItemData = {
         h: 20,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "multiple-choices-grid": {
         type: "multiple-choices-grid",
@@ -180,6 +190,7 @@ const gridItemData = {
         h: 20,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "email": {
         type: "email",
@@ -191,6 +202,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "phone": {
         type: "phone",
@@ -203,6 +215,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "address": {
         type: "address",
@@ -214,6 +227,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "zip-code": {
         type: "zip-code",
@@ -226,6 +240,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "website": {
         type: "website",
@@ -237,6 +252,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "date": {
         type: "date",
@@ -247,6 +263,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "time": {
         type: "time",
@@ -257,6 +274,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "date-time": {
         type: "date-time",
@@ -267,6 +285,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: true,
     },
     "pdf-file-upload": {
         type: "pdf-file-upload",
@@ -277,6 +296,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: false,
     },
     "image-upload": {
         type: "image-upload",
@@ -287,6 +307,7 @@ const gridItemData = {
         h: 8,
         minW: 1,
         minH: 1,
+        required: false,
     },
 }
 
