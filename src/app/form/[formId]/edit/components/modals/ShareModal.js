@@ -106,6 +106,7 @@ export default function ShareModal() {
                         value={domain}
                         readOnly={!currentPlan?.customUrl}
                         onChange={e => setDomain(e.target.value)}/>
+                    <div className="text-xs mt-2">Domains must contain only letters (lowercase or uppercase) and numbers. Domains must have between 3-20 characters.</div>
                 </label>
 
                 <div className="mt-4 text-sm">

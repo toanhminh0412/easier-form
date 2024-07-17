@@ -39,6 +39,16 @@ export async function POST(req, { params }) {
             return Response.json({ error: "Domain is required" }, { status: 400 });
         }
 
+        // 400: Bad request. Domain must be alphanumeric
+        if (!/^[a-zA-Z0-9-]*$/.test(domain)) {
+            return Response.json({ error: "Domain must be alphanumeric" }, { status: 400 });
+        }
+
+        // 400: Bad request. Domain must be between 3 and 20 characters
+        if (domain.length < 3 || domain.length > 20) {
+            return Response.json({ error: "Domain must be between 3 and 20 characters" }, { status: 400 });
+        }
+
         // Check if user's current plan allows custom domains
         const plan = await Plan.findOne({ user: user._id });
         const currentPlan = planData.find(p => p.id === plan.type);
