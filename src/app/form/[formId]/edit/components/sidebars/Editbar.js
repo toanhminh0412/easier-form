@@ -14,7 +14,7 @@ export default function EditBar({ open }) {
     if (!open) return null
 
     return (
-        <div className="absolute top-0 right-0 z-40 h-screen">
+        <div className="absolute top-0 right-0 z-40 max-h-full overflow-scroll">
             <div className="py-3 px-6 bg-base-100 flex flex-row justify-between border-b border-t border-gray-600">
                 <h1 className="text-md font-semibold w-fit text-white">{formActiveItem ? gridItemTypes[formActiveItem.type] : null}</h1>
                 <FontAwesomeIcon 
