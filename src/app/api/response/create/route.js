@@ -1,7 +1,11 @@
+import { Resend } from "resend";
+import ResponseDefaultEmailTemplate from "@/components/emailTemplates/ResponseDefaultEmailTemplate";
+
 import dbConnect from "@/lib/dbConnect";
 import { Response as ResponseModel } from "@/models/Response";
 import { Form } from "@/models/Form";
 import { Plan } from "@/models/Plan";
+import { User } from "@/models/User";
 
 export async function POST(req) {
     await dbConnect();
@@ -43,6 +47,23 @@ export async function POST(req) {
         response.data = body.data;
         response.lastUpdated = Date.now();
         await response.save();
+
+        // Send email to form creator
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const user = await User.findById(form.createdBy);
+        const creatorEmail = user.email;
+
+        const { data, error } = await resend.emails.send({
+            from: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+            to: creatorEmail,
+            subject: `New response for ${form.title} form`,
+            react: ResponseDefaultEmailTemplate({ form, response }),
+        });
+
+        if (error) {
+            console.log("Failed to send email to form creator");
+            console.log(error);
+        }
 
         return Response.json({ 
             message: "Response submitted successfully!"
