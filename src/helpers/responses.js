@@ -8,6 +8,13 @@ import AGGridResponseFile from "@/components/responses/aggrid/AGGridResponseFile
 import AGGridResponseWebsite from "@/components/responses/aggrid/AGGridResponseWebsite";
 import AGGridPasswordRenderer from "@/components/responses/aggrid/AGGridPasswordRenderer";
 
+const NO_RESPONSE_TYPES = [
+    "heading",
+    "paragraph",
+    "image",
+    "separator",
+]
+
 /* Read a form's response
     * 
     * @param {String} form - A form object
@@ -120,6 +127,25 @@ const readResponseData = async (form) => {
     return responseData;
 }
 
+// Convert a response item's value into string
+const convertValueToString = (item) => {
+    if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+        return item.value;
+    } else if (item.type === "checkbox" || item.type === "toggle") {
+        return item.value ? "Yes" : "No";
+    } else if (item.type === "multiple-choices") {
+        return item.value.join(", ");
+    } else if (item.type === "single-choice-grid") {
+        return item.value.map(choice => `${choice.row}: ${choice.col}`).join(", ");
+    } else if (item.type === "multiple-choices-grid") {
+        return item.value.map(choice => `${choice.row}: ${choice.cols.join(", ")}`).join(", ");
+    } else if (item.type === "website") {
+        return item.value;
+    } else {
+        return String(item.value);
+    }   
+}
+
 /* Convert responses to an AGGrid table
     * 
     * @param {Object} form - A form object
@@ -149,15 +175,19 @@ const convertResponsesToAgGridTable = (form, responses) => {
 
         if (item.label) {
             col.headerName = item.label;
-            col.field = item.label;
+            col.field = item.i;
             cols.push(col);
         } else if (item.description) {
             col.headerName = item.description;
-            col.field = item.description;
+            col.field = item.i;
             cols.push(col);
         } else if (item.placeholder) {
             col.headerName = item.placeholder;
-            col.field = item.placeholder;
+            col.field = item.i;
+            cols.push(col);
+        } else if (!NO_RESPONSE_TYPES.includes(item.type)) {
+            col.headerName = "Blank";
+            col.field = item.i;
             cols.push(col);
         }
     }
@@ -166,21 +196,22 @@ const convertResponsesToAgGridTable = (form, responses) => {
     for (const response of responses) {
         const row = {};
         for (const item of response.data) {
-            if (item.type === "image-upload" || item.type === "pdf-file-upload") {
-                row[item.label] = item.value;
-            } else if (item.type === "checkbox" || item.type === "toggle") {
-                row[item.label] = item.value ? "Yes" : "No";
-            } else if (item.type === "multiple-choices") {
-                row[item.label] = item.value.join(", ");
-            } else if (item.type === "single-choice-grid") {
-                row[item.label] = item.value.map(choice => `${choice.row}: ${choice.col}`).join(", ");
-            } else if (item.type === "multiple-choices-grid") {
-                row[item.label] = item.value.map(choice => `${choice.row}: ${choice.cols.join(", ")}`).join(", ");
-            } else if (item.type === "website") {
-                row[item.label] = item.value;
-            } else {
-                row[item.label] = String(item.value);
-            }
+            // if (item.type === "image-upload" || item.type === "pdf-file-upload") {
+            //     row[item.id] = item.value;
+            // } else if (item.type === "checkbox" || item.type === "toggle") {
+            //     row[item.id] = item.value ? "Yes" : "No";
+            // } else if (item.type === "multiple-choices") {
+            //     row[item.id] = item.value.join(", ");
+            // } else if (item.type === "single-choice-grid") {
+            //     row[item.id] = item.value.map(choice => `${choice.row}: ${choice.col}`).join(", ");
+            // } else if (item.type === "multiple-choices-grid") {
+            //     row[item.id] = item.value.map(choice => `${choice.row}: ${choice.cols.join(", ")}`).join(", ");
+            // } else if (item.type === "website") {
+            //     row[item.id] = item.value;
+            // } else {
+            //     row[item.id] = String(item.value);
+            // }
+            row[item.id] = convertValueToString(item);
         }
 
         rows.push(row);
@@ -192,7 +223,7 @@ const convertResponsesToAgGridTable = (form, responses) => {
 // that contain commas, quotes, or newlines
 const escapeCSVValue = (value) => {
     if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
-      return `"${value.replace(/"/g, '""')}"`;
+        return `"${value.replace(/"/g, '""')}"`;
     }
     return value;
 };
@@ -213,13 +244,16 @@ const convertResponsesToCsv = (form, responses) => {
             header.push(item.description);
         } else if (item.placeholder) {
             header.push(item.placeholder);
+        } else if (!NO_RESPONSE_TYPES.includes(item.type)) {
+            header.push("Blank");
         }
     }
     csv.push(header.join(","));
     for (const response of responses) {
         const row = [];
         for (const item of response.data) {
-            const value = escapeCSVValue(item.value);
+            let value = convertValueToString(item);
+            value = escapeCSVValue(value);
             row.push(value);
         }
         csv.push(row.join(","));
@@ -237,21 +271,25 @@ const convertResponsesToExcel = (form, responses) => {
     const sheet = `${form.title} Responses`;
     const columns = [];
     const content = [];
+    let index = 1;
 
     for (const item of form.layout.lg) {
         if (item.label) {
-            columns.push({ label: item.label, value: item.label });
+            columns.push({ label: item.label, value: item.i });
         } else if (item.description) {
-            columns.push({ label: item.description, value: item.description });
+            columns.push({ label: item.description, value: item.i });
         } else if (item.placeholder) {
-            columns.push({ label: item.placeholder, value: item.placeholder });
+            columns.push({ label: item.placeholder, value: item.i });
+        } else if (!NO_RESPONSE_TYPES.includes(item.type)) {
+            columns.push({ label: `Blank ${index}`, value: item.i });
+            index++;
         }
     }
 
     for (const response of responses) {
         const row = {};
         for (const item of response.data) {
-            row[item.label] = item.value;
+            row[item.id] = convertValueToString(item);
         }
         content.push(row);
     }
