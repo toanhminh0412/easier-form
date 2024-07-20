@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -16,6 +16,9 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export default function FormEditorBoard() {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
+    // Keep track of 50 most recent layout items for undo
+    const [layoutItemsHistory, setLayoutItemsHistory] = useState([]);
+    const currentItemsIndex = useRef(0);
     const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
     const { currentBreakpoint } = useContext(CurrentBreakpointContext);
     const [layoutHeight, setLayoutHeight] = useState(1200);
@@ -23,6 +26,19 @@ export default function FormEditorBoard() {
     useEffect(() => {
         updateLayoutHeight(layoutItems[currentBreakpoint], 400);
     }, [layoutItems[currentBreakpoint]]);
+
+    // Update history stack when layout items change
+    useEffect(() => {
+        if (layoutItems && JSON.stringify(layoutItems) !== JSON.stringify(layoutItemsHistory[currentItemsIndex.current])) {
+            console.log("Updating history...");
+            let newLayoutItemsHistory = [...layoutItemsHistory.slice(0, currentItemsIndex.current + 1), layoutItems];
+            if (newLayoutItemsHistory.length > 50) {
+                newLayoutItemsHistory = newLayoutItemsHistory.slice(1);
+            }
+            setLayoutItemsHistory(newLayoutItemsHistory);
+            currentItemsIndex.current = newLayoutItemsHistory.length - 1;
+        }
+    }, [layoutItems]);
 
     // Maintain a padding at the bottom of the layout 
     const updateLayoutHeight = (layout, paddingBottom) => {
@@ -70,18 +86,6 @@ export default function FormEditorBoard() {
 
     // Save layout changes for resizing an item
     const onResizeStop = (layout, oldItem, newItem, placeholder, e, element) => {
-        // const newLayoutItems = {lg: []}
-        // newLayoutItems.lg = layoutItems.lg.map(item => {
-        //     if (item.i === oldItem.i) {
-        //         return {
-        //             ...item,
-        //             w: newItem.w,
-        //             h: newItem.h
-        //         };
-        //     }
-        //     return item;
-        // })
-        // setLayoutItems(newLayoutItems);
         setLayoutItems(oldLayoutItems => {
             return {
                 ...oldLayoutItems,
@@ -99,20 +103,6 @@ export default function FormEditorBoard() {
                 })
             }
         });
-
-
-        // If the resized item is the active item, update the active item
-        // if (formActiveItem && formActiveItem.i === oldItem.i) {
-        //     setFormActiveItem(oldFormActiveItem => {
-        //         return {
-        //             ...oldFormActiveItem,
-        //             x: newItem.x,
-        //             y: newItem.y,
-        //             w: newItem.w,
-        //             h: newItem.h
-        //         }
-        //     });
-        // }
     }
 
     // Save new layout items when dragging and resizing items
@@ -144,10 +134,32 @@ export default function FormEditorBoard() {
         }
     }
 
+    // Undo last action
+    const undo = () => {
+        if (currentItemsIndex.current > 0) {
+            setLayoutItems(layoutItemsHistory[currentItemsIndex.current - 1]);
+            currentItemsIndex.current--;
+        }
+    }
+
+    // Redo last action
+    const redo = () => {
+        if (currentItemsIndex.current < layoutItemsHistory.length - 1) {
+            setLayoutItems(layoutItemsHistory[currentItemsIndex.current + 1]);
+            currentItemsIndex.current++;
+        }
+    }
+
     return (
         <div onClick={closeEditBar} tabIndex={0} onKeyDown={e => {
+            // Delete item
             if (e.key === "Backspace" && formActiveItem) {
                 deleteActiveItem();
+            // Undo last action
+            } else if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+                undo();
+            } else if ((e.ctrlKey && e.key === "y") || (e.shiftKey && e.metaKey && e.key === "z")) {
+                redo();
             }
         }}>
             <ResponsiveGridLayout 

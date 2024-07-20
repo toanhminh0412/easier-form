@@ -25,8 +25,10 @@ export default function PrivatePage({ formId }) {
     const [formActiveItem, setFormActiveItem] = useState(null);
     const [savingState, setSavingState] = useState("saved");
 
+    
     // Set current breakpoint by checking the window width
     useEffect(() => {
+        // Resizing window
         const handleResize = () => {
             if (window.innerWidth < 768) {
                 setCurrentBreakpoint("sm");
@@ -38,7 +40,10 @@ export default function PrivatePage({ formId }) {
         }
         handleResize();
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
     }, []);
 
     // Fetch form data
