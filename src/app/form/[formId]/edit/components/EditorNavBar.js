@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useState, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import ReactToPrint from "react-to-print";
+
 import FormInfoContext from "../contexts/FormInfoContext";
 import CurrentBreakpointContext from "../contexts/CurrentBreakpointContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { faLaptop, faTabletScreenButton, faMobileScreenButton, faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment } from "@fortawesome/free-solid-svg-icons"
+import { faLaptop, faTabletScreenButton, faMobileScreenButton, faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment, faFilePdf } from "@fortawesome/free-solid-svg-icons"
 
 
-export default function EditorNavbar({ savingState }) {
+export default function EditorNavbar({ savingState, formRef }) {
     const { currentBreakpoint, setCurrentBreakpoint } = useContext(CurrentBreakpointContext);
     const { formInfo } = useContext(FormInfoContext);
 
@@ -81,6 +83,28 @@ export default function EditorNavbar({ savingState }) {
                                 <FontAwesomeIcon icon={faCode} />
                                 View JSON
                             </Link>
+                        </li>
+                        {/* Export form to PDF button */}
+                        <li>
+                            <ReactToPrint
+                                trigger={() => (
+                                    <Link href="#">
+                                        <FontAwesomeIcon icon={faFilePdf} />
+                                        Export form to PDF
+                                    </Link>
+                                )}
+                                content={() => formRef.current}
+                                documentTitle={`${formInfo.title}`}
+                                pageStyle={`
+                                .react-resizable-handle {
+                                    display: none !important;
+                                }
+                                `}
+                            />
+                            {/* <Link href="#">
+                                <FontAwesomeIcon icon={faFilePdf} />
+                                Export form to PDF
+                            </Link> */}
                         </li>
                     </ul>
                 </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import FormInfoContext from "./contexts/FormInfoContext";
 import LayoutItemsContext from "@/app/form/[formId]/edit/contexts/LayoutItemsContext";
@@ -24,6 +24,8 @@ export default function PrivatePage({ formId }) {
     const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
     const [formActiveItem, setFormActiveItem] = useState(null);
     const [savingState, setSavingState] = useState("saved");
+
+    const formRef = useRef(null);
 
     
     // Set current breakpoint by checking the window width
@@ -197,10 +199,10 @@ export default function PrivatePage({ formId }) {
                 <LayoutItemsContext.Provider value={{layoutItems, setLayoutItems}}>
                     <CurrentBreakpointContext.Provider value={{currentBreakpoint, setCurrentBreakpoint}}>
                         <FormActiveItemContext.Provider value={{formActiveItem, setFormActiveItem, deleteActiveItem }}>
-                            <EditorNavbar form={form} setForm={setForm} savingState={savingState}/>
+                            <EditorNavbar savingState={savingState} formRef={formRef}/>
                             <main className="relative w-full">
                                 <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
-                                    <FormEditorBoard/>
+                                    <FormEditorBoard ref={formRef}/>
                                     <ShareModal currentDomain={form.domain} formId={formId}/>
                                     <FormJSONModal json={layoutItems}/>
                                     <CopyScreenNotification currentBreakpoint={currentBreakpoint}/>

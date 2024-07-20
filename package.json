@@ -33,6 +33,7 @@
     "react-dom": "^18",
     "react-grid-layout": "^1.4.4",
     "react-json-tree": "^0.19.0",
+    "react-to-print": "^2.15.1",
     "resend": "^3.3.0",
     "stripe": "^16.1.0",
     "uuid": "^9.0.1"

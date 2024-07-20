@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef, forwardRef } from "react";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -14,7 +14,7 @@ import FormField from "./formItems/FormField";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-export default function FormEditorBoard() {
+const FormEditorBoard = ({}, ref) => {
     const { layoutItems, setLayoutItems } = useContext(LayoutItemsContext);
     // Keep track of 50 most recent layout items for undo
     const [layoutItemsHistory, setLayoutItemsHistory] = useState([]);
@@ -200,7 +200,8 @@ export default function FormEditorBoard() {
                 });
             }
         }}>
-            <ResponsiveGridLayout 
+            <ResponsiveGridLayout
+                ref={ref}
                 className="layout bg-white min-h-screen shadow-lg w-full mx-auto"
                 style={{ width: currentBreakpoint !== "lg" ? `${breakpoints[currentBreakpoint]}px` : "auto" , height: `${layoutHeight}px` }}
                 cols={{ lg: 48, md: 48, sm: 48 }}
@@ -239,4 +240,6 @@ export default function FormEditorBoard() {
             </ResponsiveGridLayout>
         </div>
     );
-}
+};
+
+export default forwardRef(FormEditorBoard);
