@@ -112,11 +112,11 @@ export default function ShareModal() {
                 <div className="mt-4 text-sm">
                     <p>Your form is hosted at:</p>
                     <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}&#47;&#47;{window.location.hostname}{window.location.port ? ":" + window.location.port : ""}&#47;viewform&#47;{domain}</div>
-                    <CopyToClipboard 
+                    {/* <CopyToClipboard 
                         text={`${window.location.protocol}//${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/viewform/${domain}`}
                         onCopy={() => console.log(`copied: ${domain}`)}>
                         <button className="btn btn-secondary btn-sm mt-2 ml-auto">Copy link</button>
-                    </CopyToClipboard>
+                    </CopyToClipboard> */}
                 </div>
 
                 <div className="modal-action">
