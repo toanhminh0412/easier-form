@@ -19,6 +19,7 @@ export default function FormEditorBoard() {
     // Keep track of 50 most recent layout items for undo
     const [layoutItemsHistory, setLayoutItemsHistory] = useState([]);
     const currentItemsIndex = useRef(0);
+    const [copiedItem, setCopiedItem] = useState(null);
     const { formActiveItem, setFormActiveItem, deleteActiveItem } = useContext(FormActiveItemContext);
     const { currentBreakpoint } = useContext(CurrentBreakpointContext);
     const [layoutHeight, setLayoutHeight] = useState(1200);
@@ -160,6 +161,43 @@ export default function FormEditorBoard() {
                 undo();
             } else if ((e.ctrlKey && e.key === "y") || (e.shiftKey && e.metaKey && e.key === "z")) {
                 redo();
+            // Copy item
+            } else if ((e.ctrlKey || e.metaKey) && e.key === "c" && formActiveItem) {
+                const newItem = {
+                    lg: layoutItems.lg.find(item => item.i === formActiveItem.i),
+                    md: layoutItems.md.find(item => item.i === formActiveItem.i),
+                    sm: layoutItems.sm.find(item => item.i === formActiveItem.i)
+                }
+                const newItemId = uuidv4();
+                setCopiedItem({
+                    lg: {
+                        ...newItem.lg,
+                        i: newItemId,
+                        x: newItem.lg.x + 3,
+                        y: newItem.lg.y + 3
+                    },
+                    md: {
+                        ...newItem.md,
+                        i: newItemId,
+                        x: newItem.md.x + 3,
+                        y: newItem.md.y + 3
+                    },
+                    sm: {
+                        ...newItem.sm,
+                        i: newItemId,
+                        x: newItem.sm.x + 3,
+                        y: newItem.sm.y + 3
+                    }
+                });
+            // Paste item
+            } else if ((e.ctrlKey || e.metaKey) && e.key === "v" && copiedItem) {
+                setLayoutItems(oldLayoutItems => {
+                    return {
+                        lg: [...oldLayoutItems.lg, copiedItem.lg],
+                        md: [...oldLayoutItems.md, copiedItem.md],
+                        sm: [...oldLayoutItems.sm, copiedItem.sm]
+                    }
+                });
             }
         }}>
             <ResponsiveGridLayout 
