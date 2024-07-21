@@ -164,11 +164,12 @@ export default function Page({ params }) {
                     margin={[0,0]}
                     layouts={form.layout}
                     autoSize={true}
+                    allowOverlap={true}
                     >
                     {currentLayout.map(item => (
                         <div 
                             key={item.i} 
-                            className={`layout-item bg-white border-2 border-white hover:z-50`}
+                            className={`layout-item bg-white border-2 border-white`}
                             data-grid={{
                                 x: item.x,
                                 y: item.y,
@@ -176,7 +177,7 @@ export default function Page({ params }) {
                                 h: item.h,
                                 minW: item.minW,
                                 minH: item.minH,
-                                static: true,
+                                static: false,
                             }}
                             >
                             <FormField item={item} />
