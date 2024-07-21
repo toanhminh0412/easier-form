@@ -2,8 +2,6 @@ import { useState, useEffect, useContext } from "react"
 
 import { useSession } from "next-auth/react";
 
-import { CopyToClipboard } from "react-copy-to-clipboard";
-
 import planData from "@/data/planData";
 import FormInfoContext from "../../contexts/FormInfoContext";
 import Alert from "@/components/ui/Alert"
@@ -15,6 +13,7 @@ export default function ShareModal() {
 
     const [domain, setDomain] = useState(formInfo.domain || formInfo._id);
     const [loading, setLoading] = useState(false);
+    const [copySuccess, setCopySuccess] = useState(false);
 
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
@@ -65,6 +64,14 @@ export default function ShareModal() {
         setLoading(false);
     }
 
+    const copyLink = () => {
+        navigator.clipboard.writeText(`${window.location.origin}/viewform/${domain}`);
+        setCopySuccess(true);
+        setTimeout(() => {
+            setCopySuccess(false);
+        }, 4000);
+    }
+
     return (
         <dialog id="shareModal" className="modal">
             <div className="modal-box">
@@ -106,18 +113,19 @@ export default function ShareModal() {
                         value={domain}
                         readOnly={!currentPlan?.customUrl}
                         onChange={e => setDomain(e.target.value)}/>
-                    <div className="text-xs mt-2">Domains must contain only letters (lowercase or uppercase) and numbers. Domains must have between 3-20 characters.</div>
+                    <div className="text-xs mt-2">Domains must contain only letters (lowercase or uppercase) and numbers. Domains must have between 3-30 characters.</div>
                 </label>
 
                 <div className="mt-4 text-sm">
                     <p>Your form is hosted at:</p>
                     <div className="px-3 py-1 bg-slate-200 text-black rounded-sm mt-2">{window.location.protocol}&#47;&#47;{window.location.hostname}{window.location.port ? ":" + window.location.port : ""}&#47;viewform&#47;{domain}</div>
-                    {/* <CopyToClipboard 
-                        text={`${window.location.protocol}//${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/viewform/${domain}`}
-                        onCopy={() => console.log(`copied: ${domain}`)}>
-                        <button className="btn btn-secondary btn-sm mt-2 ml-auto">Copy link</button>
-                    </CopyToClipboard> */}
+                        <button className="btn btn-secondary btn-sm mt-2 ml-auto" onClick={copyLink}>Copy link</button>
                 </div>
+
+                {/* Copy success message */}
+                {copySuccess && <div className="mt-4">
+                    <Alert type="success" title="Link copied" message="You can now paste the link anywhere"/>
+                </div>}
 
                 <div className="modal-action">
                     <button disabled={domain==="" || loading} className="btn btn-primary" onClick={publishForm}>{loading ? "Publishing..." : "Publish"}</button>
