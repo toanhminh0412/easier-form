@@ -22,6 +22,7 @@ export default function Private() {
     const [forms, setForms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [warning, setWarning] = useState(null);
 
     // Track the form that is being deleted
     const [formToDelete, setFormToDelete] = useState(null);
@@ -45,7 +46,7 @@ export default function Private() {
         }
         
         if (session?.user?.plan.usage.forms === 0) {
-            setError({
+            setWarning({
                 type: "plan-usage",
                 title: "No forms left",
                 message: "You have reached the limit of forms you can create. Please upgrade your plan or delete existing forms to create more forms."
@@ -114,7 +115,7 @@ export default function Private() {
                     <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                         <div>
                             <p className="text-sm text-gray-900 mb-4">You have <strong>{session?.user?.plan?.usage.forms} / {currentPlanTotalUsage?.forms}</strong> forms left</p>
-                            <DashboardBody forms={forms} error={error} loading={loading} />
+                            <DashboardBody forms={forms} error={error} warning={warning} loading={loading} />
                         </div>
                     </div>
                 </main>
@@ -127,7 +128,7 @@ export default function Private() {
     );
 }
 
-const DashboardBody = ({forms, error, loading}) => {
+const DashboardBody = ({forms, error, warning, loading}) => {
     if (error) {
         return <Alert type="danger" title={error.title} message={error.message} />;
     }
@@ -147,8 +148,11 @@ const DashboardBody = ({forms, error, loading}) => {
     }
 
     return (
-        <ul role="list" className="divide-y divide-gray-100">
-            {forms.map((form) => <Form key={form._id} form={form} />)}
-        </ul>
+        <div>
+            {warning && <Alert type="warning" title={warning.title} message={warning.message} />}
+            <ul role="list" className="divide-y divide-gray-100">
+                {forms.map((form) => <Form key={form._id} form={form} />)}
+            </ul>
+        </div>
     );
 }
