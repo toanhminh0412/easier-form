@@ -177,7 +177,8 @@ export default function Page({ params }) {
                                 h: item.h,
                                 minW: item.minW,
                                 minH: item.minH,
-                                static: false,
+                                isDraggable: false,
+                                isResizable: false,
                             }}
                             >
                             <FormField item={item} />
