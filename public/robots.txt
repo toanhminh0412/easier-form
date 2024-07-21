@@ -1,0 +1,9 @@
+# Block all crawlers for /accounts
+User-agent: *
+Disallow: /form
+Disallow: /manage-account
+Disallow: /verify-email
+
+# Allow all crawlers
+User-agent: *
+Allow: /
