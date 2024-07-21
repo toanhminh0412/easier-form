@@ -9,7 +9,9 @@ import ReactToPrint from "react-to-print";
 import FormInfoContext from "../contexts/FormInfoContext";
 import CurrentBreakpointContext from "../contexts/CurrentBreakpointContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { faLaptop, faTabletScreenButton, faMobileScreenButton, faEye, faCode, faCheck, faXmark, faEllipsis, faShareFromSquare, faComment, faFilePdf } from "@fortawesome/free-solid-svg-icons"
+import { faLaptop, faTabletScreenButton, faMobileScreenButton,
+    faEye, faCode, faCheck, faXmark, faEllipsis,
+    faShareFromSquare, faComment, faFilePdf, faLink } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ savingState, formRef }) {
@@ -101,10 +103,13 @@ export default function EditorNavbar({ savingState, formRef }) {
                                 }
                                 `}
                             />
-                            {/* <Link href="#">
-                                <FontAwesomeIcon icon={faFilePdf} />
-                                Export form to PDF
-                            </Link> */}
+                        </li>
+                        {/* Embed form iframe onto other websites */}
+                        <li>
+                            <Link href="#" onClick={() => document.getElementById('iframeModal').showModal()}>
+                                <FontAwesomeIcon icon={faLink} />
+                                Embed form onto website
+                            </Link>
                         </li>
                     </ul>
                 </div>
