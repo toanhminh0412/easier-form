@@ -54,7 +54,7 @@ export default function ResponseDefaultEmailTemplate({ form, response }) {
 }
 
 const ResponseItem = ({ item }) => {
-    const label = item.label ? item.label : item.description ? item.description : item.placeholder;
+    const label = item.label ? item.label : item.description ? item.description : item.placeholder ? item.placeholder : "Blank";
     switch (item.type) {
         case "short-text":
         case "long-text":
