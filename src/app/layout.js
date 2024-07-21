@@ -6,7 +6,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
     title: "EasierForm",
-    description: "Make form creation easier with EasierForm",
+    description: "A fully customized drag and drop form builder. Create forms in no time. No coding required.",
+    // image: "/images/easierform.png",
+    keywords: "form builder, drag and drop, beautiful, customized, builder, website, booking, form, easy, easier",
 };
 
 export default async function RootLayout({ children }) {
