@@ -18,7 +18,7 @@ export default function CTA() {
                     >
                         Get started
                     </Link>
-                    <Link href="#" className="text-sm font-semibold leading-6 text-white">
+                    <Link href="#demo" className="text-sm font-semibold leading-6 text-white">
                         Demo <span aria-hidden="true">→</span>
                     </Link>
                     </div>

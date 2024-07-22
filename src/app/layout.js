@@ -15,6 +15,10 @@ export default async function RootLayout({ children }) {
     return (
         <html lang="en" className="h-full bg-white">
             <head>
+                {/* Favicon */}
+                <link rel="icon" href="/img/logo.png" sizes="32x32" type="image/png"/>
+                <link rel="icon" href="/img/logo.png" sizes="96x96" type="image/png"/>
+                <link rel="icon" href="/img/logo.png" sizes="256x256" type="image/png"/>
                 {/* Font Awesome icons */}
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
                 {/* React grid layout */}

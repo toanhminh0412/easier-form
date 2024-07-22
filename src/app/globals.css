@@ -8,6 +8,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .cursor-move-all *:not(.react-resizable-handle, .react-resizable-handle *) {
     @apply !cursor-move;
 }

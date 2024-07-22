@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link"
+import Image from "next/image";
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +32,10 @@ export default function NeutralNavbar({ navigation }) {
                         </div>
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="flex flex-shrink-0 items-center">
-                                <Link href="/" className="btn btn-ghost btn-sm text-2xl text-indigo-300 font-semibold">EasierForm</Link>
+                                {/* <Link href="/" className="btn btn-ghost btn-sm text-2xl text-indigo-300 font-semibold">EasierForm</Link> */}
+                                <Link href="/" className="btn-ghost">
+                                    <Image src="/img/logo.png" alt="EasierForm" width={80} height={50} />
+                                </Link>
                             </div>
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
