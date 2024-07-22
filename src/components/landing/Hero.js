@@ -2,36 +2,29 @@ import Link from "next/link"
 
 export default function Hero() {
     return (
-        <div className="bg-gray-900">
+        <div className="bg-[url('/img/header-bg.jpg')] bg-cover bg-center">
             <div className="relative isolate pt-14">
                 <div className="py-24 sm:py-32 lg:pb-40">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <div className="mx-auto max-w-2xl text-center">
-                        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                            Build your form your way
-                        </h1>
-                        <p className="mt-6 text-lg leading-8 text-gray-300">
-                            You know how most Google forms look the same and it doesn&apos;t allow you to build more complex forms? EasierForm does. With EasierForm, you can build forms that are unique to your needs.
-                        </p>
-                        <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <Link
-                            href="/signin"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-                            >
-                            Get started
-                            </Link>
-                            <Link href="#demo" className="text-sm font-semibold leading-6 text-white">
-                            Demo <span aria-hidden="true">→</span>
-                            </Link>
+                            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                                Build your form your way
+                            </h1>
+                            <p className="mt-6 text-lg leading-8 text-gray-300">
+                                You know how most Google forms look the same and it doesn&apos;t allow you to build more complex forms? EasierForm does. With EasierForm, you can build forms that are unique to your needs.
+                            </p>
+                            <div className="mt-10 flex items-center justify-center gap-x-6">
+                                <Link
+                                href="/signin"
+                                className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                                >
+                                Get started
+                                </Link>
+                                <Link href="#demo" className="text-sm font-semibold leading-6 text-white">
+                                Demo <span aria-hidden="true">→</span>
+                                </Link>
+                            </div>
                         </div>
-                        </div>
-                        {/* <img
-                        src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
-                        alt="App screenshot"
-                        width={2432}
-                        height={1442}
-                        className="mt-16 rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 sm:mt-24"
-                        /> */}
                         <video id="demo" className="mt-16 rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 sm:mt-24" autoPlay loop muted playsInline>
                             <source src="https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/videos%2Fdemo.mp4?alt=media&token=ffe7533a-c37e-4e9e-82ff-6155464ab4f3" type="video/mp4" />
                             Your browser does not support the video tag.
