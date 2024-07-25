@@ -39,6 +39,14 @@ const products = [
         imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fhotel_booking.png?alt=media&token=bf0770a4-e4ef-4382-ae58-450554c6adbe',
         imageAlt: 'Demo form for hotel booking',
     },
+    {
+        id: 4,
+        name: 'Tattoo request form',
+        href: 'https://www.easierform.com/viewform/tattoorequestdemo',
+        description: 'A detailed form for customers to provider necessary information for a tattoo appointment',
+        imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Ftattoo_request_form.png?alt=media&token=977cf01e-bb84-4b0d-8027-5187536c968f',
+        imageAlt: 'Demo form for tattoo request',
+    },
 ]
   
 export default function Showcase() {
