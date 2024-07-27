@@ -11,7 +11,7 @@ import CurrentBreakpointContext from "../contexts/CurrentBreakpointContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { faLaptop, faTabletScreenButton, faMobileScreenButton,
     faEye, faCode, faCheck, faXmark, faEllipsis,
-    faShareFromSquare, faComment, faFilePdf, faLink } from "@fortawesome/free-solid-svg-icons"
+    faShareFromSquare, faComment, faFilePdf, faLink, faShuffle } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ savingState, formRef }) {
@@ -109,6 +109,13 @@ export default function EditorNavbar({ savingState, formRef }) {
                             <Link href="#" onClick={() => document.getElementById('iframeModal').showModal()}>
                                 <FontAwesomeIcon icon={faLink} />
                                 Embed form onto website
+                            </Link>
+                        </li>
+                        {/* Transfer form to another user. Make that user the owner of the form */}
+                        <li>
+                            <Link href="#" onClick={() => document.getElementById('transferFormModal').showModal()}>
+                                <FontAwesomeIcon icon={faShuffle} />
+                                Transfer form
                             </Link>
                         </li>
                     </ul>

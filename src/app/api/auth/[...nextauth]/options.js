@@ -109,6 +109,13 @@ const authOptions = {
                 await dbConnect();
                 const dbUser = await User.findOne({ email: user.email });
                 token = { ...token, user: dbUser }
+
+                const dbPlanDoc = await Plan.findOne({ user: dbUser._id });
+                if (dbPlanDoc) {
+                    await dbPlanDoc.updateUsage("all");
+                    const plan = dbPlanDoc.toObject();
+                    token.user.plan = plan;
+                }
             }
 
             // Update token to store the latest user data

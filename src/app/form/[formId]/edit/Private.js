@@ -13,6 +13,7 @@ import EditorNavbar from "./components/EditorNavBar";
 import ShareModal from "./components/modals/ShareModal";
 import FormJSONModal from "./components/modals/FormJSONModal";
 import FormIframeModal from "./components/modals/FormIframeModal";
+import TransferFormModal from "./components/modals/TransferFormModal";
 import CopyScreenNotification from "./components/notifications/CopyScreenNotification";
 
 export default function PrivatePage({ formId }) {
@@ -207,6 +208,7 @@ export default function PrivatePage({ formId }) {
                                     <ShareModal currentDomain={form.domain} formId={formId}/>
                                     <FormJSONModal json={layoutItems}/>
                                     <FormIframeModal/>
+                                    <TransferFormModal/>
                                     <CopyScreenNotification currentBreakpoint={currentBreakpoint}/>
                                 </div>
                                 <EditBar open={formActiveItem !== null}/>
