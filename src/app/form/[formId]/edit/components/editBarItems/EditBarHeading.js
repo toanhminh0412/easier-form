@@ -1,5 +1,8 @@
 import { useContext } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAlignLeft, faAlignCenter, faAlignRight } from "@fortawesome/free-solid-svg-icons";
+
 import FormActiveItemContext from "@/app/form/[formId]/edit/contexts/FormActiveItem";
 
 export default function EditBarBasicHeading({ item }) {
@@ -16,10 +19,46 @@ export default function EditBarBasicHeading({ item }) {
         });
     }
 
+    // Update heading's text align
+    const updateHeadingAlign = (textAlign) => {
+        setFormActiveItem(oldItem => {
+            return {
+                ...oldItem,
+                textAlign
+            }
+        });
+    }
+
     return (
         <div className="text-gray-300">
-            {/* Text */}
+            {/* Text align */}
             <div>
+                <label className="block text-sm font-medium leading-6">
+                    Text Align
+                </label>
+                <div className="mt-2">
+                    <div className="join">
+                        <button 
+                            className={`btn btn-primary text-white join-item ${!item.textAlign || item.textAlign === 'left' ? 'btn-active' : ''}`}
+                            onClick={() => updateHeadingAlign('left')}>
+                            <FontAwesomeIcon icon={faAlignLeft} />
+                        </button>
+                        <button 
+                            className={`btn btn-primary text-white join-item  ${item.textAlign === 'center' ? 'btn-active' : ''}`}
+                            onClick={() => updateHeadingAlign('center')}>
+                            <FontAwesomeIcon icon={faAlignCenter} />
+                        </button>
+                        <button 
+                            className={`btn btn-primary text-white join-item ${item.textAlign === 'right' ? 'btn-active' : ''}`}
+                            onClick={() => updateHeadingAlign('right')}>
+                            <FontAwesomeIcon icon={faAlignRight} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Text */}
+            <div className="mt-3">
                 <label className="block text-sm font-medium leading-6">
                     Text
                 </label>

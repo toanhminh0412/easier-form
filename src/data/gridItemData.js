@@ -39,6 +39,7 @@ const gridItemData = {
         type: "heading",
         text: "Personal Information",
         tag: "h2",
+        textAlign: "left",
         w: 8,
         h: 6,
         minW: 1,
