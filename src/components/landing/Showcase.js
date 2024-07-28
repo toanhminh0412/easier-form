@@ -47,6 +47,14 @@ const products = [
         imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Ftattoo_request_form.png?alt=media&token=977cf01e-bb84-4b0d-8027-5187536c968f',
         imageAlt: 'Demo form for tattoo request',
     },
+    {
+        id: 5,
+        name: 'Yoga class registration form',
+        href: 'https://www.easierform.com/viewform/yogaclassdemo',
+        description: 'A form for customers to register for a yoga class',
+        imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fyoga_class_form_1.png?alt=media&token=96b2b002-950d-4868-8e86-926fd9c53bd9',
+        imageAlt: 'Demo form for yoga class registration',
+    },
 ]
   
 export default function Showcase() {
