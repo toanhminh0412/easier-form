@@ -17,7 +17,7 @@ export default function Page() {
     if (signedIn) {
         return (
             <LoggedInLayout>
-                <Showcase forms={forms.slice(0, 6)} />
+                <Showcase forms={forms} />
             </LoggedInLayout>
         )
     }
@@ -25,7 +25,7 @@ export default function Page() {
     return (
         <>
             <Navbar signedIn={signedIn}/>
-            <Showcase forms={forms.slice(0, 6)} />
+            <Showcase forms={forms} />
         </>
     )
 }

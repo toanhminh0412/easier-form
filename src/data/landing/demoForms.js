@@ -46,6 +46,14 @@ const forms = [
         description: 'A form for customers to order clothes with different quantities',
         imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fclothes_order_form_1.png?alt=media&token=0260792b-9ec4-497c-bea5-1d6d23d1b902',
         imageAlt: 'Demo form for clothes order',
+    },
+    {
+        id: 5,
+        name: 'Customer service survey form',
+        href: 'https://www.easierform.com/viewform/customerservicesurveydemo',
+        description: 'A form for customers to give feedbacks on the service they received at a convenience store',
+        imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fcustomer_service_survey_1.png?alt=media&token=eea25d54-5463-48af-a180-d97f1f1fdd17',
+        imageAlt: 'Demo form for clothes order',
     }
 ]
 
