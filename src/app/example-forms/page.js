@@ -5,6 +5,10 @@ import Navbar from "@/components/navbars/Navbar"
 import Showcase from "@/components/landing/Showcase"
 import forms from "@/data/landing/demoForms"
 
+export const metadata = {
+    title: "Example forms",
+};
+
 export default function Page() {
     const signedInCookie = cookies().get("signedIn")
     const signedIn = signedInCookie && signedInCookie.value === "true" ? true : false

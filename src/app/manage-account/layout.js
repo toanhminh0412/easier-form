@@ -4,6 +4,10 @@ import { Suspense } from "react"
 
 import LoggedInLayout from "@/components/layouts/LoggedInLayout"
 
+export const metadata = {
+    title: "Manage account",
+};
+
 export default function FormLayout({ children }) {
     // NOTE: Temporarily commented out
     // Stripe when redirects to this page doesn't have the signedIn cookie set
