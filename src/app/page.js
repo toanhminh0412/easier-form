@@ -1,8 +1,4 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-
-import { getServerSession } from "next-auth";
-import authOptions from "./api/auth/[...nextauth]/options";
 
 import Public from "./Public";
 import Private from "./Private";
