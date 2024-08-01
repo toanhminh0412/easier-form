@@ -48,12 +48,28 @@ const forms = [
         imageAlt: 'Demo form for clothes order',
     },
     {
-        id: 5,
+        id: 7,
         name: 'Customer service survey form',
         href: 'https://www.easierform.com/viewform/customerservicesurveydemo',
         description: 'A form for customers to give feedbacks on the service they received at a convenience store',
         imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fcustomer_service_survey_1.png?alt=media&token=eea25d54-5463-48af-a180-d97f1f1fdd17',
         imageAlt: 'Demo form for clothes order',
+    },
+    {
+        id: 8,
+        name: 'Restaurant order form',
+        href: 'https://www.easierform.com/viewform/restaurantorderdemo',
+        description: 'A form for customers to order food from a restaurant',
+        imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Frestaurant_order_form_1.png?alt=media&token=8862b957-88ae-46a5-aea6-ac4ec9941cee',
+        imageAlt: 'Demo form for restaurant order',
+    },
+    {
+        id: 9,
+        name: 'Candles order form',
+        href: 'https://www.easierform.com/viewform/candlesorderdemo',
+        description: 'A form for customers to order candles with different customization options',
+        imageSrc: 'https://firebasestorage.googleapis.com/v0/b/easier-form.appspot.com/o/public%2Fcandle_order_form_1.png?alt=media&token=835a1e45-2a32-40a2-94e4-3965d6ee2993',
+        imageAlt: 'Demo form for candles order',
     }
 ]
 
