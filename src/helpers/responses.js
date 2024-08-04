@@ -267,7 +267,12 @@ const convertResponsesToCsv = (form, responses) => {
     * @returns {Object} - An Excel object
 */
 const convertResponsesToExcel = (form, responses) => {
-    const sheet = `${form.title} Responses`;
+    let sheet = "";
+    if (form.title.length > 27) {
+        sheet = `${form.title.substring(0, 27)}...`;
+    } else {
+        sheet = form.title;
+    }
     const columns = [];
     const content = [];
     let index = 1;
