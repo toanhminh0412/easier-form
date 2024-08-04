@@ -101,6 +101,9 @@ export default function Page({ params }) {
         // Ignore form submission by pressing Enter
         if (document.activeElement.type !== "submit") return;
 
+        // Ignore form submission if already loading
+        if (loading) return;
+
         // Render loading state and hide previous error
         setLoading(true);
         setError(null);
@@ -194,7 +197,14 @@ export default function Page({ params }) {
 
                 {/* Submit button */}
                 <div className="w-full mt-8 text-center">
-                    <button disabled={loading || success} type="submit" className="btn btn-primary mx-auto">Submit</button>
+                    <button disabled={success} type="submit" className="btn btn-primary mx-auto">
+                        {loading ? 
+                        <>
+                            <span className="loading loading-spinner"></span>
+                            Submitting
+                        </> :
+                        "Submit"}
+                    </button>
                 </div>
 
                 {/* Custom branding if current plan enforces */}

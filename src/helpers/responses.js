@@ -23,7 +23,6 @@ const NO_RESPONSE_TYPES = [
 const readResponseData = async (form) => {
     const responseData = [];
     for (const item of form.layout.lg) {
-        console.log(item);
         let value = null;
         const label = item.label ? item.label : item.description ? item.description : item.placeholder;
         switch (item.type) {
