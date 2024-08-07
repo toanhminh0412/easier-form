@@ -20,8 +20,8 @@ export default function Hero() {
                                 >
                                 Get started
                                 </Link>
-                                <Link href="#demo" className="text-sm font-semibold leading-6 text-white">
-                                Demo <span aria-hidden="true">→</span>
+                                <Link href="/example-forms" className="text-sm font-semibold leading-6 text-white">
+                                See examples <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
                         </div>

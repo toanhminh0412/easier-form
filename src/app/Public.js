@@ -1,3 +1,4 @@
+import Banner from "@/components/landing/Banner";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import Pricing from "@/components/landing/Pricing";
@@ -9,6 +10,7 @@ import SocialMedia from "@/components/landing/SocialMedia";
 export default function Public() {
     return (
         <main>
+            <Banner />
             <Hero />
             <Features />
             <Pricing />
