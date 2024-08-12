@@ -11,7 +11,8 @@ import CurrentBreakpointContext from "../contexts/CurrentBreakpointContext";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { faLaptop, faTabletScreenButton, faMobileScreenButton,
     faEye, faCode, faCheck, faXmark, faEllipsis,
-    faShareFromSquare, faComment, faFilePdf, faLink, faShuffle } from "@fortawesome/free-solid-svg-icons"
+    faShareFromSquare, faComment, faFilePdf, faLink, faShuffle,
+    faGear } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function EditorNavbar({ savingState, formRef }) {
@@ -70,7 +71,7 @@ export default function EditorNavbar({ savingState, formRef }) {
                 <div 
                     className="w-fit h-fit my-auto"
                     onClick={() => document.getElementById('shareModal').showModal()}>
-                    <FontAwesomeIcon icon={faShareFromSquare} className="text-slate-200 hover:text-white duration-75"/>
+                    <FontAwesomeIcon icon={faGear} className="text-slate-200 hover:text-white duration-75"/>
                 </div>
 
                 {/* More actions */}

@@ -55,7 +55,7 @@ export async function POST(req) {
 
         const { data, error } = await resend.emails.send({
             from: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-            to: creatorEmail,
+            to: form.responsesEmails && form.responsesEmails.length > 0 ? form.responsesEmails : creatorEmail,
             subject: `New response for ${form.title} form`,
             react: ResponseDefaultEmailTemplate({ form, response }),
         });

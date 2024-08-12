@@ -62,8 +62,8 @@ export async function POST(req, { params }) {
             return Response.json({ error: "Domain must be unique" }, { status: 400 });
         }
 
-        Form.updateOne({ _id: formId }, { domain: domain, lastUpdated: Date.now() });
         form.domain = domain;
+        form.responsesEmails = body.responsesEmails;
         form.lastUpdated = Date.now();
 
         await form.save();

@@ -33,6 +33,11 @@ const formSchema = new Schema({
         required: true,
         default: 0,
     },
+    responsesEmails: {
+        type: [String],
+        required: true,
+        default: []
+    },
     layout: {
         type: Schema.Types.Mixed
     },

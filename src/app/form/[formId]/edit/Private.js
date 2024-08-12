@@ -10,7 +10,7 @@ import Sidebar from "@/app/form/[formId]/edit/components/sidebars/Sidebar";
 import FormEditorBoard from "./components/FormEditorBoard";
 import EditBar from "./components/sidebars/Editbar";
 import EditorNavbar from "./components/EditorNavBar";
-import ShareModal from "./components/modals/ShareModal";
+import SettingsModal from "./components/modals/SettingsModal";
 import FormJSONModal from "./components/modals/FormJSONModal";
 import FormIframeModal from "./components/modals/FormIframeModal";
 import TransferFormModal from "./components/modals/TransferFormModal";
@@ -205,7 +205,7 @@ export default function PrivatePage({ formId }) {
                             <main className="relative w-full">
                                 <div className="relative z-0 max-h-screen overflow-scroll bg-slate-100 lg:px-60">
                                     <FormEditorBoard ref={formRef}/>
-                                    <ShareModal currentDomain={form.domain} formId={formId}/>
+                                    <SettingsModal currentDomain={form.domain} formId={formId}/>
                                     <FormJSONModal json={layoutItems}/>
                                     <FormIframeModal/>
                                     <TransferFormModal/>
