@@ -234,7 +234,7 @@ const ResponsesEmail = ({ emails, setEmails }) => {
                     onChange={e => setEmail(e.target.value)}/>
                 <button type="submit" className="btn btn-primary join-item" disabled={!validateEmail(email)}>Add</button>
             </form>
-            <div className="text-sm text-slate-400 mt-2">Type out an email and click "Add" or hit Enter to add the email</div>
+            <div className="text-sm text-slate-400 mt-2">Type out an email and click &quot;Add&quot; or hit Enter to add the email</div>
             <div className="mt-2 flex flex-row gap-2">
                 {emails.map(email => email.removable ? (
                     <div key={email.email} className="inline-flex items-center gap-x-0.5 rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
