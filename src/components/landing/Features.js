@@ -5,39 +5,39 @@ import SafeHtml from '../SafeHtml';
 
 const features = [
     {
-        name: 'Form customization',
+        name: 'Form layout customization',
         description:
-        'Customize your form by dragging and dropping to look exactly how you want it to.',
+        'Customize form with a drag-and-drop interface',
         icon: faPencilAlt,
     },
     {
-        name: 'Form usage',
+        name: 'Public URL',
         description:
-        'You can do whatever you want with your form. Share a link, embed it in your website, or download it as a file.',
+        'Publish form to the public with an URL',
         icon: faFilePdf,
     },
     {
-        name: 'Easy-to-use interface',
+        name: 'Embeddable form',
         description:
-        'EasierForm is not filled with navigation bars, buttons, options that you don&apos;t need. It is simple and easy to use. It does <strong>EXACTLY ONE THING</strong> - help you build forms.',
+        'Embed form on your client\'s website with a code snippet',
         icon: faSmile,
     },
     {
         name: 'Multiple responses viewing options',
         description:
-        'View your responses however your want. With tables, forms, CSV, Excel, etc.',
+        'View responses with tables, filled-out forms, CSV, Excel, etc',
         icon: faEye,
     },
     {
-        name: 'Custom URL',
+        name: 'Printable form',
         description:
-        'Publish your form with an URL of your choice. It will be avaible at <strong>https://easierform.com/viewform/your-url</strong>',
+        'Export form to PDF and print it on paper',
         icon: faLink,
     },
     {
-        name: 'Reusable forms',
+        name: 'Reusable form',
         description:
-        'See a form that you like? You can clone it and use it as your own.',
+        'See a form that you like? You can clone it and use it as your own',
         icon: faRecycle,
     },
 ]
@@ -47,12 +47,12 @@ export default function Features() {
         <div className="bg-white py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h2 className="text-base font-semibold leading-7 text-indigo-600">Customize your form</h2>
+                    <h2 className="text-base font-semibold leading-7 text-indigo-600">Developers who build websites/web apps with code</h2>
                     <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Build a form that looks exactly like how you want it
+                        Customize form to your client&apos;s needs
                     </p>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        EasierForm allows you to do things that other form builders can&apos;t.
+                        Save the hassle of building forms from scratch. Use your creativity to build forms that are unique to your client's needs.
                     </p>
                 </div>
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

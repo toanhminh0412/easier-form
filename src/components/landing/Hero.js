@@ -6,12 +6,12 @@ export default function Hero() {
             <div className="relative isolate pt-14">
                 <div className="py-24 sm:py-32 lg:pb-40">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mx-auto max-w-2xl text-center">
-                            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                Build your form your way
+                        <div className="mx-auto max-w-3xl text-center">
+                            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                                Form builder for web developers
                             </h1>
                             <p className="mt-6 text-lg leading-8 text-gray-300">
-                                You know how most Google forms look the same and it doesn&apos;t allow you to build more complex forms? EasierForm does. With EasierForm, you can build forms that are unique to your needs.
+                                Build a form, embed on your client&apos;s website, have responses sent to their email, display responses on tables, form view, CSV and Excel. You can even print the form on paper. Everything that your client needs.
                             </p>
                             <div className="mt-10 flex items-center justify-center gap-x-6">
                                 <Link

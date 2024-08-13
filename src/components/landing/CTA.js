@@ -9,7 +9,7 @@ export default function CTA() {
                         Start building your form today
                     </h2>
                     <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
-                        Use your creativity to build forms that are unique to your needs. Publish and share them with your own audience.
+                        Use your creativity to build forms that are unique to your client&apos;s needs. Save the hassle of building forms from scratch.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                     <Link
