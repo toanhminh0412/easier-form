@@ -57,6 +57,7 @@ export async function POST(req) {
             formId: form._id,
         }, { status: 201 });
     } catch (error) {
+        console.error(error);
         return Response.json({ error: `Oops, something went wrong! Please try again or contact us for support at ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}` }, { status: 500 });
     }
 }
