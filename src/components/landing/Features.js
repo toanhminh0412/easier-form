@@ -52,7 +52,7 @@ export default function Features() {
                         Customize form to your client&apos;s needs
                     </p>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Save the hassle of building forms from scratch. Use your creativity to build forms that are unique to your client's needs.
+                        Save the hassle of building forms from scratch. Use your creativity to build forms that are unique to your client&apos;s needs.
                     </p>
                 </div>
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
