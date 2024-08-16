@@ -99,7 +99,7 @@ export default function Page({ params }) {
         e.preventDefault();
 
         // Ignore form submission by pressing Enter
-        if (document.activeElement.type !== "submit") return;
+        // if (document.activeElement.type !== "submit") return;
 
         // Ignore form submission if already loading
         if (loading) return;
